@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class BolsaTrabajo {
-	public BolsaTrabajo() {
+	private BolsaTrabajo() {
 		super();
 		this.personal = new ArrayList<Personal>();
 		this.empresas = new ArrayList<Empresa>();
@@ -50,5 +50,13 @@ public class BolsaTrabajo {
 		
 		if (personalAux.size() == 1)
 			personalAux.get(0).agregarSolicitud(solicitud);
+	}
+	
+	public ArrayList<SolicitudEmpresa> getSolicitudesEmpresaByID(String RNC, String solicitudFilter) {
+		return getEmpresasByID(RNC).get(0).getSolicitudesByID(solicitudFilter);
+	}
+	
+	public ArrayList<SolicitudPersonal> getSolicitudesPersonalByID(String cedula, String solicitudFilter) {
+		return getPersonalByID(cedula).get(0).getSolicitudes();
 	}
 }
