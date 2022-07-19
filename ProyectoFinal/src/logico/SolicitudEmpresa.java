@@ -5,7 +5,6 @@ import java.util.Date;
 
 public class SolicitudEmpresa {	
 	private String id;
-	private String RNCEmpresa;
 	private Date fecha;
 	private int cantidadPlazasNecesarias;
 	private boolean estado;
@@ -25,20 +24,22 @@ public class SolicitudEmpresa {
 	private String areaTecnica;
 	private ArrayList<String> oficios;
 	
-	public SolicitudEmpresa(String id, String rNCEmpresa, Date fecha, int cantidadPlazasNecesarias, boolean estado,
-			ArrayList<Personal> candidatosPosibles, boolean salarioEsperado, int edad, int agnosExperiencia,
-			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
-			boolean esCasado, ArrayList<String> idiomas, String carrera, String universidad, String areaTecnica,
+	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias, boolean salarioEsperado,
+			int edad, int agnosExperiencia, boolean disponibilidadSalirCiudad,
+			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado,
+			ArrayList<String> idiomas, String carrera, String universidad, String areaTecnica,
 			ArrayList<String> oficios) {
 		super();
 		this.id = id;
-		RNCEmpresa = rNCEmpresa;
-		this.fecha = fecha;
+		this.fecha = new Date();
 		this.cantidadPlazasNecesarias = cantidadPlazasNecesarias;
-		this.estado = estado;
-		this.candidatosPosibles = candidatosPosibles;
+		this.estado = true;
+		this.candidatosPosibles = new ArrayList<Personal>();
 		this.salarioEsperado = salarioEsperado;
-		this.edad = edad;
+		if (edad == 0)
+			this.edad = 18; //cast default a mayor de edad
+		else
+			this.edad = edad;
 		this.agnosExperiencia = agnosExperiencia;
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
@@ -53,10 +54,6 @@ public class SolicitudEmpresa {
 
 	public String getId() {
 		return id;
-	}
-
-	public String getRNCEmpresa() {
-		return RNCEmpresa;
 	}
 
 	public Date getFecha() {
