@@ -28,15 +28,13 @@ public class SolicitudEmpresa {
 	private String areaTecnica;
 	private ArrayList<String> oficios;
 	
-	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias, ArrayList<Personal> candidatosPosibles,
+	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias,
 			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, String nacionalidad, boolean disponibilidadSalirCiudad,
-			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado,
-			ArrayList<String> idiomas, String carrera, String universidad, String areaTecnica,
-			ArrayList<String> oficios) {
+			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado, String carrera, String universidad, String areaTecnica) {
 		super();
 		this.id = id;
 		this.cantidadPlazasNecesarias = cantidadPlazasNecesarias;
-		this.candidatosPosibles = candidatosPosibles;
+		this.candidatosPosibles = new ArrayList<Personal>();
 		this.salarioMax = salarioMax;
 		this.salarioMin = salarioMin;
 		if (edad <= 17)
@@ -51,11 +49,11 @@ public class SolicitudEmpresa {
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
 		this.forTiempoCompleto = forTiempoCompleto;
 		this.esCasado = esCasado;
-		this.idiomas = idiomas;
+		this.idiomas = new ArrayList<String>();
 		this.carrera = carrera;
 		this.universidad = universidad;
 		this.areaTecnica = areaTecnica;
-		this.oficios = oficios;
+		this.oficios = new ArrayList<String>();
 		this.fecha = new Date();
 		this.estado = true;
 	}
