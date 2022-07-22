@@ -25,6 +25,14 @@ public class Empresa {
 		return nombre;
 	}
 	
+	public String getSector() {
+		return sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
+	}
+	
 	public void agregarSolicitud(SolicitudEmpresa solicitud) {
 		if (solicitud != null)
 			solicitudes.add(solicitud);
@@ -35,13 +43,5 @@ public class Empresa {
 	 * */
 	public ArrayList<SolicitudEmpresa> getSolicitudesByID(String id) {
 		return new ArrayList<SolicitudEmpresa>(solicitudes.stream().filter(solicitud -> solicitud.getId().contains(id)).collect(Collectors.toList()));
-	}
-
-	public String getSector() {
-		return sector;
-	}
-
-	public void setSector(String sector) {
-		this.sector = sector;
 	}
 }
