@@ -11,7 +11,8 @@ public class SolicitudEmpresa {
 	private ArrayList<Personal> candidatosPosibles;
 
 	// Requisitos
-	private boolean salarioEsperado;
+	private float salarioMax;
+	private float salarioMin;
 	private int edad;
 	private int agnosExperiencia;
 	private boolean disponibilidadSalirCiudad;
@@ -24,22 +25,18 @@ public class SolicitudEmpresa {
 	private String areaTecnica;
 	private ArrayList<String> oficios;
 	
-	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias, boolean salarioEsperado,
-			int edad, int agnosExperiencia, boolean disponibilidadSalirCiudad,
+	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias, ArrayList<Personal> candidatosPosibles,
+			float salarioMax, float salarioMin, int edad, int agnosExperiencia, boolean disponibilidadSalirCiudad,
 			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado,
 			ArrayList<String> idiomas, String carrera, String universidad, String areaTecnica,
 			ArrayList<String> oficios) {
 		super();
 		this.id = id;
-		this.fecha = new Date();
 		this.cantidadPlazasNecesarias = cantidadPlazasNecesarias;
-		this.estado = true;
-		this.candidatosPosibles = new ArrayList<Personal>();
-		this.salarioEsperado = salarioEsperado;
-		if (edad == 0)
-			this.edad = 18; //cast default a mayor de edad
-		else
-			this.edad = edad;
+		this.candidatosPosibles = candidatosPosibles;
+		this.salarioMax = salarioMax;
+		this.salarioMin = salarioMin;
+		this.edad = edad;
 		this.agnosExperiencia = agnosExperiencia;
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
@@ -50,8 +47,10 @@ public class SolicitudEmpresa {
 		this.universidad = universidad;
 		this.areaTecnica = areaTecnica;
 		this.oficios = oficios;
+		this.fecha = new Date();
+		this.estado = true;
 	}
-
+	
 	public String getId() {
 		return id;
 	}
@@ -70,10 +69,6 @@ public class SolicitudEmpresa {
 
 	public ArrayList<Personal> getCandidatosPosibles() {
 		return candidatosPosibles;
-	}
-
-	public boolean isSalarioEsperado() {
-		return salarioEsperado;
 	}
 
 	public int getEdad() {
@@ -126,5 +121,13 @@ public class SolicitudEmpresa {
 
 	public void setEstado(boolean estado) {
 		this.estado = estado;
+	}
+
+	public float getSalarioMax() {
+		return salarioMax;
+	}
+
+	public float getSalarioMin() {
+		return salarioMin;
 	}	
 }
