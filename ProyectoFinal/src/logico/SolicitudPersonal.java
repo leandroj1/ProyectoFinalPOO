@@ -1,5 +1,6 @@
 package logico;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class SolicitudPersonal {
@@ -8,26 +9,35 @@ public class SolicitudPersonal {
 	private String cedulaPersonal;
 	private String RNCEmpresa;
 	private String descripcion;
+	private float salarioEsperado;
+	private int agnosExperiencia;
+	private String areaTecnica;
+	private String carrera;
+	private String universidad;
+	private ArrayList<String> oficios;
 	// true = activa
 	private boolean estado;
 	
-	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion) {
+	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
+			float salarioEsperado, int agnosExperiencia, String areaTecnica, String carrera, String universidad,
+			ArrayList<String> oficios) {
 		super();
 		this.id = id;
 		this.cedulaPersonal = cedulaPersonal;
 		RNCEmpresa = rNCEmpresa;
 		this.descripcion = descripcion;
-
+		this.salarioEsperado = salarioEsperado;
+		this.agnosExperiencia = agnosExperiencia;
+		this.areaTecnica = areaTecnica;
+		this.carrera = carrera;
+		this.universidad = universidad;
+		this.oficios = oficios;
 		this.estado = true;
 		this.fecha = new Date();
 	}
-
+	
 	public String getDescripcion() {
 		return descripcion;
-	}
-
-	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
 	}
 
 	public boolean isEstado() {
@@ -52,5 +62,29 @@ public class SolicitudPersonal {
 
 	public String getRNCEmpresa() {
 		return RNCEmpresa;
+	}
+
+	public float getSalarioEsperado() {
+		return salarioEsperado;
+	}
+
+	public int getAgnosExperiencia() {
+		return agnosExperiencia;
+	}
+
+	public String getAreaTecnica() {
+		return areaTecnica;
+	}
+
+	public String getCarrera() {
+		return carrera;
+	}
+
+	public String getUniversidad() {
+		return universidad;
+	}
+
+	public ArrayList<String> getOficios() {
+		return oficios;
 	}
 }
