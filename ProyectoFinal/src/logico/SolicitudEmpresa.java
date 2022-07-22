@@ -8,6 +8,9 @@ public class SolicitudEmpresa {
 	private Date fecha;
 	private int cantidadPlazasNecesarias;
 	private boolean estado;
+	private String tipoPersonalSolicitado;
+	private String nacionalidad;
+	private String sexo;
 	private ArrayList<Personal> candidatosPosibles;
 
 	// Requisitos
@@ -26,7 +29,7 @@ public class SolicitudEmpresa {
 	private ArrayList<String> oficios;
 	
 	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias, ArrayList<Personal> candidatosPosibles,
-			float salarioMax, float salarioMin, int edad, int agnosExperiencia, boolean disponibilidadSalirCiudad,
+			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, String nacionalidad, boolean disponibilidadSalirCiudad,
 			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado,
 			ArrayList<String> idiomas, String carrera, String universidad, String areaTecnica,
 			ArrayList<String> oficios) {
@@ -36,8 +39,14 @@ public class SolicitudEmpresa {
 		this.candidatosPosibles = candidatosPosibles;
 		this.salarioMax = salarioMax;
 		this.salarioMin = salarioMin;
-		this.edad = edad;
+		if (edad <= 17)
+			this.edad = 18; //cast default a mayor de edad
+		else
+			this.edad = edad;
 		this.agnosExperiencia = agnosExperiencia;
+		this.tipoPersonalSolicitado = tipoPersonalSolicitado;
+		this.sexo = sexo;
+		this.nacionalidad = nacionalidad;
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
 		this.forTiempoCompleto = forTiempoCompleto;
@@ -129,5 +138,69 @@ public class SolicitudEmpresa {
 
 	public float getSalarioMin() {
 		return salarioMin;
+	}
+
+	public String getTipoPersonalSolicitado() {
+		return tipoPersonalSolicitado;
+	}
+
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public String getSexo() {
+		return sexo;
+	}
+
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
+	public void setSexo(String sexo) {
+		this.sexo = sexo;
+	}
+
+	public void setSalarioMax(float salarioMax) {
+		this.salarioMax = salarioMax;
+	}
+
+	public void setSalarioMin(float salarioMin) {
+		this.salarioMin = salarioMin;
+	}
+
+	public void setEdad(int edad) {
+		this.edad = edad;
+	}
+
+	public void setAgnosExperiencia(int agnosExperiencia) {
+		this.agnosExperiencia = agnosExperiencia;
+	}
+
+	public void setDisponibilidadSalirCiudad(boolean disponibilidadSalirCiudad) {
+		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
+	}
+
+	public void setDisponibilidadCambioResidencia(boolean disponibilidadCambioResidencia) {
+		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
+	}
+
+	public void setForTiempoCompleto(boolean forTiempoCompleto) {
+		this.forTiempoCompleto = forTiempoCompleto;
+	}
+
+	public void setEsCasado(boolean esCasado) {
+		this.esCasado = esCasado;
+	}
+
+	public void setCarrera(String carrera) {
+		this.carrera = carrera;
+	}
+
+	public void setUniversidad(String universidad) {
+		this.universidad = universidad;
+	}
+
+	public void setAreaTecnica(String areaTecnica) {
+		this.areaTecnica = areaTecnica;
 	}	
 }
