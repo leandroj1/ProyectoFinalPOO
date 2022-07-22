@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Empresa {
-	public Empresa(String RNC, String nombre) {
+	private String RNC;
+	private String nombre; 
+	private String sector;
+	private ArrayList<SolicitudEmpresa> solicitudes;
+	
+	public Empresa(String rNC, String nombre, String sector) {
 		super();
-		this.RNC = RNC;
+		RNC = rNC;
 		this.nombre = nombre;
+		this.sector = sector;
 		this.solicitudes = new ArrayList<SolicitudEmpresa>();
 	}
-
-	private String RNC;
-	private String nombre;
-	private ArrayList<SolicitudEmpresa> solicitudes;
 
 	public String getRNC() {
 		return RNC;
@@ -33,5 +35,13 @@ public class Empresa {
 	 * */
 	public ArrayList<SolicitudEmpresa> getSolicitudesByID(String id) {
 		return new ArrayList<SolicitudEmpresa>(solicitudes.stream().filter(solicitud -> solicitud.getId().contains(id)).collect(Collectors.toList()));
+	}
+
+	public String getSector() {
+		return sector;
+	}
+
+	public void setSector(String sector) {
+		this.sector = sector;
 	}
 }
