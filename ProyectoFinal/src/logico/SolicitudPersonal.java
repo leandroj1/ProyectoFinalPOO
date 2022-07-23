@@ -18,7 +18,7 @@ public class SolicitudPersonal {
 	private ArrayList<String> oficios;
 	// true = activa
 	private boolean estado;
-	
+
 	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
 			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad) {
 		super();
@@ -36,7 +36,7 @@ public class SolicitudPersonal {
 		this.estado = true;
 		this.fecha = new Date();
 	}
-	
+
 	public String getDescripcion() {
 		return descripcion;
 	}
@@ -119,5 +119,19 @@ public class SolicitudPersonal {
 
 	public void setUniversidad(String universidad) {
 		this.universidad = universidad;
+	}
+
+	public void removerOficio(String oficio) {
+		if(oficio != "") {
+			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));	
+		}
+	}
+
+	public void agregarOficio(String oficio) {
+		if(oficio != null) {
+			if(oficio != "" && !(oficios.contains(oficio))) {
+				oficios.add(oficio);	
+			}
+		}
 	}
 }
