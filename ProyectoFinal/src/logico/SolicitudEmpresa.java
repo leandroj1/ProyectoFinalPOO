@@ -200,7 +200,7 @@ public class SolicitudEmpresa {
 	}	
 	
 	public void removerOficio(String oficio) {
-		if(oficio != "") {
+		if(oficio != null) {
 			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));	
 		}
 	}
@@ -214,7 +214,7 @@ public class SolicitudEmpresa {
 	}
 	
 	public void removerIdioma(String idioma) {
-		if(idioma != "") {
+		if(idioma != null) {
 			idiomas.removeIf(idiomaActual -> idioma.equalsIgnoreCase(idiomaActual));	
 		}
 	}
