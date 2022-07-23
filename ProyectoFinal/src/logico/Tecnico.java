@@ -8,11 +8,10 @@ public class Tecnico extends Personal {
 
 	public Tecnico(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
 			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas,
-			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
-			int agnosExperiencia, String areaTecnica) {
+			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, String areaTecnica) {
 		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, ciudadResidencia, idiomas,
-				disponibilidadSalirCiudad, disponibilidadCambioResidencia, forTiempoCompleto, agnosExperiencia);
-		this.setAreaTecnica(areaTecnica);
+				disponibilidadSalirCiudad, disponibilidadCambioResidencia, forTiempoCompleto);
+		this.areaTecnica = areaTecnica;
 	}
 
 	public String getAreaTecnica() {
@@ -23,4 +22,8 @@ public class Tecnico extends Personal {
 		this.areaTecnica = areaTecnica;
 	}
 
+	@Override
+	public String toString() {
+		return "Tecnico";
+	}
 }
