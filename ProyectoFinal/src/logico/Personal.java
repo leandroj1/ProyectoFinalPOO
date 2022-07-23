@@ -2,6 +2,9 @@ package logico;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 
 public abstract class Personal {
 	private String cedula;
@@ -15,15 +18,13 @@ public abstract class Personal {
 	private boolean disponibilidadSalirCiudad;
 	private boolean disponibilidadCambioResidencia;
 	private boolean forTiempoCompleto;
-	private int agnosExperiencia;
 	private String idEmpresaContratacion;
 	private boolean isDesempleado;
 	private ArrayList<SolicitudPersonal> solicitudes;
 
 	public Personal(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
 			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas,
-			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
-			int agnosExperiencia) {
+			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -36,7 +37,6 @@ public abstract class Personal {
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
 		this.forTiempoCompleto = forTiempoCompleto;
-		this.agnosExperiencia = agnosExperiencia;
 
 		this.isDesempleado = true;
 		this.idEmpresaContratacion = null;
@@ -99,14 +99,6 @@ public abstract class Personal {
 		this.forTiempoCompleto = forTiempoCompleto;
 	}
 
-	public int getAgnosExperiencia() {
-		return agnosExperiencia;
-	}
-
-	public void setAgnosExperiencia(int agnosExperiencia) {
-		this.agnosExperiencia = agnosExperiencia;
-	}
-
 	public String getIdEmpresaContratacion() {
 		return idEmpresaContratacion;
 	}
@@ -139,20 +131,35 @@ public abstract class Personal {
 		return idiomas;
 	}
 
-	// TODO: hacer una mejor implementacion
 	public int getEdad() {
-		return (new Date()).getYear() - fechaNacimiento.getYear();
+		LocalDate nacimiento = fechaNacimiento.toInstant()
+		.atZone(ZoneId.systemDefault())
+		.toLocalDate();
+
+		return Period.between(nacimiento, LocalDate.now()).getYears();
+	}
+
+	public void removerIdioma(String idioma) {
+		if(idioma != null) {
+			idiomas.removeIf(idiomaActual -> idioma.equalsIgnoreCase(idiomaActual));	
+		}
 	}
 
 	public void agregarIdioma(String idioma) {
-		this.idiomas.add(idioma);
+		if(idioma != null) {
+			if(idioma != "" && !(idiomas.contains(idioma))) {
+				idiomas.add(idioma);	
+			}
+		}
 	}
 
 	public ArrayList<SolicitudPersonal> getSolicitudes() {
 		return solicitudes;
 	}
-	
+
 	public void agregarSolicitud(SolicitudPersonal solicitud) {
-		this.solicitudes.add(solicitud);
+		if(solicitud != null){
+			this.solicitudes.add(solicitud);
+		}
 	}
 }

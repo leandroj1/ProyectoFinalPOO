@@ -8,10 +8,9 @@ public class Obrero extends Personal {
 
 	public Obrero(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
 			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas,
-			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
-			int agnosExperiencia, ArrayList<String> oficios) {
+			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, ArrayList<String> oficios) {
 		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, ciudadResidencia, idiomas,
-				disponibilidadSalirCiudad, disponibilidadCambioResidencia, forTiempoCompleto, agnosExperiencia);
+				disponibilidadSalirCiudad, disponibilidadCambioResidencia, forTiempoCompleto);
 		this.oficios = oficios;
 	}
 
@@ -19,7 +18,22 @@ public class Obrero extends Personal {
 		return oficios;
 	}
 
+	public void removerOficio(String oficio) {
+		if(oficio != null) {
+			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));
+		}
+	}
+
 	public void agregarOficio(String oficio) {
-		this.oficios.add(oficio);
+		if(oficio != null) {
+			if(oficio != "" && !(oficios.contains(oficio))) {
+				oficios.add(oficio);
+			}
+		}
+	}
+
+	@Override
+	public String toString() {
+		return "Obrero";
 	}
 }
