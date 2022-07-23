@@ -37,10 +37,7 @@ public class SolicitudEmpresa {
 		this.candidatosPosibles = new ArrayList<Personal>();
 		this.salarioMax = salarioMax;
 		this.salarioMin = salarioMin;
-		if (edad <= 17)
-			this.edad = 18; //cast default a mayor de edad
-		else
-			this.edad = edad;
+		this.edad = edad <= 17 ? 18 : edad;
 		this.agnosExperiencia = agnosExperiencia;
 		this.tipoPersonalSolicitado = tipoPersonalSolicitado;
 		this.sexo = sexo;
@@ -201,4 +198,32 @@ public class SolicitudEmpresa {
 	public void setAreaTecnica(String areaTecnica) {
 		this.areaTecnica = areaTecnica;
 	}	
+	
+	public void removerOficio(String oficio) {
+		if(oficio != "") {
+			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));	
+		}
+	}
+	
+	public void agregarOficio(String oficio) {
+		if(oficio != null) {
+			if(oficio != "" && !(oficios.contains(oficio))) {
+				oficios.add(oficio);	
+			}
+		}
+	}
+	
+	public void removerIdioma(String idioma) {
+		if(idioma != "") {
+			idiomas.removeIf(idiomaActual -> idioma.equalsIgnoreCase(idiomaActual));	
+		}
+	}
+	
+	public void agregarIdioma(String idioma) {
+		if(idioma != null) {
+			if(idioma != "" && !(idiomas.contains(idioma))) {
+				idiomas.add(idioma);	
+			}
+		}
+	}
 }
