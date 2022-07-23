@@ -7,7 +7,7 @@ public class SolicitudEmpresa {
 	private String id;
 	private Date fecha;
 	private int cantidadPlazasNecesarias;
-	private boolean estado;
+	private String estado;
 	private String tipoPersonalSolicitado;
 	private String nacionalidad;
 	private String sexo;
@@ -27,7 +27,7 @@ public class SolicitudEmpresa {
 	private String universidad;
 	private String areaTecnica;
 	private ArrayList<String> oficios;
-	
+
 	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias,
 			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, String nacionalidad, boolean disponibilidadSalirCiudad,
 			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado, String carrera, String universidad, String areaTecnica) {
@@ -52,9 +52,9 @@ public class SolicitudEmpresa {
 		this.areaTecnica = areaTecnica;
 		this.oficios = new ArrayList<String>();
 		this.fecha = new Date();
-		this.estado = true;
+		this.estado = "Activa";
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -67,8 +67,16 @@ public class SolicitudEmpresa {
 		return cantidadPlazasNecesarias;
 	}
 
-	public boolean isEstado() {
+	public String getEstado() {
 		return estado;
+	}
+
+	public void anularSolicitud() {
+		estado = "Anulada";
+	}
+
+	public void setSolicitudSatisfecha() {
+		estado = "Satisfecha";
 	}
 
 	public ArrayList<Personal> getCandidatosPosibles() {
@@ -121,10 +129,6 @@ public class SolicitudEmpresa {
 
 	public void setCantidadPlazasNecesarias(int cantidadPlazasNecesarias) {
 		this.cantidadPlazasNecesarias = cantidadPlazasNecesarias;
-	}
-
-	public void setEstado(boolean estado) {
-		this.estado = estado;
 	}
 
 	public float getSalarioMax() {
@@ -198,13 +202,13 @@ public class SolicitudEmpresa {
 	public void setAreaTecnica(String areaTecnica) {
 		this.areaTecnica = areaTecnica;
 	}	
-	
+
 	public void removerOficio(String oficio) {
 		if(oficio != null) {
 			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));	
 		}
 	}
-	
+
 	public void agregarOficio(String oficio) {
 		if(oficio != null) {
 			if(oficio != "" && !(oficios.contains(oficio))) {
@@ -212,13 +216,13 @@ public class SolicitudEmpresa {
 			}
 		}
 	}
-	
+
 	public void removerIdioma(String idioma) {
 		if(idioma != null) {
 			idiomas.removeIf(idiomaActual -> idioma.equalsIgnoreCase(idiomaActual));	
 		}
 	}
-	
+
 	public void agregarIdioma(String idioma) {
 		if(idioma != null) {
 			if(idioma != "" && !(idiomas.contains(idioma))) {

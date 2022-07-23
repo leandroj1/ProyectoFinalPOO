@@ -17,7 +17,7 @@ public class SolicitudPersonal {
 	private String universidad;
 	private ArrayList<String> oficios;
 	// true = activa
-	private boolean estado;
+	private String estado;
 
 	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
 			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad) {
@@ -33,7 +33,7 @@ public class SolicitudPersonal {
 		this.carrera = carrera;
 		this.universidad = universidad;
 		this.oficios = new ArrayList<String>();
-		this.estado = true;
+		this.estado = "Activa";
 		this.fecha = new Date();
 	}
 
@@ -41,12 +41,16 @@ public class SolicitudPersonal {
 		return descripcion;
 	}
 
-	public boolean isEstado() {
+	public String getEstado() {
 		return estado;
 	}
 
-	public void setEstado(boolean estado) {
-		this.estado = estado;
+	public void anularSolicitud() {
+		estado = "Anulada";
+	}
+
+	public void setSolicitudSatisfecha() {
+		estado = "Satisfecha";
 	}
 
 	public String getId() {
