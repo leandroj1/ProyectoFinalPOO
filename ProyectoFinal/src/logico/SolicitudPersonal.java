@@ -122,7 +122,7 @@ public class SolicitudPersonal {
 	}
 
 	public void removerOficio(String oficio) {
-		if(oficio != "") {
+		if(oficio != null) {
 			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));	
 		}
 	}
