@@ -11,7 +11,7 @@ public class Tecnico extends Personal {
 			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, String areaTecnica) {
 		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, ciudadResidencia, idiomas,
 				disponibilidadSalirCiudad, disponibilidadCambioResidencia, forTiempoCompleto);
-		this.setAreaTecnica(areaTecnica);
+		this.areaTecnica = areaTecnica;
 	}
 
 	public String getAreaTecnica() {
