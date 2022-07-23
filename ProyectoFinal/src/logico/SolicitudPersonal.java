@@ -3,7 +3,7 @@ package logico;
 import java.util.ArrayList;
 import java.util.Date;
 
-import enums.EstadoSolicitud;
+import enums.EstadoSolicitudPersonal;
 
 public class SolicitudPersonal {
 	private String id;
@@ -19,7 +19,7 @@ public class SolicitudPersonal {
 	private String universidad;
 	private ArrayList<String> oficios;
 	// true = activa
-	private EstadoSolicitud estado;
+	private EstadoSolicitudPersonal estado;
 
 	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
 			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad) {
@@ -35,7 +35,7 @@ public class SolicitudPersonal {
 		this.carrera = carrera;
 		this.universidad = universidad;
 		this.oficios = new ArrayList<String>();
-		this.estado = EstadoSolicitud.ACTIVA;
+		this.estado = EstadoSolicitudPersonal.ACTIVA;
 		this.fecha = new Date();
 	}
 
@@ -43,11 +43,11 @@ public class SolicitudPersonal {
 		return descripcion;
 	}
 
-	public EstadoSolicitud getEstado() {
+	public EstadoSolicitudPersonal getEstado() {
 		return estado;
 	}
 
-	public void setEstado(EstadoSolicitud nuevoEstado) {
+	public void setEstado(EstadoSolicitudPersonal nuevoEstado) {
 		this.estado = nuevoEstado;
 	}
 
