@@ -8,10 +8,15 @@ public class BolsaTrabajo {
 		super();
 		this.personal = new ArrayList<Personal>();
 		this.empresas = new ArrayList<Empresa>();
+		this.solicitudesEmpresa = new ArrayList<SolicitudEmpresa>();
+		this.solicitudesPersonal = new ArrayList<SolicitudPersonal>();
+		
 	}
 
 	private ArrayList<Personal> personal;
 	private ArrayList<Empresa> empresas;
+	private ArrayList<SolicitudEmpresa> solicitudesEmpresa;
+	private ArrayList<SolicitudPersonal> solicitudesPersonal;
 	
 	private static BolsaTrabajo instance;
 	
@@ -41,15 +46,27 @@ public class BolsaTrabajo {
 	public void agregarSolicitudEmpresa(String RNC, SolicitudEmpresa solicitud) {
 		ArrayList<Empresa> empresasAux = getEmpresasByID(RNC);
 		
-		if (empresasAux.size() == 1)
+		if (empresasAux.size() == 1) {
 			empresasAux.get(0).agregarSolicitud(solicitud);
+			solicitudesEmpresa.add(solicitud);
+		}
 	}
 	
 	public void agregarSolicitudEmpleado(String cedula, SolicitudPersonal solicitud) {
 		ArrayList<Personal> personalAux = getPersonalByID(cedula);
 		
-		if (personalAux.size() == 1)
+		if (personalAux.size() == 1) {
 			personalAux.get(0).agregarSolicitud(solicitud);
+			solicitudesPersonal.add(solicitud);
+		}
+	}
+	
+	public ArrayList<SolicitudEmpresa> getSolicitudesEmpresaByID(String filterID) {
+		return new ArrayList<SolicitudEmpresa>(solicitudesEmpresa.stream().filter(solicitud -> solicitud.getId().contains(filterID)).collect(Collectors.toList()));
+	}
+	
+	public ArrayList<SolicitudPersonal> getSolicitudesPersonalByID(String filterID) {
+		return new ArrayList<SolicitudPersonal>(solicitudesPersonal.stream().filter(solicitud -> solicitud.getId().contains(filterID)).collect(Collectors.toList()));
 	}
 	
 	public ArrayList<SolicitudEmpresa> getSolicitudesEmpresaByID(String RNC, String solicitudFilter) {

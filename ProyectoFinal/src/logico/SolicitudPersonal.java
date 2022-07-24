@@ -19,10 +19,13 @@ public class SolicitudPersonal {
 	private String universidad;
 	private ArrayList<String> oficios;
 	// true = activa
+	private static int genNumber;
+
 	private EstadoSolicitudPersonal estado;
 
 	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
 			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad) {
+
 		super();
 		this.id = id;
 		this.cedulaPersonal = cedulaPersonal;
@@ -37,6 +40,14 @@ public class SolicitudPersonal {
 		this.oficios = new ArrayList<String>();
 		this.estado = EstadoSolicitudPersonal.ACTIVA;
 		this.fecha = new Date();
+	}
+	
+	public static String genID() {
+		String num = Integer.toString(++genNumber);
+		for (int len = num.length(); len < 10; len++)
+			num = "0" + num;
+
+		return "SP" + num;
 	}
 
 	public String getDescripcion() {
