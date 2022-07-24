@@ -29,10 +29,12 @@ public class SolicitudEmpresa {
 	private String universidad;
 	private String areaTecnica;
 	private ArrayList<String> oficios;
+	private static int genNumber = 0;
 
 	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias,
 			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, String nacionalidad, boolean disponibilidadSalirCiudad,
 			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado, String carrera, String universidad, String areaTecnica) {
+	
 		super();
 		this.id = id;
 		this.cantidadPlazasNecesarias = cantidadPlazasNecesarias;
@@ -55,6 +57,14 @@ public class SolicitudEmpresa {
 		this.oficios = new ArrayList<String>();
 		this.fecha = new Date();
 		this.estado = EstadoSolicitudEmpresa.ACTIVA;
+	}
+	
+	public static String genID() {
+		String num = Integer.toString(++genNumber);
+		for (int len = num.length(); len < 10; len++)
+			num = "0" + num;
+
+		return "SE" + num;
 	}
 
 	public String getId() {

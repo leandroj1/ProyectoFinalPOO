@@ -8,13 +8,15 @@ public class Empresa {
 	private String nombre; 
 	private String sector;
 	private ArrayList<SolicitudEmpresa> solicitudes;
+	private String tipo;
 	
-	public Empresa(String rNC, String nombre, String sector) {
+	public Empresa(String RNC, String nombre, String sector, String tipo) {
 		super();
-		RNC = rNC;
+		this.RNC = RNC;
 		this.nombre = nombre;
 		this.sector = sector;
 		this.solicitudes = new ArrayList<SolicitudEmpresa>();
+		this.tipo = tipo;
 	}
 
 	public String getRNC() {
@@ -43,5 +45,9 @@ public class Empresa {
 	 * */
 	public ArrayList<SolicitudEmpresa> getSolicitudesByID(String id) {
 		return new ArrayList<SolicitudEmpresa>(solicitudes.stream().filter(solicitud -> solicitud.getId().contains(id)).collect(Collectors.toList()));
+	}
+
+	public String getTipo() {
+		return tipo;
 	}
 }
