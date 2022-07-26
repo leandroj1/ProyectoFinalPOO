@@ -49,12 +49,10 @@ public class Empresa {
 		return new ArrayList<SolicitudEmpresa>(solicitudes.stream().filter(solicitud -> solicitud.getId().contains(id)).collect(Collectors.toList()));
 	}
 
-<<<<<<< Updated upstream
 	public String getTipo() {
 		return tipo;
-=======
+	}
 	public Ubicacion getUbicacion() {
 		return ubicacion;
->>>>>>> Stashed changes
 	}
 }
