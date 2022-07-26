@@ -10,8 +10,7 @@ public class Tecnico extends Personal {
 			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas,
 			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
 			String areaTecnica, Ubicacion ubicacion) {
-		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, ciudadResidencia, idiomas,
-				disponibilidadSalirCiudad, disponibilidadCambioResidencia, forTiempoCompleto, ubicacion);
+		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, ciudadResidencia, idiomas, ubicacion);
 		this.areaTecnica = areaTecnica;
 	}
 

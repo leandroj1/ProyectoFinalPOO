@@ -11,7 +11,6 @@ public class SolicitudEmpresa {
 	private int cantidadPlazasNecesarias;
 	private EstadoSolicitudEmpresa estado;
 	private String tipoPersonalSolicitado;
-	private String nacionalidad;
 	private String sexo;
 	private ArrayList<Personal> candidatosPosibles;
 
@@ -22,7 +21,7 @@ public class SolicitudEmpresa {
 	private int agnosExperiencia;
 	private boolean disponibilidadSalirCiudad;
 	private boolean disponibilidadCambioResidencia;
-	private boolean forTiempoCompleto;
+	private String tipoDeTrabajo;
 	private boolean esCasado;
 	private ArrayList<String> idiomas;
 	private String carrera;
@@ -32,8 +31,8 @@ public class SolicitudEmpresa {
 	private static int genNumber = 0;
 
 	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias,
-			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, String nacionalidad, boolean disponibilidadSalirCiudad,
-			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado, String carrera, String universidad, String areaTecnica) {
+			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, boolean disponibilidadSalirCiudad,
+			boolean disponibilidadCambioResidencia, String tipoDeTrabajo, boolean esCasado, String carrera, String universidad, String areaTecnica) {
 	
 		super();
 		this.id = id;
@@ -45,10 +44,9 @@ public class SolicitudEmpresa {
 		this.agnosExperiencia = agnosExperiencia;
 		this.tipoPersonalSolicitado = tipoPersonalSolicitado;
 		this.sexo = sexo;
-		this.nacionalidad = nacionalidad;
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
-		this.forTiempoCompleto = forTiempoCompleto;
+		this.tipoDeTrabajo = tipoDeTrabajo;
 		this.esCasado = esCasado;
 		this.idiomas = new ArrayList<String>();
 		this.carrera = carrera;
@@ -106,11 +104,7 @@ public class SolicitudEmpresa {
 	public boolean isDisponibilidadCambioResidencia() {
 		return disponibilidadCambioResidencia;
 	}
-
-	public boolean isForTiempoCompleto() {
-		return forTiempoCompleto;
-	}
-
+	
 	public boolean isEsCasado() {
 		return esCasado;
 	}
@@ -151,18 +145,6 @@ public class SolicitudEmpresa {
 		return tipoPersonalSolicitado;
 	}
 
-	public String getNacionalidad() {
-		return nacionalidad;
-	}
-
-	public String getSexo() {
-		return sexo;
-	}
-
-	public void setNacionalidad(String nacionalidad) {
-		this.nacionalidad = nacionalidad;
-	}
-
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
@@ -189,10 +171,6 @@ public class SolicitudEmpresa {
 
 	public void setDisponibilidadCambioResidencia(boolean disponibilidadCambioResidencia) {
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
-	}
-
-	public void setForTiempoCompleto(boolean forTiempoCompleto) {
-		this.forTiempoCompleto = forTiempoCompleto;
 	}
 
 	public void setEsCasado(boolean esCasado) {
@@ -237,5 +215,17 @@ public class SolicitudEmpresa {
 				idiomas.add(idioma);	
 			}
 		}
+	}
+
+	public String getTipoDeTrabajo() {
+		return tipoDeTrabajo;
+	}
+
+	public void setTipoDeTrabajo(String tipoDeTrabajo) {
+		this.tipoDeTrabajo = tipoDeTrabajo;
+	}
+
+	public String getSexo() {
+		return sexo;
 	}
 }
