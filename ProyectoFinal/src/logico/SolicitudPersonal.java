@@ -19,7 +19,7 @@ public class SolicitudPersonal {
 	private String universidad;
 	private boolean disponibilidadSalirCiudad;
 	private boolean disponibilidadCambioResidencia;
-	private boolean forTiempoCompleto;
+	private String tipoDeTrabajo;
 	private ArrayList<String> oficios;
 	// true = activa
 	private static int genNumber;
@@ -27,7 +27,7 @@ public class SolicitudPersonal {
 	private EstadoSolicitudPersonal estado;
 
 	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
-			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto) {
+			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,String tipoDeTrabajo) {
 
 		super();
 		this.id = id;
@@ -45,7 +45,7 @@ public class SolicitudPersonal {
 		this.fecha = new Date();
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
-		this.forTiempoCompleto = forTiempoCompleto;
+		this.tipoDeTrabajo = tipoDeTrabajo;
 	}
 
 	public static String genID() {
@@ -156,12 +156,12 @@ public class SolicitudPersonal {
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
 	}
 
-	public boolean isForTiempoCompleto() {
-		return forTiempoCompleto;
+	public String getTipoDeTrabajo() {
+		return tipoDeTrabajo;
 	}
 
-	public void setForTiempoCompleto(boolean forTiempoCompleto) {
-		this.forTiempoCompleto = forTiempoCompleto;
+	public void setTipoDeTrabajo(String tipoDeTrabajo) {
+		this.tipoDeTrabajo = tipoDeTrabajo;
 	}
 
 	public void removerOficio(String oficio) {
