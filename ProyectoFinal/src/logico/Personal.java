@@ -21,10 +21,12 @@ public abstract class Personal {
 	private String idEmpresaContratacion;
 	private boolean isDesempleado;
 	private ArrayList<SolicitudPersonal> solicitudes;
+	private Ubicacion ubicacion;
 
 	public Personal(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
 			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas,
-			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto) {
+			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
+			Ubicacion ubicacion) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -37,6 +39,7 @@ public abstract class Personal {
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
 		this.forTiempoCompleto = forTiempoCompleto;
+		this.ubicacion = ubicacion;
 
 		this.isDesempleado = true;
 		this.idEmpresaContratacion = null;
