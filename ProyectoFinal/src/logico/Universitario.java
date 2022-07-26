@@ -9,9 +9,10 @@ public class Universitario extends Personal {
 
 	public Universitario(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
 			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas,
-			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, String carrera, String universidad) {
+			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
+			String carrera, String universidad, Ubicacion ubicacion) {
 		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, ciudadResidencia, idiomas,
-				disponibilidadSalirCiudad, disponibilidadCambioResidencia, forTiempoCompleto);
+				disponibilidadSalirCiudad, disponibilidadCambioResidencia, forTiempoCompleto, ubicacion);
 		this.carrera = carrera;
 		this.universidad = universidad;
 	}

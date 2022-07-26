@@ -7,16 +7,18 @@ public class Empresa {
 	private String RNC;
 	private String nombre; 
 	private String sector;
+	private Ubicacion ubicacion;
 	private ArrayList<SolicitudEmpresa> solicitudes;
 	private String tipo;
-	
-	public Empresa(String RNC, String nombre, String sector, String tipo) {
+
+	public Empresa(String rNC, String nombre, String sector, String tipo, Ubicacion ubicacion) {
 		super();
 		this.RNC = RNC;
 		this.nombre = nombre;
 		this.sector = sector;
 		this.solicitudes = new ArrayList<SolicitudEmpresa>();
 		this.tipo = tipo;
+		this.ubicacion = ubicacion;
 	}
 
 	public String getRNC() {
@@ -47,7 +49,12 @@ public class Empresa {
 		return new ArrayList<SolicitudEmpresa>(solicitudes.stream().filter(solicitud -> solicitud.getId().contains(id)).collect(Collectors.toList()));
 	}
 
+<<<<<<< Updated upstream
 	public String getTipo() {
 		return tipo;
+=======
+	public Ubicacion getUbicacion() {
+		return ubicacion;
+>>>>>>> Stashed changes
 	}
 }
