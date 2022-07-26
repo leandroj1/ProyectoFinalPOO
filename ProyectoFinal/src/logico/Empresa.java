@@ -72,6 +72,18 @@ public class Empresa {
 		return telefonoContacto;
 	}
 
+	public void setNombreContacto(String nombreContacto) {
+		this.nombreContacto = nombreContacto;
+	}
+
+	public void setTelefonoContacto(String telefonoContacto) {
+		this.telefonoContacto = telefonoContacto;
+	}
+
+	public void setEmailContacto(String emailContacto) {
+		this.emailContacto = emailContacto;
+	}
+
 	public String getEmailContacto() {
 		return emailContacto;
 	}
