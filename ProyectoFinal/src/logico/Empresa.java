@@ -5,19 +5,29 @@ import java.util.stream.Collectors;
 
 public class Empresa {
 	private String RNC;
-	private String nombre; 
+	private String nombreComercial;
+	private String razonSocial; 
 	private String sector;
-	private Ubicacion ubicacion;
 	private ArrayList<SolicitudEmpresa> solicitudes;
 	private String tipo;
+	private String rubro;
+	private String nombreContacto;
+	private String telefonoContacto;
+	private String emailContacto;
+	private Ubicacion ubicacion;
 
-	public Empresa(String rNC, String nombre, String sector, String tipo, Ubicacion ubicacion) {
+	public Empresa(String RNC, String nombreComercial, String razonSocial, String rubro, String nombreContacto, String telefonoContacto, String emailContacto, String sector, String tipo, Ubicacion ubicacion) {
 		super();
 		this.RNC = RNC;
-		this.nombre = nombre;
+		this.nombreComercial = nombreComercial;
 		this.sector = sector;
 		this.solicitudes = new ArrayList<SolicitudEmpresa>();
 		this.tipo = tipo;
+		this.razonSocial = razonSocial;
+		this.rubro = rubro;
+		this.nombreContacto = nombreContacto;
+		this.telefonoContacto = telefonoContacto;
+		this.emailContacto = emailContacto;
 		this.ubicacion = ubicacion;
 	}
 
@@ -26,22 +36,58 @@ public class Empresa {
 	}
 
 	public String getNombre() {
-		return nombre;
+		return nombreComercial;
 	}
-	
+
 	public String getSector() {
 		return sector;
 	}
 
-	public void setSector(String sector) {
-		this.sector = sector;
-	}
-	
 	public void agregarSolicitud(SolicitudEmpresa solicitud) {
 		if (solicitud != null)
 			solicitudes.add(solicitud);
 	}
-	
+
+	public String getNombreComercial() {
+		return nombreComercial;
+	}
+
+	public String getRazonSocial() {
+		return razonSocial;
+	}
+
+	public ArrayList<SolicitudEmpresa> getSolicitudes() {
+		return solicitudes;
+	}
+
+	public String getRubro() {
+		return rubro;
+	}
+
+	public String getNombreContacto() {
+		return nombreContacto;
+	}
+
+	public String getTelefonoContacto() {
+		return telefonoContacto;
+	}
+
+	public void setNombreContacto(String nombreContacto) {
+		this.nombreContacto = nombreContacto;
+	}
+
+	public void setTelefonoContacto(String telefonoContacto) {
+		this.telefonoContacto = telefonoContacto;
+	}
+
+	public void setEmailContacto(String emailContacto) {
+		this.emailContacto = emailContacto;
+	}
+
+	public String getEmailContacto() {
+		return emailContacto;
+	}
+
 	/*
 	 * Esto funciona tanto para traer una solicitud como para varias.
 	 * */
@@ -52,6 +98,7 @@ public class Empresa {
 	public String getTipo() {
 		return tipo;
 	}
+
 	public Ubicacion getUbicacion() {
 		return ubicacion;
 	}
