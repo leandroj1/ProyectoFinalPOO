@@ -15,18 +15,12 @@ public abstract class Personal {
 	private String telefonoSecundario;
 	private String ciudadResidencia;
 	private ArrayList<String> idiomas;
-	private boolean disponibilidadSalirCiudad;
-	private boolean disponibilidadCambioResidencia;
-	private boolean forTiempoCompleto;
 	private String idEmpresaContratacion;
-	private boolean isDesempleado;
 	private ArrayList<SolicitudPersonal> solicitudes;
 	private Ubicacion ubicacion;
 
 	public Personal(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
-			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas,
-			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
-			Ubicacion ubicacion) {
+			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas, Ubicacion ubicacion) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -36,12 +30,7 @@ public abstract class Personal {
 		this.telefonoSecundario = telefonoSecundario;
 		this.ciudadResidencia = ciudadResidencia;
 		this.idiomas = idiomas;
-		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
-		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
-		this.forTiempoCompleto = forTiempoCompleto;
 		this.ubicacion = ubicacion;
-
-		this.isDesempleado = true;
 		this.idEmpresaContratacion = null;
 		this.solicitudes = new ArrayList<SolicitudPersonal>();
 	}
@@ -78,30 +67,6 @@ public abstract class Personal {
 		this.ciudadResidencia = ciudadResidencia;
 	}
 
-	public boolean isDisponibilidadSalirCiudad() {
-		return disponibilidadSalirCiudad;
-	}
-
-	public void setDisponibilidadSalirCiudad(boolean disponibilidadSalirCiudad) {
-		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
-	}
-
-	public boolean isDisponibilidadCambioResidencia() {
-		return disponibilidadCambioResidencia;
-	}
-
-	public void setDisponibilidadCambioResidencia(boolean disponibilidadCambioResidencia) {
-		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
-	}
-
-	public boolean isForTiempoCompleto() {
-		return forTiempoCompleto;
-	}
-
-	public void setForTiempoCompleto(boolean forTiempoCompleto) {
-		this.forTiempoCompleto = forTiempoCompleto;
-	}
-
 	public String getIdEmpresaContratacion() {
 		return idEmpresaContratacion;
 	}
@@ -110,13 +75,6 @@ public abstract class Personal {
 		this.idEmpresaContratacion = idEmpresaContratacion;
 	}
 
-	public boolean isDesempleado() {
-		return isDesempleado;
-	}
-
-	public void setDesempleado(boolean isDesempleado) {
-		this.isDesempleado = isDesempleado;
-	}
 
 	public String getCedula() {
 		return cedula;
@@ -164,5 +122,13 @@ public abstract class Personal {
 		if(solicitud != null){
 			this.solicitudes.add(solicitud);
 		}
+	}
+
+	public Ubicacion getUbicacion() {
+		return ubicacion;
+	}
+
+	public void setUbicacion(Ubicacion ubicacion) {
+		this.ubicacion = ubicacion;
 	}
 }
