@@ -11,7 +11,6 @@ public class SolicitudEmpresa {
 	private int cantidadPlazasNecesarias;
 	private EstadoSolicitudEmpresa estado;
 	private String tipoPersonalSolicitado;
-	private String nacionalidad;
 	private String sexo;
 	private ArrayList<Personal> candidatosPosibles;
 
@@ -32,7 +31,7 @@ public class SolicitudEmpresa {
 	private static int genNumber = 0;
 
 	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias,
-			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, String nacionalidad, boolean disponibilidadSalirCiudad,
+			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, boolean disponibilidadSalirCiudad,
 			boolean disponibilidadCambioResidencia, boolean forTiempoCompleto, boolean esCasado, String carrera, String universidad, String areaTecnica) {
 	
 		super();
@@ -45,7 +44,6 @@ public class SolicitudEmpresa {
 		this.agnosExperiencia = agnosExperiencia;
 		this.tipoPersonalSolicitado = tipoPersonalSolicitado;
 		this.sexo = sexo;
-		this.nacionalidad = nacionalidad;
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
 		this.forTiempoCompleto = forTiempoCompleto;
@@ -149,18 +147,6 @@ public class SolicitudEmpresa {
 
 	public String getTipoPersonalSolicitado() {
 		return tipoPersonalSolicitado;
-	}
-
-	public String getNacionalidad() {
-		return nacionalidad;
-	}
-
-	public String getSexo() {
-		return sexo;
-	}
-
-	public void setNacionalidad(String nacionalidad) {
-		this.nacionalidad = nacionalidad;
 	}
 
 	public void setSexo(String sexo) {
