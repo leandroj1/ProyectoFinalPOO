@@ -55,10 +55,10 @@ public class ListarEmpresas extends JDialog {
 		final String[] headers = {
 				"RNC",
 				"Nombre comercial",
-				"Razón social",
+				"Raz\u00F3n social",
 				"Sector",
 				"Rubro",
-				"Ubicación"
+				"Ubicaci\u00F3n"
 		};
 
 		setResizable(false);
