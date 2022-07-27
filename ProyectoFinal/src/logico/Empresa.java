@@ -35,10 +35,6 @@ public class Empresa {
 		return RNC;
 	}
 
-	public String getNombre() {
-		return nombreComercial;
-	}
-
 	public String getSector() {
 		return sector;
 	}
