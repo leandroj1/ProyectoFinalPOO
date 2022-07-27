@@ -26,12 +26,13 @@ import logico.Utils;
 import javax.swing.JRadioButton;
 import java.awt.Checkbox;
 import javax.swing.UIManager;
+import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
 
 public class RegSolPersonal extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTextField txtCode;
-	private JTextField txtDescripcion;
 	//Estos elementos deben colocarse
 	private JFormattedTextField txtFRNC;
 	private JFormattedTextField txtFCedulaP;
@@ -57,7 +58,7 @@ public class RegSolPersonal extends JDialog {
 		setResizable(false);
 		setTitle("Solicitud de Personal");
 		setModal(true);
-		setBounds(100, 100, 594, 488);
+		setBounds(100, 100, 599, 648);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -69,18 +70,18 @@ public class RegSolPersonal extends JDialog {
 			panel.setLayout(null);
 			{
 				JPanel panel_1 = new JPanel();
-				panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel_1.setBounds(10, 11, 557, 209);
+				panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+				panel_1.setBounds(10, 11, 557, 378);
 				panel.add(panel_1);
 				panel_1.setLayout(null);
 				{
 					lblCode = new JLabel("C\u00F3digo:");
-					lblCode.setBounds(24, 11, 46, 14);
+					lblCode.setBounds(37, 11, 46, 14);
 					panel_1.add(lblCode);
 				}
 				{
 					txtCode = new JTextField();
-					txtCode.setBounds(22, 34, 159, 20);
+					txtCode.setBounds(35, 34, 159, 20);
 					panel_1.add(txtCode);
 					txtCode.setText("SP-");
 					txtCode.setEditable(false);
@@ -88,63 +89,103 @@ public class RegSolPersonal extends JDialog {
 				}
 				{
 					JLabel lblCdulaDelPersonal = new JLabel("C\u00E9dula del Personal:");
-					lblCdulaDelPersonal.setBounds(243, 11, 165, 14);
+					lblCdulaDelPersonal.setBounds(330, 11, 165, 14);
 					panel_1.add(lblCdulaDelPersonal);
 				}
 				txtFCedulaP = new JFormattedTextField(Utils.getMaskCedula());
-				txtFCedulaP.setBounds(243, 34, 136, 20);
+				txtFCedulaP.setBounds(330, 34, 159, 20);
 				panel_1.add(txtFCedulaP);
 				txtFCedulaP.setToolTipText("");
 				txtFCedulaP.setForeground(Color.BLACK);
 				{
 					JLabel lblRNC = new JLabel("RNC de la Empresa:");
-					lblRNC.setBounds(22, 82, 182, 14);
+					lblRNC.setBounds(35, 82, 182, 14);
 					panel_1.add(lblRNC);
 				}
 				txtFRNC = new JFormattedTextField(Utils.getMaskCedula());
-				txtFRNC.setBounds(22, 107, 159, 20);
+				txtFRNC.setBounds(35, 107, 159, 20);
 				panel_1.add(txtFRNC);
 				txtFRNC.setToolTipText("");
 				txtFRNC.setForeground(Color.BLACK);
 				{
 					JLabel lblNewLabel = new JLabel("Salario Esperado:");
-					lblNewLabel.setBounds(243, 82, 165, 14);
+					lblNewLabel.setBounds(330, 82, 165, 14);
 					panel_1.add(lblNewLabel);
 				}
 				{
 					JSpinner spnSalarioEsp = new JSpinner();
 					spnSalarioEsp.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
-					spnSalarioEsp.setBounds(243, 107, 136, 20);
+					spnSalarioEsp.setBounds(330, 107, 159, 20);
 					panel_1.add(spnSalarioEsp);
 				}
 				{
 					JLabel label = new JLabel("A\u00F1os de Experiencia:");
-					label.setBounds(22, 149, 182, 14);
+					label.setBounds(35, 149, 182, 14);
 					panel_1.add(label);
 				}
 				{
 					JSpinner spnAgnosExp = new JSpinner();
 					spnAgnosExp.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-					spnAgnosExp.setBounds(22, 174, 159, 20);
+					spnAgnosExp.setBounds(35, 174, 159, 20);
 					panel_1.add(spnAgnosExp);
 				}
 				{
-					txtDescripcion = new JTextField();
-					txtDescripcion.setBounds(243, 174, 273, 20);
-					panel_1.add(txtDescripcion);
-					txtDescripcion.setColumns(10);
+					JLabel label = new JLabel("\u00BFPosee disponibilidad para salir de la ciudad?");
+					label.setBounds(35, 309, 269, 14);
+					panel_1.add(label);
 				}
 				{
-					JLabel lblApellidos = new JLabel("Descripci\u00F3n:");
-					lblApellidos.setBounds(243, 149, 102, 14);
-					panel_1.add(lblApellidos);
+					JLabel label = new JLabel("\u00BFPosee disponibilidad para cambiar de residencia?");
+					label.setBounds(35, 339, 269, 14);
+					panel_1.add(label);
 				}
+				{
+					JRadioButton radioButton = new JRadioButton("S\u00ED");
+					radioButton.setBounds(367, 306, 56, 23);
+					panel_1.add(radioButton);
+				}
+				{
+					JRadioButton radioButton = new JRadioButton("S\u00ED");
+					radioButton.setBounds(367, 336, 56, 23);
+					panel_1.add(radioButton);
+				}
+				{
+					JRadioButton radioButton = new JRadioButton("No");
+					radioButton.setBounds(445, 306, 48, 23);
+					panel_1.add(radioButton);
+				}
+				{
+					JRadioButton radioButton = new JRadioButton("No");
+					radioButton.setBounds(445, 336, 48, 23);
+					panel_1.add(radioButton);
+				}
+				{
+					JLabel lblTipoDeTrabajo = new JLabel("Modalidad de Trabajo:");
+					lblTipoDeTrabajo.setBounds(330, 149, 182, 14);
+					panel_1.add(lblTipoDeTrabajo);
+				}
+				{
+					JComboBox cbxModalidad = new JComboBox();
+					cbxModalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Remoto", "Tiempo Completo", "Medio Tiempo", "Freelancer"}));
+					cbxModalidad.setBounds(330, 174, 159, 20);
+					panel_1.add(cbxModalidad);
+				}
+				{
+					JLabel label = new JLabel("Descripci\u00F3n:");
+					label.setBounds(37, 217, 102, 14);
+					panel_1.add(label);
+				}
+				
+				JTextPane textPane = new JTextPane();
+				textPane.setBorder(new LineBorder(new Color(192, 192, 192)));
+				textPane.setBounds(37, 242, 458, 48);
+				panel_1.add(textPane);
 			}
 			{
 				JPanel pnTipoPersonal = new JPanel();
 				pnTipoPersonal.setLayout(null);
 				pnTipoPersonal.setBorder(new TitledBorder(null, "Tipo de Personal", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnTipoPersonal.setBounds(10, 241, 557, 71);
+				pnTipoPersonal.setBounds(10, 400, 557, 71);
 				panel.add(pnTipoPersonal);
 				JRadioButton rbUniversitario = new JRadioButton("Universitario");
 				rbUniversitario.setSelected(true);
@@ -163,7 +204,7 @@ public class RegSolPersonal extends JDialog {
 				JPanel pnUniversitario = new JPanel();
 				pnUniversitario.setLayout(null);
 				pnUniversitario.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnUniversitario.setBounds(10, 323, 557, 71);
+				pnUniversitario.setBounds(10, 475, 557, 71);
 				panel.add(pnUniversitario);
 				{
 					JLabel label = new JLabel("Universidad:");
@@ -190,7 +231,7 @@ public class RegSolPersonal extends JDialog {
 				JPanel pnTecnico = new JPanel();
 				pnTecnico.setVisible(false);
 				pnTecnico.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnTecnico.setBounds(10, 323, 557, 71);
+				pnTecnico.setBounds(10, 475, 557, 71);
 				panel.add(pnTecnico);
 				pnTecnico.setLayout(null);
 				{
@@ -209,7 +250,7 @@ public class RegSolPersonal extends JDialog {
 				pnObrero.setVisible(false);
 				pnObrero.setLayout(null);
 				pnObrero.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Oficios", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-				pnObrero.setBounds(10, 323, 557, 82);
+				pnObrero.setBounds(10, 475, 557, 82);
 				panel.add(pnObrero);
 				{
 					Checkbox ckFontanero = new Checkbox("Fontanero");

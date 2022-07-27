@@ -61,7 +61,7 @@ public class RegEmpresa extends JDialog {
 		panel.setLayout(null);
 
 		JLabel lblNewLabel = new JLabel("RNC:");
-		lblNewLabel.setBounds(90, 28, 136, 14);
+		lblNewLabel.setBounds(71, 29, 136, 14);
 		panel.add(lblNewLabel);
 		try{
 			txtFCedCliente = new JFormattedTextField(Utils.getMaskCedula());
@@ -72,7 +72,7 @@ public class RegEmpresa extends JDialog {
 		}catch(Exception ex){}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Tipo de empresa:");
-			lblNewLabel_1.setBounds(90, 117, 98, 14);
+			lblNewLabel_1.setBounds(71, 118, 98, 14);
 			panel.add(lblNewLabel_1);
 		}
 		{
@@ -83,12 +83,12 @@ public class RegEmpresa extends JDialog {
 		}
 		{
 			JLabel lblNewLabel_2 = new JLabel("Sector:");
-			lblNewLabel_2.setBounds(90, 164, 98, 14);
+			lblNewLabel_2.setBounds(71, 165, 98, 14);
 			panel.add(lblNewLabel_2);
 		}
 		{
 			JLabel lblNombre = new JLabel("Nombre:");
-			lblNombre.setBounds(90, 68, 98, 14);
+			lblNombre.setBounds(71, 69, 98, 14);
 			panel.add(lblNombre);
 		}
 		{
