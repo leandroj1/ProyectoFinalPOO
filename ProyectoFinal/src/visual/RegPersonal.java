@@ -26,6 +26,7 @@ import logico.Utils;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JRadioButton;
 import java.awt.Checkbox;
+import javax.swing.UIManager;
 
 
 public class RegPersonal extends JDialog {
@@ -36,6 +37,9 @@ public class RegPersonal extends JDialog {
 	private JFormattedTextField txtFTelefono;
 	private JFormattedTextField txtFCedulaP;
 	private Personal auxPersonal = null;
+	private JTextField txtDireccion;
+	private JTextField txtPais;
+	private JTextField txtProvincia;
 	
 	/**
 	 * Launch the application.
@@ -63,7 +67,7 @@ public class RegPersonal extends JDialog {
 			setTitle("Modificar Personal");
 		}
 		setModal(true);
-		setBounds(100, 100, 744, 687);
+		setBounds(100, 100, 744, 716);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -77,8 +81,9 @@ public class RegPersonal extends JDialog {
 			}
 			try{		
 				JPanel pnObrero = new JPanel();
+				pnObrero.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				pnObrero.setVisible(false);
-				pnObrero.setBounds(10, 524, 706, 71);
+				pnObrero.setBounds(10, 560, 706, 71);
 				panel.add(pnObrero);
 				pnObrero.setLayout(null);
 				
@@ -162,17 +167,6 @@ public class RegPersonal extends JDialog {
 				dateChooser.setBounds(29, 92, 183, 20);
 				panel_1.add(dateChooser);
 				{
-					JLabel lblApellidos_1 = new JLabel("Ciudad de Residencia:");
-					lblApellidos_1.setBounds(363, 67, 195, 14);
-					panel_1.add(lblApellidos_1);
-				}
-				{
-					txtCiudadRes = new JTextField();
-					txtCiudadRes.setBounds(363, 92, 273, 20);
-					panel_1.add(txtCiudadRes);
-					txtCiudadRes.setColumns(10);
-				}
-				{
 					JLabel lblTelfono = new JLabel("Tel\u00E9fono Principal:");
 					lblTelfono.setBounds(29, 130, 156, 14);
 					panel_1.add(lblTelfono);
@@ -194,15 +188,15 @@ public class RegPersonal extends JDialog {
 				panel_1.add(txtFTelSec);
 				
 				JLabel lblNacionalidad = new JLabel("Nacionalidad:");
-				lblNacionalidad.setBounds(363, 130, 195, 14);
+				lblNacionalidad.setBounds(363, 67, 195, 14);
 				panel_1.add(lblNacionalidad);
 				
 				JLabel lblSexo = new JLabel("Sexo:");
-				lblSexo.setBounds(363, 200, 48, 14);
+				lblSexo.setBounds(363, 130, 48, 14);
 				panel_1.add(lblSexo);
 				
 				JRadioButton rdbtnFemenino = new JRadioButton("Femenino");
-				rdbtnFemenino.setBounds(417, 197, 100, 23);
+				rdbtnFemenino.setBounds(363, 152, 88, 23);
 				panel_1.add(rdbtnFemenino);
 				
 				JRadioButton rdbtnMasculino = new JRadioButton("Masculino");
@@ -213,147 +207,31 @@ public class RegPersonal extends JDialog {
 						}
 					}
 				});
-				rdbtnMasculino.setBounds(519, 197, 88, 23);
+				rdbtnMasculino.setBounds(463, 151, 117, 23);
 				panel_1.add(rdbtnMasculino);
 				
-				JComboBox comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a"}));
-				comboBox.setBounds(363, 155, 273, 20);
-				panel_1.add(comboBox);
+				JComboBox cbxNacionalidad = new JComboBox();
+				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a"}));
+				cbxNacionalidad.setBounds(363, 92, 273, 20);
+				panel_1.add(cbxNacionalidad);
 				{
-					JPanel panel_2 = new JPanel();
-					panel_2.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-					panel_2.setBounds(10, 263, 467, 176);
-					panel.add(panel_2);
-					panel_2.setLayout(null);
 					{
 						JLabel lblesCasado = new JLabel("\u00BFEs casado?");
-						lblesCasado.setBounds(29, 21, 136, 14);
-						panel_2.add(lblesCasado);
+						lblesCasado.setBounds(363, 190, 88, 14);
+						panel_1.add(lblesCasado);
 					}
 					
 					JRadioButton rbnSCasado = new JRadioButton("S\u00ED");
-					rbnSCasado.setBounds(322, 21, 56, 23);
-					panel_2.add(rbnSCasado);
+					rbnSCasado.setBounds(363, 215, 56, 23);
+					panel_1.add(rbnSCasado);
 					
 					JRadioButton rbnNCasado = new JRadioButton("No");
+					rbnNCasado.setBounds(463, 215, 56, 23);
+					panel_1.add(rbnNCasado);
 					rbnNCasado.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							if(rbnNCasado.isSelected()) {
 								rbnSCasado.setSelected(false);
-							}
-						}
-					});
-					rbnNCasado.setBounds(380, 21, 56, 23);
-					panel_2.add(rbnNCasado);
-					
-					JLabel lblbuscaUnTrabajo = new JLabel("\u00BFBusca un trabajo por tiempo completo?");
-					lblbuscaUnTrabajo.setBounds(29, 81, 295, 14);
-					panel_2.add(lblbuscaUnTrabajo);
-					
-					JLabel lblestDesempleado = new JLabel("\u00BFEst\u00E1 desempleado?");
-					lblestDesempleado.setBounds(29, 51, 136, 14);
-					panel_2.add(lblestDesempleado);
-					
-					JLabel lblposeeDisponibilidadPara = new JLabel("\u00BFPosee disponibilidad para salir de la ciudad?");
-					lblposeeDisponibilidadPara.setBounds(29, 111, 295, 14);
-					panel_2.add(lblposeeDisponibilidadPara);
-					
-					JLabel lblposeeDisponibilidadPara_1 = new JLabel("\u00BFPosee disponibilidad para cambiar de residencia?");
-					lblposeeDisponibilidadPara_1.setBounds(29, 141, 295, 14);
-					panel_2.add(lblposeeDisponibilidadPara_1);
-					
-					JRadioButton rbnSDesempleado = new JRadioButton("S\u00ED");
-					rbnSDesempleado.setBounds(322, 47, 56, 23);
-					panel_2.add(rbnSDesempleado);
-					
-					JRadioButton rbnNDesempleado = new JRadioButton("No");
-					rbnNDesempleado.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(rbnNDesempleado.isSelected()) {
-								rbnSDesempleado.setSelected(false);
-							}
-						}
-					});
-					rbnNDesempleado.setBounds(380, 47, 48, 23);
-					panel_2.add(rbnNDesempleado);
-					
-					JRadioButton rbnSTiempoCompleto = new JRadioButton("S\u00ED");
-
-					rbnSTiempoCompleto.setBounds(322, 77, 56, 23);
-					panel_2.add(rbnSTiempoCompleto);
-					
-					JRadioButton rbnNTiempoCompleto = new JRadioButton("No");
-					rbnNTiempoCompleto.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(rbnNTiempoCompleto.isSelected()) {
-								rbnSTiempoCompleto.setSelected(false);
-							}
-						}
-					});
-					rbnSTiempoCompleto.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(rbnSTiempoCompleto.isSelected()) {
-								rbnNTiempoCompleto.setSelected(false);
-							}
-						}
-					});
-					rbnNTiempoCompleto.setBounds(380, 77, 48, 23);
-					panel_2.add(rbnNTiempoCompleto);
-					
-					JRadioButton rbnSDispCiudad = new JRadioButton("S\u00ED");
-
-					rbnSDispCiudad.setBounds(322, 107, 56, 23);
-					panel_2.add(rbnSDispCiudad);
-					
-					JRadioButton rbnNDispCiudad = new JRadioButton("No");
-					rbnNDispCiudad.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(rbnNDispCiudad.isSelected()) {
-								rbnSDispCiudad.setSelected(false);
-							}
-						}
-					});
-					
-					rbnSDispCiudad.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(rbnSDispCiudad.isSelected()) {
-								rbnNDispCiudad.setSelected(false);
-							}
-						}
-					});
-					rbnNDispCiudad.setBounds(380, 107, 48, 23);
-					panel_2.add(rbnNDispCiudad);
-					
-					JRadioButton rbnSDispCambioR = new JRadioButton("S\u00ED");
-
-					rbnSDispCambioR.setBounds(322, 137, 56, 23);
-					panel_2.add(rbnSDispCambioR);
-					
-					JRadioButton rbnNDispCambioR = new JRadioButton("No");
-					rbnNDispCambioR.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(rbnNDispCambioR.isSelected()) {
-								rbnSDispCambioR.setSelected(false);
-							}
-						}
-					});
-					
-					rbnSDispCambioR.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(rbnSDispCambioR.isSelected()) {
-								rbnNDispCambioR.setSelected(false);
-							}
-						}
-					});
-					
-					rbnNDispCambioR.setBounds(380, 137, 48, 23);
-					panel_2.add(rbnNDispCambioR);
-					
-					rbnSDesempleado.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							if(rbnSDesempleado.isSelected()) {
-								rbnNDesempleado.setSelected(false);
 							}
 						}
 					});
@@ -374,51 +252,10 @@ public class RegPersonal extends JDialog {
 						}
 					}
 				});
-				JPanel panel_2 = new JPanel();
-				panel_2.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel_2.setBounds(490, 263, 226, 176);
-				panel.add(panel_2);
-				panel_2.setLayout(null);
-				
-				JLabel lblIdiomas = new JLabel("Idiomas:");
-				lblIdiomas.setBounds(10, 11, 136, 14);
-				panel_2.add(lblIdiomas);
-				
-				Checkbox ckEspagnol = new Checkbox("Espa\u00F1ol");
-				ckEspagnol.setBounds(10, 31, 95, 22);
-				panel_2.add(ckEspagnol);
-				
-				Checkbox ckIngles = new Checkbox("Ingl\u00E9s");
-				ckIngles.setBounds(10, 63, 95, 22);
-				panel_2.add(ckIngles);
-				
-				Checkbox ckHindi = new Checkbox("Hindi");
-				ckHindi.setBounds(10, 95, 95, 22);
-				panel_2.add(ckHindi);
-				
-				Checkbox ckRuso = new Checkbox("Ruso");
-				ckRuso.setBounds(10, 128, 95, 22);
-				panel_2.add(ckRuso);
-				
-				Checkbox ckFrances = new Checkbox("Franc\u00E9s");
-				ckFrances.setBounds(121, 31, 95, 22);
-				panel_2.add(ckFrances);
-				
-				Checkbox ckMandarin = new Checkbox("Mandar\u00EDn");
-				ckMandarin.setBounds(121, 63, 95, 22);
-				panel_2.add(ckMandarin);
-				
-				Checkbox ckPortugues = new Checkbox("Portugu\u00E9s");
-				ckPortugues.setBounds(121, 95, 95, 22);
-				panel_2.add(ckPortugues);
-				
-				Checkbox ckAleman = new Checkbox("Alem\u00E1n");
-				ckAleman.setBounds(121, 128, 95, 22);
-				panel_2.add(ckAleman);
 				
 				JPanel pnTipoPersonal = new JPanel();
 				pnTipoPersonal.setBorder(new TitledBorder(null, "Tipo de Personal", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnTipoPersonal.setBounds(10, 450, 706, 71);
+				pnTipoPersonal.setBounds(10, 481, 706, 71);
 				panel.add(pnTipoPersonal);
 				pnTipoPersonal.setLayout(null);
 				
@@ -428,16 +265,16 @@ public class RegPersonal extends JDialog {
 				pnTipoPersonal.add(rbUniversitario);
 				
 				JRadioButton rbTecnico = new JRadioButton("T\u00E9cnico");
-				rbTecnico.setBounds(179, 30, 109, 23);
+				rbTecnico.setBounds(267, 30, 109, 23);
 				pnTipoPersonal.add(rbTecnico);
 				
 				JRadioButton rbObrero = new JRadioButton("Obrero");
-				rbObrero.setBounds(329, 30, 109, 23);
+				rbObrero.setBounds(505, 30, 109, 23);
 				pnTipoPersonal.add(rbObrero);
 				
 				JPanel pnUniversitario = new JPanel();
 				pnUniversitario.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnUniversitario.setBounds(10, 524, 706, 71);
+				pnUniversitario.setBounds(10, 560, 706, 71);
 				panel.add(pnUniversitario);
 				pnUniversitario.setLayout(null);
 				
@@ -462,7 +299,7 @@ public class RegPersonal extends JDialog {
 				JPanel pnTecnico = new JPanel();
 				pnTecnico.setVisible(false);
 				pnTecnico.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnTecnico.setBounds(10, 524, 706, 71);
+				pnTecnico.setBounds(10, 560, 706, 71);
 				panel.add(pnTecnico);
 				pnTecnico.setLayout(null);
 				
@@ -474,6 +311,88 @@ public class RegPersonal extends JDialog {
 				cbxAreaTecnica.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Administraci\u00F3n de Micro, Peque\u00F1as y Medianas Empresas", "Artes Culinarias", "Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa", "Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas", "Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral", "Programaci\u00F3n Web", ""}));
 				cbxAreaTecnica.setBounds(29, 40, 273, 20);
 				pnTecnico.add(cbxAreaTecnica);
+				
+				JPanel panel_2 = new JPanel();
+				panel_2.setLayout(null);
+				panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Idiomas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+				panel_2.setBounds(10, 375, 706, 102);
+				panel.add(panel_2);
+				
+				Checkbox ckEspagnol = new Checkbox("Espa\u00F1ol");
+				ckEspagnol.setBounds(33, 25, 72, 22);
+				panel_2.add(ckEspagnol);
+				
+				Checkbox ckIngles = new Checkbox("Ingl\u00E9s");
+				ckIngles.setBounds(33, 59, 72, 22);
+				panel_2.add(ckIngles);
+				
+				Checkbox ckHindi = new Checkbox("Hindi");
+				ckHindi.setBounds(267, 24, 72, 22);
+				panel_2.add(ckHindi);
+				
+				Checkbox ckRuso = new Checkbox("Ruso");
+				ckRuso.setBounds(267, 59, 72, 22);
+				panel_2.add(ckRuso);
+				
+				Checkbox ckFrances = new Checkbox("Franc\u00E9s");
+				ckFrances.setBounds(150, 25, 95, 22);
+				panel_2.add(ckFrances);
+				
+				Checkbox ckMandarin = new Checkbox("Mandar\u00EDn");
+				ckMandarin.setBounds(150, 59, 95, 22);
+				panel_2.add(ckMandarin);
+				
+				Checkbox ckPortugues = new Checkbox("Portugu\u00E9s");
+				ckPortugues.setBounds(384, 24, 95, 22);
+				panel_2.add(ckPortugues);
+				
+				Checkbox ckAleman = new Checkbox("Alem\u00E1n");
+				ckAleman.setBounds(384, 59, 95, 22);
+				panel_2.add(ckAleman);
+				
+				JPanel pnUbicacion = new JPanel();
+				pnUbicacion.setBorder(new TitledBorder(null, "Datos de la Ubicaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				pnUbicacion.setBounds(10, 268, 706, 102);
+				panel.add(pnUbicacion);
+				pnUbicacion.setLayout(null);
+				{
+					JLabel lblCiudad = new JLabel("Ciudad de Residencia:");
+					lblCiudad.setBounds(29, 31, 195, 14);
+					pnUbicacion.add(lblCiudad);
+				}
+				{
+					txtCiudadRes = new JTextField();
+					txtCiudadRes.setBounds(174, 25, 179, 20);
+					pnUbicacion.add(txtCiudadRes);
+					txtCiudadRes.setColumns(10);
+				}
+				
+				JLabel lblDireccin = new JLabel("Direcci\u00F3n:");
+				lblDireccin.setBounds(29, 59, 195, 14);
+				pnUbicacion.add(lblDireccin);
+				
+				txtDireccion = new JTextField();
+				txtDireccion.setColumns(10);
+				txtDireccion.setBounds(174, 53, 179, 20);
+				pnUbicacion.add(txtDireccion);
+				
+				JLabel lblProvincia = new JLabel("Provincia:");
+				lblProvincia.setBounds(386, 28, 195, 14);
+				pnUbicacion.add(lblProvincia);
+				
+				JLabel lblPais = new JLabel("Pa\u00EDs:");
+				lblPais.setBounds(386, 56, 195, 14);
+				pnUbicacion.add(lblPais);
+				
+				txtPais = new JTextField();
+				txtPais.setColumns(10);
+				txtPais.setBounds(458, 53, 210, 20);
+				pnUbicacion.add(txtPais);
+				
+				txtProvincia = new JTextField();
+				txtProvincia.setColumns(10);
+				txtProvincia.setBounds(458, 25, 210, 20);
+				pnUbicacion.add(txtProvincia);
 				
 				rbUniversitario.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -538,5 +457,10 @@ public class RegPersonal extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+	}
+	//Implementacion pendiente
+	private void clean() {}
+	private boolean elemVacios() {
+		return false;
 	}
 }
