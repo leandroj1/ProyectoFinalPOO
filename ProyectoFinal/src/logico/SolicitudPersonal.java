@@ -19,7 +19,7 @@ public class SolicitudPersonal {
 	private String universidad;
 	private boolean disponibilidadSalirCiudad;
 	private boolean disponibilidadCambioResidencia;
-	private String tipoDeTrabajo;
+	private String modalidadDeTrabajo;
 	private ArrayList<String> oficios;
 	// true = activa
 	private static int genNumber;
@@ -27,7 +27,7 @@ public class SolicitudPersonal {
 	private EstadoSolicitudPersonal estado;
 
 	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
-			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,String tipoDeTrabajo) {
+			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,String modalidadDeTrabajo) {
 
 		super();
 		this.id = id;
@@ -45,7 +45,7 @@ public class SolicitudPersonal {
 		this.fecha = new Date();
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
-		this.tipoDeTrabajo = tipoDeTrabajo;
+		this.modalidadDeTrabajo = modalidadDeTrabajo;
 	}
 
 	public static String genID() {
@@ -156,14 +156,6 @@ public class SolicitudPersonal {
 		this.disponibilidadCambioResidencia = disponibilidadCambioResidencia;
 	}
 
-	public String getTipoDeTrabajo() {
-		return tipoDeTrabajo;
-	}
-
-	public void setTipoDeTrabajo(String tipoDeTrabajo) {
-		this.tipoDeTrabajo = tipoDeTrabajo;
-	}
-
 	public void removerOficio(String oficio) {
 		if(oficio != null) {
 			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));	
@@ -176,5 +168,13 @@ public class SolicitudPersonal {
 				oficios.add(oficio);	
 			}
 		}
+	}
+
+	public String getModalidadDeTrabajo() {
+		return modalidadDeTrabajo;
+	}
+
+	public void setModalidadDeTrabajo(String modalidadDeTrabajo) {
+		this.modalidadDeTrabajo = modalidadDeTrabajo;
 	}
 }

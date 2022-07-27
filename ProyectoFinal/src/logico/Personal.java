@@ -13,14 +13,14 @@ public abstract class Personal {
 	private boolean esCasado;
 	private String telefonoPrincipal;
 	private String telefonoSecundario;
-	private String ciudadResidencia;
 	private ArrayList<String> idiomas;
+	private String nacionalidad;
 	private String idEmpresaContratacion;
 	private ArrayList<SolicitudPersonal> solicitudes;
 	private Ubicacion ubicacion;
 
 	public Personal(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
-			String telefonoSecundario, String ciudadResidencia, ArrayList<String> idiomas, Ubicacion ubicacion) {
+			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -28,7 +28,7 @@ public abstract class Personal {
 		this.esCasado = esCasado;
 		this.telefonoPrincipal = telefonoPrincipal;
 		this.telefonoSecundario = telefonoSecundario;
-		this.ciudadResidencia = ciudadResidencia;
+		this.nacionalidad = nacionalidad;
 		this.idiomas = idiomas;
 		this.ubicacion = ubicacion;
 		this.idEmpresaContratacion = null;
@@ -57,14 +57,6 @@ public abstract class Personal {
 
 	public void setTelefonoSecundario(String telefonoSecundario) {
 		this.telefonoSecundario = telefonoSecundario;
-	}
-
-	public String getCiudadResidencia() {
-		return ciudadResidencia;
-	}
-
-	public void setCiudadResidencia(String ciudadResidencia) {
-		this.ciudadResidencia = ciudadResidencia;
 	}
 
 	public String getIdEmpresaContratacion() {
@@ -130,5 +122,9 @@ public abstract class Personal {
 
 	public void setUbicacion(Ubicacion ubicacion) {
 		this.ubicacion = ubicacion;
+	}
+
+	public String getNacionalidad() {
+		return nacionalidad;
 	}
 }
