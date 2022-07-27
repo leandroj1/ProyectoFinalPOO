@@ -37,9 +37,9 @@ public class RegPersonal extends JDialog {
 	private JFormattedTextField txtFTelefono;
 	private JFormattedTextField txtFCedulaP;
 	private Personal auxPersonal = null;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
+	private JTextField txtDireccion;
+	private JTextField txtPais;
+	private JTextField txtProvincia;
 	
 	/**
 	 * Launch the application.
@@ -210,10 +210,10 @@ public class RegPersonal extends JDialog {
 				rdbtnMasculino.setBounds(463, 151, 117, 23);
 				panel_1.add(rdbtnMasculino);
 				
-				JComboBox comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a"}));
-				comboBox.setBounds(363, 92, 273, 20);
-				panel_1.add(comboBox);
+				JComboBox cbxNacionalidad = new JComboBox();
+				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a"}));
+				cbxNacionalidad.setBounds(363, 92, 273, 20);
+				panel_1.add(cbxNacionalidad);
 				{
 					{
 						JLabel lblesCasado = new JLabel("\u00BFEs casado?");
@@ -318,37 +318,37 @@ public class RegPersonal extends JDialog {
 				panel_2.setBounds(10, 375, 706, 102);
 				panel.add(panel_2);
 				
-				Checkbox checkbox = new Checkbox("Espa\u00F1ol");
-				checkbox.setBounds(33, 25, 72, 22);
-				panel_2.add(checkbox);
+				Checkbox ckEspagnol = new Checkbox("Espa\u00F1ol");
+				ckEspagnol.setBounds(33, 25, 72, 22);
+				panel_2.add(ckEspagnol);
 				
-				Checkbox checkbox_1 = new Checkbox("Ingl\u00E9s");
-				checkbox_1.setBounds(33, 59, 72, 22);
-				panel_2.add(checkbox_1);
+				Checkbox ckIngles = new Checkbox("Ingl\u00E9s");
+				ckIngles.setBounds(33, 59, 72, 22);
+				panel_2.add(ckIngles);
 				
-				Checkbox checkbox_2 = new Checkbox("Hindi");
-				checkbox_2.setBounds(267, 24, 72, 22);
-				panel_2.add(checkbox_2);
+				Checkbox ckHindi = new Checkbox("Hindi");
+				ckHindi.setBounds(267, 24, 72, 22);
+				panel_2.add(ckHindi);
 				
-				Checkbox checkbox_3 = new Checkbox("Ruso");
-				checkbox_3.setBounds(267, 59, 72, 22);
-				panel_2.add(checkbox_3);
+				Checkbox ckRuso = new Checkbox("Ruso");
+				ckRuso.setBounds(267, 59, 72, 22);
+				panel_2.add(ckRuso);
 				
-				Checkbox checkbox_4 = new Checkbox("Franc\u00E9s");
-				checkbox_4.setBounds(150, 25, 95, 22);
-				panel_2.add(checkbox_4);
+				Checkbox ckFrances = new Checkbox("Franc\u00E9s");
+				ckFrances.setBounds(150, 25, 95, 22);
+				panel_2.add(ckFrances);
 				
-				Checkbox checkbox_5 = new Checkbox("Mandar\u00EDn");
-				checkbox_5.setBounds(150, 59, 95, 22);
-				panel_2.add(checkbox_5);
+				Checkbox ckMandarin = new Checkbox("Mandar\u00EDn");
+				ckMandarin.setBounds(150, 59, 95, 22);
+				panel_2.add(ckMandarin);
 				
-				Checkbox checkbox_6 = new Checkbox("Portugu\u00E9s");
-				checkbox_6.setBounds(384, 24, 95, 22);
-				panel_2.add(checkbox_6);
+				Checkbox ckPortugues = new Checkbox("Portugu\u00E9s");
+				ckPortugues.setBounds(384, 24, 95, 22);
+				panel_2.add(ckPortugues);
 				
-				Checkbox checkbox_7 = new Checkbox("Alem\u00E1n");
-				checkbox_7.setBounds(384, 59, 95, 22);
-				panel_2.add(checkbox_7);
+				Checkbox ckAleman = new Checkbox("Alem\u00E1n");
+				ckAleman.setBounds(384, 59, 95, 22);
+				panel_2.add(ckAleman);
 				
 				JPanel pnUbicacion = new JPanel();
 				pnUbicacion.setBorder(new TitledBorder(null, "Datos de la Ubicaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -371,28 +371,28 @@ public class RegPersonal extends JDialog {
 				lblDireccin.setBounds(29, 59, 195, 14);
 				pnUbicacion.add(lblDireccin);
 				
-				textField = new JTextField();
-				textField.setColumns(10);
-				textField.setBounds(174, 53, 179, 20);
-				pnUbicacion.add(textField);
+				txtDireccion = new JTextField();
+				txtDireccion.setColumns(10);
+				txtDireccion.setBounds(174, 53, 179, 20);
+				pnUbicacion.add(txtDireccion);
 				
 				JLabel lblProvincia = new JLabel("Provincia:");
 				lblProvincia.setBounds(386, 28, 195, 14);
 				pnUbicacion.add(lblProvincia);
 				
-				JLabel lblPas = new JLabel("Pa\u00EDs:");
-				lblPas.setBounds(386, 56, 195, 14);
-				pnUbicacion.add(lblPas);
+				JLabel lblPais = new JLabel("Pa\u00EDs:");
+				lblPais.setBounds(386, 56, 195, 14);
+				pnUbicacion.add(lblPais);
 				
-				textField_1 = new JTextField();
-				textField_1.setColumns(10);
-				textField_1.setBounds(458, 53, 210, 20);
-				pnUbicacion.add(textField_1);
+				txtPais = new JTextField();
+				txtPais.setColumns(10);
+				txtPais.setBounds(458, 53, 210, 20);
+				pnUbicacion.add(txtPais);
 				
-				textField_2 = new JTextField();
-				textField_2.setColumns(10);
-				textField_2.setBounds(458, 25, 210, 20);
-				pnUbicacion.add(textField_2);
+				txtProvincia = new JTextField();
+				txtProvincia.setColumns(10);
+				txtProvincia.setBounds(458, 25, 210, 20);
+				pnUbicacion.add(txtProvincia);
 				
 				rbUniversitario.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -457,5 +457,10 @@ public class RegPersonal extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+	}
+	//Implementacion pendiente
+	private void clean() {}
+	private boolean elemVacios() {
+		return false;
 	}
 }
