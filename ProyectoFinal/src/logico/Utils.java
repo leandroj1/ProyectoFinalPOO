@@ -70,6 +70,6 @@ public class Utils {
 
 	// Para saber si un combobox está en el valor por defecto ("<Seleccione>")
 	public static boolean isCbxDefaultValue(JComboBox comboBox) {
-		return comboBox.getSelectedItem().toString().equalsIgnoreCase("<Seleccione>");
+		return comboBox.getSelectedIndex() <= 0;
 	}
 }

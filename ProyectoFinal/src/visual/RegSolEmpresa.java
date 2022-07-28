@@ -15,7 +15,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
 
-import logico.*;
+import logico.SolicitudEmpresa;
+import logico.Utils;
 
 import javax.swing.JSpinner;
 import java.awt.Checkbox;
@@ -509,7 +510,6 @@ public class RegSolEmpresa extends JDialog {
 						JButton btnSolicitar = new JButton("Solicitar");
 						btnSolicitar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								System.out.println(faltanDatos());
 							}
 						});
 						btnSolicitar.setActionCommand("OK");
@@ -613,9 +613,12 @@ public class RegSolEmpresa extends JDialog {
 				|| Utils.getSpinnerIntValue(spnCantPlazas) == 0) {
 			faltan = true;
 		}
-		if(cbxNacionalidad.getSelectedIndex() == 0 
-				|| (rdbtnFemenino.isSelected() 
+		if(Utils.isCbxDefaultValue(cbxNacionalidad) 
+				|| !(rdbtnFemenino.isSelected() 
 						|| rdbtnMasculino.isSelected())) {
+			faltan = true;
+		}
+		if(Utils.isCbxDefaultValue(cbxModalidadTrabajo)) {
 			faltan = true;
 		}
 
