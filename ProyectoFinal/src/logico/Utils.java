@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.text.MaskFormatter;
 
@@ -53,6 +54,11 @@ public class Utils {
 		return ((Float)spinner.getValue()).floatValue();
 	}
 
+	// Obtener valor entero de un spinner
+	public static int getSpinnerIntValue(JSpinner spinner) {
+		return ((Integer)spinner.getValue()).intValue();
+	}
+
 	// Para hacer que un spinner deshabilitado se vea mejor
 	public static void makeSpinnerMoreReadable(JSpinner spinner) {
 		if (spinner.getEditor() instanceof JSpinner.DefaultEditor) {
@@ -60,5 +66,10 @@ public class Utils {
 			editor.getTextField().setEnabled(true);
 			editor.getTextField().setEditable(false);
 		}
+	}
+
+	// Para saber si un combobox está en el valor por defecto ("<Seleccione>")
+	public static boolean isCbxDefaultValue(JComboBox comboBox) {
+		return comboBox.getSelectedItem().toString().equalsIgnoreCase("<Seleccione>");
 	}
 }
