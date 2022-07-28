@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeListener;
 
 import logico.SolicitudEmpresa;
 import logico.Utils;
@@ -24,6 +26,8 @@ import java.awt.Checkbox;
 import javax.swing.UIManager;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SpinnerNumberModel;
 
@@ -72,6 +76,8 @@ public class RegSolEmpresa extends JDialog {
 	private JComboBox cbxUniversidad;
 	private JComboBox cbxCarrera;
 	private JComboBox cbxAreaTecnica;
+	private ButtonGroup sexoButtonGroup;
+	private ButtonGroup tipoPersonalButtonGroup;
 
 	/**
 	 * Launch the application.
@@ -293,6 +299,12 @@ public class RegSolEmpresa extends JDialog {
 					rbObrero.setBounds(329, 30, 109, 23);
 					pnTipoPersonal.add(rbObrero);
 
+					// Tipo de personal button group
+					tipoPersonalButtonGroup = new ButtonGroup();
+					tipoPersonalButtonGroup.add(rbUniversitario);
+					tipoPersonalButtonGroup.add(rbObrero);
+					tipoPersonalButtonGroup.add(rbTecnico);
+
 					JPanel pnUniversitario = new JPanel();
 					pnUniversitario.setLayout(null);
 					pnUniversitario.setBorder(null);
@@ -416,21 +428,19 @@ public class RegSolEmpresa extends JDialog {
 					rdbtnMasculino.setBounds(523, 300, 88, 23);
 					pnRequisitos.add(rdbtnMasculino);
 
+					sexoButtonGroup = new ButtonGroup();
+					sexoButtonGroup.add(rdbtnFemenino);
+					sexoButtonGroup.add(rdbtnMasculino);
+
 					rdbtnMasculino.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							if(rdbtnMasculino.isSelected()) {
-								rdbtnFemenino.setSelected(false);
-							}
-							rdbtnMasculino.setSelected(true);
+							sexoButtonGroup.setSelected(rdbtnMasculino.getModel(), true);
 						}
 					});
 
 					rdbtnFemenino.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							if(rdbtnFemenino.isSelected()) {
-								rdbtnMasculino.setSelected(false);
-							}
-							rdbtnFemenino.setSelected(true);
+							sexoButtonGroup.setSelected(rdbtnFemenino.getModel(), true);
 						}
 					});
 
@@ -454,7 +464,7 @@ public class RegSolEmpresa extends JDialog {
 
 					spnPorcentajeMatch = new JSpinner();
 					spnPorcentajeMatch.setModel(new SpinnerNumberModel(new Float(0), new Float(0), new Float(100), new Float(1)));
-					spnPorcentajeMatch.setBounds(623, 27, 48, 20);
+					spnPorcentajeMatch.setBounds(590, 27, 81, 20);
 					pnRequisitos.add(spnPorcentajeMatch);
 
 					JLabel label_3 = new JLabel("%");
@@ -464,40 +474,28 @@ public class RegSolEmpresa extends JDialog {
 
 					rbUniversitario.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							if(rbUniversitario.isSelected()) {
-								rbObrero.setSelected(false);
-								rbTecnico.setSelected(false);
-								pnObrero.setVisible(false);
-								pnTecnico.setVisible(false);
-								pnUniversitario.setVisible(true);
-							}
-							rbUniversitario.setSelected(true);
+							tipoPersonalButtonGroup.setSelected(rbUniversitario.getModel(), true);
+							pnObrero.setVisible(false);
+							pnTecnico.setVisible(false);
+							pnUniversitario.setVisible(true);
 						}
 					});
 
 					rbTecnico.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							if(rbTecnico.isSelected()) {
-								rbObrero.setSelected(false);
-								rbUniversitario.setSelected(false);
-								pnObrero.setVisible(false);
-								pnTecnico.setVisible(true);
-								pnUniversitario.setVisible(false);
-							}
-							rbTecnico.setSelected(true);
+							tipoPersonalButtonGroup.setSelected(rbTecnico.getModel(), true);
+							pnObrero.setVisible(false);
+							pnTecnico.setVisible(true);
+							pnUniversitario.setVisible(false);
 						}
 					});
 
 					rbObrero.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							if(rbObrero.isSelected()) {
-								rbTecnico.setSelected(false);
-								rbUniversitario.setSelected(false);
-								pnTecnico.setVisible(false);
-								pnObrero.setVisible(true);
-								pnUniversitario.setVisible(false);
-							}
-							rbObrero.setSelected(true);
+							tipoPersonalButtonGroup.setSelected(rbObrero.getModel(), true);
+							pnTecnico.setVisible(false);
+							pnObrero.setVisible(true);
+							pnUniversitario.setVisible(false);
 						}
 					});
 				}
