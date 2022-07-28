@@ -432,18 +432,6 @@ public class RegSolEmpresa extends JDialog {
 					sexoButtonGroup.add(rdbtnFemenino);
 					sexoButtonGroup.add(rdbtnMasculino);
 
-					rdbtnMasculino.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							sexoButtonGroup.setSelected(rdbtnMasculino.getModel(), true);
-						}
-					});
-
-					rdbtnFemenino.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							sexoButtonGroup.setSelected(rdbtnFemenino.getModel(), true);
-						}
-					});
-
 					cbxNacionalidad = new JComboBox();
 					cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a"}));
 					cbxNacionalidad.setBounds(148, 302, 154, 20);
@@ -474,7 +462,6 @@ public class RegSolEmpresa extends JDialog {
 
 					rbUniversitario.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							tipoPersonalButtonGroup.setSelected(rbUniversitario.getModel(), true);
 							pnObrero.setVisible(false);
 							pnTecnico.setVisible(false);
 							pnUniversitario.setVisible(true);
@@ -483,7 +470,6 @@ public class RegSolEmpresa extends JDialog {
 
 					rbTecnico.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							tipoPersonalButtonGroup.setSelected(rbTecnico.getModel(), true);
 							pnObrero.setVisible(false);
 							pnTecnico.setVisible(true);
 							pnUniversitario.setVisible(false);
@@ -492,7 +478,6 @@ public class RegSolEmpresa extends JDialog {
 
 					rbObrero.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							tipoPersonalButtonGroup.setSelected(rbObrero.getModel(), true);
 							pnTecnico.setVisible(false);
 							pnObrero.setVisible(true);
 							pnUniversitario.setVisible(false);
