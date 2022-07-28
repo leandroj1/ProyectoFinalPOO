@@ -113,7 +113,8 @@ public class RegEmpresa extends JDialog {
 		}
 		{
 			JComboBox comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Industrial", "Agricultura ", "Alimentaci\u00F3n", "Comercio ", "Construcci\u00F3n", "Educaci\u00F3n ", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n ", "Miner\u00EDa ", "Petrolero ", "Telecomunicaciones ", "Salud ", "Financieros", "P\u00FAblico ", "Silvicultura ", "Textil ", "Tecnol\u00F3gico", "Transporte"}));
+			comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Industrial", "Agricultura", "Alimentaci\u00F3n", "Comercio", "Construcci\u00F3n", "Educaci\u00F3n", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n", "Miner\u00EDa", "Petrolero", "Telecomunicaciones", "Salud", "Financieros", "P\u00FAblico", "Silvicultura", "Textil", "Tecnol\u00F3gico", "Transporte"}));
+
 			comboBox.setBounds(100, 70, 156, 20);
 			panel.add(comboBox);
 		}
