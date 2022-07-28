@@ -117,24 +117,6 @@ public class Utils {
 		return null;
 	}
 
-	// Obtener una mascara para los id's
-	public static MaskFormatter getNumberMaskByPrefix(String prefix, int lenght) {
-		MaskFormatter mask = null;
-		try {
-			StringBuffer buffer = new StringBuffer();
-			for (int i = 0; i < lenght; i++) {
-				buffer.append("#");
-			}
-
-			mask = new MaskFormatter(prefix + buffer.toString());
-			mask.setPlaceholderCharacter(defaultPlaceholder);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		return mask;
-	}
-
 	// Regex para evalaur si un email es valido
 	public static boolean isAValidEmail(String email) {
 		final String regex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
