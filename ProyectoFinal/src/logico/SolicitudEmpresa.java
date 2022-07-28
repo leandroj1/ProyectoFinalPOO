@@ -5,7 +5,7 @@ import java.util.Date;
 
 import enums.EstadoSolicitudEmpresa;
 
-public class SolicitudEmpresa {	
+public class SolicitudEmpresa {
 	private String id;
 	private Date fecha;
 	private int cantidadPlazasNecesarias;
@@ -28,14 +28,19 @@ public class SolicitudEmpresa {
 	private String universidad;
 	private String areaTecnica;
 	private ArrayList<String> oficios;
+	private float porcentajeMatchRequerido;
+
 	private static int genNumber = 0;
 
 	public SolicitudEmpresa(String id, int cantidadPlazasNecesarias,
-			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado, String sexo, boolean disponibilidadSalirCiudad,
-			boolean disponibilidadCambioResidencia, String tipoDeTrabajo, boolean esCasado, String carrera, String universidad, String areaTecnica) {
-	
+			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado,
+			String sexo, boolean disponibilidadSalirCiudad,
+			boolean disponibilidadCambioResidencia, String tipoDeTrabajo, boolean esCasado, String carrera,
+			String universidad, String areaTecnica, float porcentajeMatchRequerido) {
+
 		super();
 		this.id = id;
+		this.porcentajeMatchRequerido = porcentajeMatchRequerido;
 		this.cantidadPlazasNecesarias = cantidadPlazasNecesarias;
 		this.candidatosPosibles = new ArrayList<Personal>();
 		this.salarioMax = salarioMax;
@@ -56,7 +61,7 @@ public class SolicitudEmpresa {
 		this.fecha = new Date();
 		this.estado = EstadoSolicitudEmpresa.ACTIVA;
 	}
-	
+
 	public static String genID() {
 		String num = Integer.toString(++genNumber);
 		for (int len = num.length(); len < 10; len++)
@@ -104,7 +109,7 @@ public class SolicitudEmpresa {
 	public boolean isDisponibilidadCambioResidencia() {
 		return disponibilidadCambioResidencia;
 	}
-	
+
 	public boolean isEsCasado() {
 		return esCasado;
 	}
@@ -187,32 +192,32 @@ public class SolicitudEmpresa {
 
 	public void setAreaTecnica(String areaTecnica) {
 		this.areaTecnica = areaTecnica;
-	}	
+	}
 
 	public void removerOficio(String oficio) {
-		if(oficio != null) {
-			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));	
+		if (oficio != null) {
+			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));
 		}
 	}
 
 	public void agregarOficio(String oficio) {
-		if(oficio != null) {
-			if(oficio != "" && !(oficios.contains(oficio))) {
-				oficios.add(oficio);	
+		if (oficio != null) {
+			if (oficio != "" && !(oficios.contains(oficio))) {
+				oficios.add(oficio);
 			}
 		}
 	}
 
 	public void removerIdioma(String idioma) {
-		if(idioma != null) {
-			idiomas.removeIf(idiomaActual -> idioma.equalsIgnoreCase(idiomaActual));	
+		if (idioma != null) {
+			idiomas.removeIf(idiomaActual -> idioma.equalsIgnoreCase(idiomaActual));
 		}
 	}
 
 	public void agregarIdioma(String idioma) {
-		if(idioma != null) {
-			if(idioma != "" && !(idiomas.contains(idioma))) {
-				idiomas.add(idioma);	
+		if (idioma != null) {
+			if (idioma != "" && !(idiomas.contains(idioma))) {
+				idiomas.add(idioma);
 			}
 		}
 	}
@@ -227,5 +232,13 @@ public class SolicitudEmpresa {
 
 	public String getSexo() {
 		return sexo;
+	}
+
+	public float getPorcentajeMatchRequerido() {
+		return porcentajeMatchRequerido;
+	}
+
+	public void setPorcentajeMatchRequerido(float porcentajeMatchRequerido) {
+		this.porcentajeMatchRequerido = porcentajeMatchRequerido;
 	}
 }
