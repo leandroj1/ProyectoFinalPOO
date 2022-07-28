@@ -2,21 +2,23 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-import javax.swing.event.ChangeListener;
 
+import logico.BolsaTrabajo;
+import logico.Empresa;
 import logico.SolicitudEmpresa;
 import logico.Utils;
 
@@ -27,7 +29,6 @@ import javax.swing.UIManager;
 import javax.swing.JRadioButton;
 import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SpinnerNumberModel;
 
@@ -76,8 +77,18 @@ public class RegSolEmpresa extends JDialog {
 	private JComboBox cbxUniversidad;
 	private JComboBox cbxCarrera;
 	private JComboBox cbxAreaTecnica;
+
 	private ButtonGroup sexoButtonGroup;
 	private ButtonGroup tipoPersonalButtonGroup;
+	private ArrayList<Checkbox> idiomasGroup;
+	private ArrayList<Checkbox> oficiosGroup;
+	private Empresa selectedEmpresa;
+	private Checkbox ckDispCambioResidencia;
+	private JPanel pnTipoPersonal;
+	private JPanel pnUniversitario;
+	private JPanel pnTecnico;
+	private JPanel pnObrero;
+	private JPanel pnIdiomas;
 
 	/**
 	 * Launch the application.
@@ -95,7 +106,7 @@ public class RegSolEmpresa extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegSolEmpresa() {
+	public RegSolEmpresa() {		
 		setResizable(false);
 		setTitle("Solicitud de Empresa");
 		setModal(true);
@@ -104,6 +115,10 @@ public class RegSolEmpresa extends JDialog {
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
+
+		idiomasGroup = new ArrayList<Checkbox>();
+		oficiosGroup = new ArrayList<Checkbox>();
+
 		contentPanel.setLayout(new BorderLayout(0, 0));
 		{
 			JPanel panel = new JPanel();
@@ -153,6 +168,33 @@ public class RegSolEmpresa extends JDialog {
 				}
 
 				btnBuscarEmpresa = new JButton("Buscar");
+				btnBuscarEmpresa.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						if(Utils.isMaskCedulaDefaultValue(txtFRNC.getText())) {
+							JOptionPane.showMessageDialog(null,
+									"Ingrese un RNC.",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+
+						// Cargar datos de Empresa
+						selectedEmpresa = getDatosEmpresa(txtFRNC.getText().trim());
+						if(selectedEmpresa == null) {
+							JOptionPane.showMessageDialog(null,
+									"No existe una empresa con este RNC.",
+									"Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+						else {
+							txtNombreComercial.setText(selectedEmpresa.getNombreComercial());
+
+							// Deshabilitar los botones y campos
+							btnBuscarEmpresa.setEnabled(false);
+							txtFRNC.setEditable(false);
+						}
+					}
+				});
 				btnBuscarEmpresa.setActionCommand("OK");
 				btnBuscarEmpresa.setBounds(307, 38, 80, 23);
 				panel_1.add(btnBuscarEmpresa);
@@ -173,13 +215,18 @@ public class RegSolEmpresa extends JDialog {
 				pnRequisitos.setBounds(10, 106, 711, 505);
 				panel.add(pnRequisitos);
 				pnRequisitos.setLayout(null);
+
+				cbxNacionalidad = new JComboBox();
+				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a"}));
+				cbxNacionalidad.setBounds(148, 302, 154, 20);
+				pnRequisitos.add(cbxNacionalidad);
 				{
 					ckDispSalirCiudad = new Checkbox("Disponibilidad para salir de la Ciudad");
 					ckDispSalirCiudad.setBounds(19, 27, 249, 22);
 					pnRequisitos.add(ckDispSalirCiudad);
 				}
 				{
-					Checkbox ckDispCambioResidencia = new Checkbox("Disponibilidad para cambiar de Residencia");
+					ckDispCambioResidencia = new Checkbox("Disponibilidad para cambiar de Residencia");
 					ckDispCambioResidencia.setBounds(19, 55, 263, 22);
 					pnRequisitos.add(ckDispCambioResidencia);
 				}
@@ -189,7 +236,7 @@ public class RegSolEmpresa extends JDialog {
 					pnRequisitos.add(ckSoltero);
 				}
 				{
-					JPanel pnIdiomas = new JPanel();
+					pnIdiomas = new JPanel();
 					pnIdiomas.setLayout(null);
 					pnIdiomas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Idiomas", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 					pnIdiomas.setBounds(10, 96, 691, 102);
@@ -280,7 +327,7 @@ public class RegSolEmpresa extends JDialog {
 					pnRequisitos.add(spnEdad);
 				}
 				{
-					JPanel pnTipoPersonal = new JPanel();
+					pnTipoPersonal = new JPanel();
 					pnTipoPersonal.setLayout(null);
 					pnTipoPersonal.setBorder(new TitledBorder(null, "Tipo de Personal", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 					pnTipoPersonal.setBounds(10, 343, 691, 71);
@@ -305,7 +352,7 @@ public class RegSolEmpresa extends JDialog {
 					tipoPersonalButtonGroup.add(rbObrero);
 					tipoPersonalButtonGroup.add(rbTecnico);
 
-					JPanel pnUniversitario = new JPanel();
+					pnUniversitario = new JPanel();
 					pnUniversitario.setLayout(null);
 					pnUniversitario.setBorder(null);
 					pnUniversitario.setBounds(10, 420, 691, 71);
@@ -332,7 +379,7 @@ public class RegSolEmpresa extends JDialog {
 						cbxCarrera.setBounds(336, 36, 273, 20);
 						pnUniversitario.add(cbxCarrera);
 					}
-					JPanel pnTecnico = new JPanel();
+					pnTecnico = new JPanel();
 					pnTecnico.setVisible(false);
 					pnTecnico.setLayout(null);
 					pnTecnico.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -350,7 +397,7 @@ public class RegSolEmpresa extends JDialog {
 						pnTecnico.add(cbxAreaTecnica);
 					}
 
-					JPanel pnObrero = new JPanel();
+					pnObrero = new JPanel();
 					pnObrero.setVisible(false);
 					pnObrero.setLayout(null);
 					pnObrero.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -432,11 +479,6 @@ public class RegSolEmpresa extends JDialog {
 					sexoButtonGroup.add(rdbtnFemenino);
 					sexoButtonGroup.add(rdbtnMasculino);
 
-					cbxNacionalidad = new JComboBox();
-					cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a"}));
-					cbxNacionalidad.setBounds(148, 302, 154, 20);
-					pnRequisitos.add(cbxNacionalidad);
-
 					cbxModalidadTrabajo = new JComboBox();
 					cbxModalidadTrabajo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Remoto", "Tiempo completo", "Medio tiempo", "Freelancer"}));
 					cbxModalidadTrabajo.setBounds(535, 57, 154, 20);
@@ -493,6 +535,39 @@ public class RegSolEmpresa extends JDialog {
 						JButton btnSolicitar = new JButton("Solicitar");
 						btnSolicitar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
+								if(Utils.getSpinnerFloatValue(spnSalarioMin) >= Utils.getSpinnerFloatValue(spnSalarioMax)) {
+									JOptionPane.showMessageDialog(null,
+											"El salario m\u00ednimo tiene que ser menor que el salario m\u00e1ximo.",
+											"Advertencia",
+											JOptionPane.WARNING_MESSAGE);
+								}
+								else if(selectedEmpresa == null) {
+									JOptionPane.showMessageDialog(null,
+											"Ingrese el RNC de la empresa para poder registrar la solicitud.",
+											"Error",
+											JOptionPane.ERROR_MESSAGE);
+								}
+								else if(faltanDatos()) {
+									JOptionPane.showMessageDialog(null,
+											"Faltan datos para registrar la solicitud.",
+											"Error",
+											JOptionPane.ERROR_MESSAGE);
+								}
+								else {
+									if(crearSolicitud()) {
+										JOptionPane.showMessageDialog(null,
+												"Solicitud creada correctamente.",
+												"Informaci\u00f3n",
+												JOptionPane.INFORMATION_MESSAGE);
+										clearForm();
+									}
+									else {
+										JOptionPane.showMessageDialog(null,
+												"Hubo un error desconocido al intentar crear la solicitud.",
+												"Error",
+												JOptionPane.ERROR_MESSAGE);
+									}
+								}
 							}
 						});
 						btnSolicitar.setActionCommand("OK");
@@ -512,35 +587,28 @@ public class RegSolEmpresa extends JDialog {
 				}		
 			}
 		}
+
+		// Agregar todos los idiomas al group de idiomas
+		for (Component component : pnIdiomas.getComponents()) {
+			if(component instanceof Checkbox)
+				idiomasGroup.add((Checkbox) component);
+		}
+
+		// Agregar todos los oficios al group de oficios
+		for (Component component : pnObrero.getComponents()) {
+			if(component instanceof Checkbox)
+				oficiosGroup.add((Checkbox) component);
+		}
 	}
 
 	// Obtener todos los idiomas seleccionados
 	private ArrayList<String> getIdiomasSelected() {
 		ArrayList<String> idiomas = new ArrayList<String>();
 
-		if(ckEspagnol.getState()) {
-			idiomas.add(ckEspagnol.getLabel());
-		}
-		if(ckIngles.getState()) {
-			idiomas.add(ckIngles.getLabel());
-		}
-		if(ckFrances.getState()) {
-			idiomas.add(ckFrances.getLabel());
-		}
-		if(ckMandarin.getState()) {
-			idiomas.add(ckMandarin.getLabel());
-		}
-		if(ckHindi.getState()) {
-			idiomas.add(ckHindi.getLabel());
-		}
-		if(ckRuso.getState()) {
-			idiomas.add(ckRuso.getLabel());
-		}
-		if(ckPortugues.getState()) {
-			idiomas.add(ckPortugues.getLabel());
-		}
-		if(ckAleman.getState()) {
-			idiomas.add(ckAleman.getLabel());
+		for (Checkbox idiomaCheckbox : idiomasGroup) {
+			if(idiomaCheckbox.getState()) {
+				idiomas.add(idiomaCheckbox.getLabel());
+			}
 		}
 
 		return idiomas;
@@ -550,35 +618,10 @@ public class RegSolEmpresa extends JDialog {
 	private ArrayList<String> getOficiosSelected() {
 		ArrayList<String> oficios = new ArrayList<String>();
 
-		if(ckFontanero.getState()) {
-			oficios.add(ckFontanero.getLabel());
-		}
-		if(ckSastre.getState()) {
-			oficios.add(ckSastre.getLabel());
-		}
-		if(ckBarbero.getState()) {
-			oficios.add(ckBarbero.getLabel());
-		}
-		if(ckSoldador.getState()) {
-			oficios.add(ckSoldador.getLabel());
-		}
-		if(ckCerrajero.getState()) {
-			oficios.add(ckCerrajero.getLabel());
-		}
-		if(ckMecanico.getState()) {
-			oficios.add(ckMecanico.getLabel());
-		}
-		if(ckPolicia.getState()) {
-			oficios.add(ckPolicia.getLabel());
-		}
-		if(ckAlbagnil.getState()) {
-			oficios.add(ckAlbagnil.getLabel());
-		}
-		if(ckAgricultor.getState()) {
-			oficios.add(ckAgricultor.getLabel());
-		}
-		if(ckExterminador.getState()) {
-			oficios.add(ckExterminador.getLabel());
+		for (Checkbox oficioCheckbox : oficiosGroup) {
+			if(oficioCheckbox.getState()) {
+				oficios.add(oficioCheckbox.getLabel());
+			}
 		}
 
 		return oficios;
@@ -622,5 +665,98 @@ public class RegSolEmpresa extends JDialog {
 		}
 
 		return faltan;
+	}
+
+	private Empresa getDatosEmpresa(String RNC) {
+		Empresa auxEmpresa = null;
+		ArrayList<Empresa> result = BolsaTrabajo.getInstance().getEmpresasByID(RNC);
+		if(result.size() > 0) {
+			auxEmpresa = result.get(0);
+		}
+
+		return auxEmpresa;
+	}
+
+	private boolean crearSolicitud() {
+		boolean exito = false;
+		String tipoPersonal = Utils.getSelectedRadioButtonText(tipoPersonalButtonGroup);
+		if(tipoPersonal != null) {
+			// Quitar el acento de tecnico para comparaciones en el algoritmo
+			tipoPersonal = tipoPersonal.replace('é', 'e');
+
+			// Cargar datos del tipo de personal
+			String carrera = null, universidad = null, areaTecnica = null;
+			ArrayList<String> oficios = null;
+			if(tipoPersonal.equalsIgnoreCase("Tecnico")) {
+				areaTecnica = cbxAreaTecnica.getSelectedItem().toString();
+			}
+			else if(tipoPersonal.equalsIgnoreCase("Universitario")) {
+				carrera = cbxCarrera.getSelectedItem().toString();
+				universidad = cbxUniversidad.getSelectedItem().toString();
+			}
+			else {
+				oficios = getIdiomasSelected();
+			}
+
+			SolicitudEmpresa solicitudEmpresa = new SolicitudEmpresa(
+					SolicitudEmpresa.genID(),
+					selectedEmpresa.getRNC(),
+					Utils.getSpinnerIntValue(spnCantPlazas),
+					Utils.getSpinnerFloatValue(spnSalarioMax),
+					Utils.getSpinnerFloatValue(spnSalarioMin), 
+					Utils.getSpinnerIntValue(spnEdad), 
+					Utils.getSpinnerIntValue(spnAgnosExp),
+					tipoPersonal,
+					Utils.getSelectedRadioButtonText(sexoButtonGroup),
+					ckDispSalirCiudad.getState(),
+					ckDispCambioResidencia.getState(), 
+					cbxModalidadTrabajo.getSelectedItem().toString(),
+					!ckSoltero.getState(), 
+					carrera,
+					universidad,
+					areaTecnica,
+					Utils.getSpinnerFloatValue(spnPorcentajeMatch)
+					);
+
+			// Cargar oficios en solicitud
+			if(oficios != null) {
+				solicitudEmpresa.getOficios().addAll(oficios);
+			}
+
+			BolsaTrabajo.getInstance().agregarSolicitudEmpresa(selectedEmpresa.getRNC(), solicitudEmpresa);
+			exito = true;
+		}
+		return exito;
+	}
+
+	private void clearForm() {
+		txtCode.setText(SolicitudEmpresa.genID());
+		spnCantPlazas.setValue(Integer.valueOf(0));
+		spnAgnosExp.setValue(Integer.valueOf(0));
+		spnEdad.setValue(Integer.valueOf(18));
+		sexoButtonGroup.clearSelection();
+		cbxNacionalidad.setSelectedIndex(0);
+		cbxModalidadTrabajo.setSelectedIndex(0);
+		spnSalarioMax.setValue(Float.valueOf(0.0f));
+		spnSalarioMin.setValue(Float.valueOf(0.0f));
+		spnPorcentajeMatch.setValue(Float.valueOf(0.0f));
+		txtFRNC.setText("");
+		txtFRNC.setEditable(true);
+		btnBuscarEmpresa.setEnabled(true);
+		txtNombreComercial.setText("");
+		idiomasGroup.forEach((checkbox) -> checkbox.setState(false));
+		ckDispSalirCiudad.setState(false);
+		ckDispCambioResidencia.setState(false);
+		ckSoltero.setState(false);
+
+		// Datos del tipo de personal
+		tipoPersonalButtonGroup.setSelected(rbUniversitario.getModel(), true);
+		pnObrero.setVisible(false);
+		pnTecnico.setVisible(false);
+		pnUniversitario.setVisible(true);
+		cbxUniversidad.setSelectedIndex(0);
+		cbxCarrera.setSelectedIndex(0);
+		cbxAreaTecnica.setSelectedIndex(0);
+		oficiosGroup.forEach((checkbox) -> checkbox.setState(false));
 	}
 }

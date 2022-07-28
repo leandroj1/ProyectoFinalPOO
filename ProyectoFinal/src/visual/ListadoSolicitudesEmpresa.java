@@ -8,7 +8,10 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
-import logico.*;
+import logico.BolsaTrabajo;
+import logico.Empresa;
+import logico.SolicitudEmpresa;
+import logico.Utils;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -16,9 +19,12 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class ListadoSolicitudesEmpresa extends JDialog {
@@ -29,8 +35,9 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 	private JButton btnVerDetalles;
 	private Empresa selectedEmpresa = null;
 	private JButton btnAnular;
-	private JTextField textField;
+	private JTextField txtIDSolicitud;
 	private JButton btnVerPosiblesCandidatos;
+	private JButton btnReset;
 
 	/**
 	 * Launch the application.
@@ -52,6 +59,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		final String[] headers = {
 				"ID",
 				"Fecha",
+				"RNC de la Empresa",
 				"Tipo de personal solicitado",
 				"Plazas necesarias",
 				"Estado"
@@ -115,16 +123,53 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			lblNewLabel.setBounds(10, 21, 46, 14);
 			panelFilter.add(lblNewLabel);
 
-			textField = new JTextField();
-			textField.setBounds(43, 18, 457, 20);
-			panelFilter.add(textField);
-			textField.setColumns(10);
+			txtIDSolicitud = new JTextField();
+			txtIDSolicitud.setBounds(43, 18, 457, 20);
+			panelFilter.add(txtIDSolicitud);
+			txtIDSolicitud.setColumns(10);
 
 			JButton btnFilter = new JButton("Filtrar datos");
+			btnFilter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					// Si es mayor que 12, no es un ID valido
+					if(!txtIDSolicitud.getText().startsWith("SE") || txtIDSolicitud.getText().length() > 12) {
+						JOptionPane.showMessageDialog(null,
+								"Ingrese un ID válido para poder filtrar las solicitudes.",
+								"Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						// En caso de ser un listado de una empresa en especifico
+
+						if(selectedEmpresa != null) {
+							loadRowsInTable(BolsaTrabajo.getInstance().getSolicitudesEmpresaByID(selectedEmpresa.getRNC(), txtIDSolicitud.getText()));							
+						}
+						// En caso de ser un listado general
+						else {
+							loadRowsInTable(BolsaTrabajo.getInstance().getSolicitudesEmpresaByID(txtIDSolicitud.getText()));
+						}
+
+						btnReset.setEnabled(true);
+						setButtonsState(false);
+					}
+				}
+			});
 			btnFilter.setBounds(510, 16, 193, 23);
 			panelFilter.add(btnFilter);
 
-			JButton btnReset = new JButton("Mostrar todas las solicitudes");
+			btnReset = new JButton("Mostrar todas las solicitudes");
+			btnReset.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(selectedEmpresa != null) {
+						loadRowsInTable(BolsaTrabajo.getInstance().getSolicitudesEmpresaByID(selectedEmpresa.getRNC(), ""));							
+					}
+					// En caso de ser un listado general
+					else {
+						loadRowsInTable(BolsaTrabajo.getInstance().getSolicitudesEmpresaByID(""));
+					}
+					setButtonsState(false);
+				}
+			});
 			btnReset.setEnabled(false);
 			btnReset.setBounds(713, 17, 211, 23);
 			panelFilter.add(btnReset);
@@ -160,6 +205,11 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			buttonPane.add(btnCancelar);
 		}
 		btnAnular = new JButton("Anular solicitud");
+		btnAnular.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// TODO implementar todo de anular solicitdes
+			}
+		});
 		btnAnular.setEnabled(false);
 		btnAnular.setBounds(468, 5, 186, 23);
 		buttonPane.add(btnAnular);
@@ -169,7 +219,15 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		btnVerPosiblesCandidatos.setBounds(272, 5, 186, 23);
 		buttonPane.add(btnVerPosiblesCandidatos);
 
-		//		loadRowsInTable(BolsaTrabajo.getInstance().);
+		BolsaTrabajo instanceBolsaTrabajo = BolsaTrabajo.getInstance();
+		ArrayList<SolicitudEmpresa> solicitudesEmp;
+		if(empresa == null) {
+			solicitudesEmp = instanceBolsaTrabajo.getSolicitudesEmpresaByID("");
+		}
+		else {
+			solicitudesEmp = instanceBolsaTrabajo.getSolicitudesEmpresaByID(empresa.getRNC(), "");
+		}
+		loadRowsInTable(solicitudesEmp);
 	}
 
 	// Cargar datos a la tabla
@@ -178,9 +236,10 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		for (SolicitudEmpresa solicitud : solicitudes) {
 			row[0] = solicitud.getId();
 			row[1] = Utils.getDateFormatted(solicitud.getFecha());
-			row[2] = solicitud.getTipoPersonalSolicitado();
-			row[3] = solicitud.getCantidadPlazasNecesarias();
-			row[4] = solicitud.getEstado().toString();
+			row[3] = solicitud.getRNCEmpresa();
+			row[4] = solicitud.getTipoPersonalSolicitado();
+			row[5] = solicitud.getCantidadPlazasNecesarias();
+			row[6] = solicitud.getEstado().toString();
 		}
 	}
 
