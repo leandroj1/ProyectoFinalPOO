@@ -56,7 +56,7 @@ public class RegEmpresa extends JDialog {
 	public RegEmpresa() {		
 	setModal(true);
 	setTitle("Registro de Empresa");
-	setBounds(100, 100, 753, 522);
+	setBounds(100, 100, 733, 522);
 	setLocationRelativeTo(null);
 	getContentPane().setLayout(new BorderLayout());
 	contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -75,18 +75,18 @@ public class RegEmpresa extends JDialog {
 			txtFCedCliente = new JFormattedTextField(Utils.getMaskCedula());
 			txtFCedCliente.setForeground(Color.BLACK);
 			txtFCedCliente.setToolTipText("");
-			txtFCedCliente.setBounds(80, 29, 156, 20);
+			txtFCedCliente.setBounds(100, 29, 156, 20);
 			panel.add(txtFCedCliente);
 		}catch(Exception ex){}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Tipo de empresa:");
-			lblNewLabel_1.setBounds(363, 73, 98, 14);
+			lblNewLabel_1.setBounds(382, 73, 98, 14);
 			panel.add(lblNewLabel_1);
 		}
 		{
 		    cbxTipo = new JComboBox();
 			cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Micro", "Mediana", "Peque\u00F1a ", "Grande", "Emergente"}));
-			cbxTipo.setBounds(492, 70, 156, 20);
+			cbxTipo.setBounds(500, 70, 148, 20);
 			panel.add(cbxTipo);
 		}
 		{
@@ -96,31 +96,31 @@ public class RegEmpresa extends JDialog {
 		}
 		{
 			JLabel lblNombre = new JLabel("Nombre Comercial:");
-			lblNombre.setBounds(363, 32, 141, 14);
+			lblNombre.setBounds(382, 32, 141, 14);
 			panel.add(lblNombre);
 		}
 		{
 			txtCodigo = new JTextField();
 			txtCodigo.setColumns(10);
-			txtCodigo.setBounds(80, 112, 156, 20);
+			txtCodigo.setBounds(100, 112, 156, 20);
 			panel.add(txtCodigo);
 		}			
 		{
 			textField = new JTextField();
 			textField.setColumns(10);
-			textField.setBounds(492, 29, 156, 20);
+			textField.setBounds(500, 29, 148, 20);
 			panel.add(textField);
 		}
 		{
 			JComboBox comboBox = new JComboBox();
 			comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Industrial", "Agricultura ", "Alimentaci\u00F3n", "Comercio ", "Construcci\u00F3n", "Educaci\u00F3n ", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n ", "Miner\u00EDa ", "Petrolero ", "Telecomunicaciones ", "Salud ", "Financieros", "P\u00FAblico ", "Silvicultura ", "Textil ", "Tecnol\u00F3gico", "Transporte"}));
-			comboBox.setBounds(80, 70, 156, 20);
+			comboBox.setBounds(100, 70, 156, 20);
 			panel.add(comboBox);
 		}
 		{
 			textField_1 = new JTextField();
 			textField_1.setColumns(10);
-			textField_1.setBounds(492, 112, 156, 20);
+			textField_1.setBounds(500, 112, 148, 20);
 			panel.add(textField_1);
 		}
 		{
@@ -130,14 +130,14 @@ public class RegEmpresa extends JDialog {
 		}
 		{
 			JLabel lblRaznSocial = new JLabel("Raz\u00F3n Social:");
-			lblRaznSocial.setBounds(363, 115, 98, 14);
+			lblRaznSocial.setBounds(382, 115, 98, 14);
 			panel.add(lblRaznSocial);
 		}
 		{
 			JPanel panel_1 = new JPanel();
 			panel_1.setLayout(null);
 			panel_1.setBorder(new TitledBorder(null, "Datos de la Ubicaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panel_1.setBounds(10, 310, 687, 117);
+			panel_1.setBounds(10, 290, 687, 117);
 			panel.add(panel_1);
 			{
 				JLabel label = new JLabel("Ciudad de Residencia:");
@@ -188,7 +188,7 @@ public class RegEmpresa extends JDialog {
 			JPanel panel_1 = new JPanel();
 			panel_1.setLayout(null);
 			panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Datos de Contacto", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-			panel_1.setBounds(10, 180, 687, 117);
+			panel_1.setBounds(10, 160, 687, 117);
 			panel.add(panel_1);
 			{
 				JLabel lblNombre_1 = new JLabel("Nombre:");
@@ -198,7 +198,7 @@ public class RegEmpresa extends JDialog {
 			{
 				textField_6 = new JTextField();
 				textField_6.setColumns(10);
-				textField_6.setBounds(90, 31, 183, 20);
+				textField_6.setBounds(90, 31, 156, 20);
 				panel_1.add(textField_6);
 			}
 			{
@@ -214,14 +214,14 @@ public class RegEmpresa extends JDialog {
 			{
 				textField_9 = new JTextField();
 				textField_9.setColumns(10);
-				textField_9.setBounds(428, 31, 210, 20);
+				textField_9.setBounds(420, 31, 218, 20);
 				panel_1.add(textField_9);
 			}
 			{
 				JFormattedTextField txtFTelefono = new JFormattedTextField(Utils.getMaskTelefono());
 				txtFTelefono.setToolTipText("");
 				txtFTelefono.setForeground(Color.BLACK);
-				txtFTelefono.setBounds(90, 70, 183, 20);
+				txtFTelefono.setBounds(90, 70, 156, 20);
 				panel_1.add(txtFTelefono);
 			}
 		}
