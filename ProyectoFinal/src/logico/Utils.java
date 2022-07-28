@@ -2,8 +2,11 @@ package logico;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Locale;
 
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
 import javax.swing.text.MaskFormatter;
@@ -99,5 +102,17 @@ public class Utils {
 	// Para saber si un combobox está en el valor por defecto ("<Seleccione>")
 	public static boolean isCbxDefaultValue(JComboBox comboBox) {
 		return comboBox.getSelectedIndex() <= 0;
+	}
+
+	// Obtener el texto del radio button seleccionado
+	public static String getSelectedRadioButtonText(ButtonGroup group)
+	{  
+		for (Enumeration<AbstractButton> buttons = group.getElements(); buttons.hasMoreElements();) {
+			AbstractButton button = buttons.nextElement();
+			if (button.isSelected()) {
+				return button.getText();
+			}
+		}
+		return null;
 	}
 }
