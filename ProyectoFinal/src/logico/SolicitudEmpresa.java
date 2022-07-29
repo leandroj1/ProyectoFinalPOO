@@ -12,7 +12,7 @@ public class SolicitudEmpresa {
 	private EstadoSolicitudEmpresa estado;
 	private String tipoPersonalSolicitado;
 	private String sexo;
-	private ArrayList<Personal> candidatosPosibles;
+	private ArrayList<String> cedulasPersonasContratadas;
 	private String RNCEmpresa;
 
 	// Requisitos
@@ -44,7 +44,7 @@ public class SolicitudEmpresa {
 		this.RNCEmpresa = RNCEmpresa;
 		this.porcentajeMatchRequerido = porcentajeMatchRequerido;
 		this.cantidadPlazasNecesarias = cantidadPlazasNecesarias;
-		this.candidatosPosibles = new ArrayList<Personal>();
+		this.cedulasPersonasContratadas = new ArrayList<String>();
 		this.salarioMax = salarioMax;
 		this.salarioMin = salarioMin;
 		this.edad = edad <= 17 ? 18 : edad;
@@ -92,8 +92,13 @@ public class SolicitudEmpresa {
 		this.estado = nuevoEstado;
 	}
 
-	public ArrayList<Personal> getCandidatosPosibles() {
-		return candidatosPosibles;
+	public ArrayList<String> getCedulasPersonasContratadas() {
+		return cedulasPersonasContratadas;
+	}
+
+	public void agregarCedulaPersonaContratada(String cedula) {
+		if(cedula != null)
+			cedulasPersonasContratadas.add(cedula);
 	}
 
 	public int getEdad() {
