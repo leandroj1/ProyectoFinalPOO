@@ -91,13 +91,14 @@ public class RegSolEmpresa extends JDialog {
 	private JPanel pnIdiomas;
 
 	private SolicitudEmpresa solicitudLoaded = null;
+	private boolean isForModify = false;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegSolEmpresa dialog = new RegSolEmpresa(null);
+			RegSolEmpresa dialog = new RegSolEmpresa(null, false);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -108,8 +109,10 @@ public class RegSolEmpresa extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegSolEmpresa(SolicitudEmpresa solicitud) {
-		solicitudLoaded = solicitud;
+	public RegSolEmpresa(SolicitudEmpresa solicitud, boolean isForModify) {
+		this.solicitudLoaded = solicitud;
+		this.isForModify = isForModify;
+
 		setResizable(false);
 		setTitle("Solicitud de Empresa");
 		setModal(true);

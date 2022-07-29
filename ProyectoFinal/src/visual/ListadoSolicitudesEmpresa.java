@@ -171,15 +171,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			btnVerDetalles.setBounds(664, 5, 166, 23);
 			btnVerDetalles.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(selectedSolicitud != null) {
-						RegSolEmpresa detalles = new RegSolEmpresa(selectedSolicitud);
-						detalles.setModal(true);
-						detalles.setVisible(true);
-
-						// Para evitar errores
-						setButtonsState(false);
-						selectedSolicitud = null;
-					}
+					openRegSolicitudEmpresa(false);
 				}
 			});
 			buttonPane.setLayout(null);
@@ -202,9 +194,9 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if(selectedSolicitud != null) {
 					int option = JOptionPane.showConfirmDialog(null, "¿Desea anular la solicitud de c\u00f3digo " + selectedSolicitud.getId() + "? Se desemplearan los candidatos asociados.", "Confirmaci\u00f3n", JOptionPane.WARNING_MESSAGE);
-					
+
 					if(JOptionPane.YES_OPTION == option) {
-//					BolsaTrabajo.getInstance().anularSolicitudEmpresa(selectedSolicitud);
+						//					BolsaTrabajo.getInstance().anularSolicitudEmpresa(selectedSolicitud);
 						JOptionPane.showMessageDialog(null,
 								"Solicitud anulada correctamente.",
 								"Informaci\u00f3n",
@@ -225,11 +217,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		btnModificarCondiciones = new JButton("Modificar condiciones");
 		btnModificarCondiciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(selectedSolicitud != null) {
-					// Para evitar errores
-					setButtonsState(false);
-					selectedSolicitud = null;					
-				}
+				openRegSolicitudEmpresa(true);
 			}
 		});
 		btnModificarCondiciones.setEnabled(false);
@@ -254,6 +242,19 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		loadRowsInTable(getDataSolicitudes(selectedEmpresa, ""));
 	}
 
+	// Abrir la ventana de registrar solicitud para modificar o ver detalles
+	private void openRegSolicitudEmpresa(boolean isForModify) {
+		if(selectedSolicitud != null) {
+			RegSolEmpresa detalles = new RegSolEmpresa(selectedSolicitud, isForModify);
+			detalles.setModal(true);
+			detalles.setVisible(true);
+
+			// Para evitar errores
+			setButtonsState(false);
+			selectedSolicitud = null;					
+		}
+	}
+	// Obtener los datos de las solicitudes dependiendo del tipo de listado
 	private ArrayList<SolicitudEmpresa> getDataSolicitudes(Empresa selectedEmpresa, String id){
 		BolsaTrabajo instanceBolsaTrabajo = BolsaTrabajo.getInstance();
 
