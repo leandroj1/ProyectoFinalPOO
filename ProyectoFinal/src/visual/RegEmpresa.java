@@ -112,10 +112,18 @@ public class RegEmpresa extends JDialog {
 			panel.add(textField);
 		}
 		{
+<<<<<<< HEAD
 			JComboBox cbxSector = new JComboBox();
 			cbxSector.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Industrial", "Agricultura ", "Alimentaci\u00F3n", "Comercio ", "Construcci\u00F3n", "Educaci\u00F3n ", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n ", "Miner\u00EDa ", "Petrolero ", "Telecomunicaciones ", "Salud ", "Financieros", "P\u00FAblico ", "Silvicultura ", "Textil ", "Tecnol\u00F3gico", "Transporte"}));
 			cbxSector.setBounds(502, 70, 156, 20);
 			panel.add(cbxSector);
+=======
+			JComboBox comboBox = new JComboBox();
+			comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Industrial", "Agricultura", "Alimentaci\u00F3n", "Comercio", "Construcci\u00F3n", "Educaci\u00F3n", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n", "Miner\u00EDa", "Petrolero", "Telecomunicaciones", "Salud", "Financieros", "P\u00FAblico", "Silvicultura", "Textil", "Tecnol\u00F3gico", "Transporte"}));
+
+			comboBox.setBounds(100, 70, 156, 20);
+			panel.add(comboBox);
+>>>>>>> branch 'cambio-en-ventana-empresa' of https://github.com/leandroj1/ProyectoFinalPOO.git
 		}
 		{
 			textField_1 = new JTextField();
