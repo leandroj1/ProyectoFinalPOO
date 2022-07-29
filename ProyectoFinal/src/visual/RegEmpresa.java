@@ -75,23 +75,23 @@ public class RegEmpresa extends JDialog {
 			txtFCedCliente = new JFormattedTextField(Utils.getMaskCedula());
 			txtFCedCliente.setForeground(Color.BLACK);
 			txtFCedCliente.setToolTipText("");
-			txtFCedCliente.setBounds(100, 29, 156, 20);
+			txtFCedCliente.setBounds(120, 29, 146, 20);
 			panel.add(txtFCedCliente);
 		}catch(Exception ex){}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Tipo de empresa:");
-			lblNewLabel_1.setBounds(382, 73, 98, 14);
+			lblNewLabel_1.setBounds(382, 115, 98, 14);
 			panel.add(lblNewLabel_1);
 		}
 		{
 		    cbxTipo = new JComboBox();
 			cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Micro", "Mediana", "Peque\u00F1a ", "Grande", "Emergente"}));
-			cbxTipo.setBounds(500, 70, 148, 20);
+			cbxTipo.setBounds(502, 112, 156, 20);
 			panel.add(cbxTipo);
 		}
 		{
 			JLabel lblNewLabel_2 = new JLabel("Sector:");
-			lblNewLabel_2.setBounds(33, 73, 98, 14);
+			lblNewLabel_2.setBounds(382, 73, 98, 14);
 			panel.add(lblNewLabel_2);
 		}
 		{
@@ -102,25 +102,25 @@ public class RegEmpresa extends JDialog {
 		{
 			txtCodigo = new JTextField();
 			txtCodigo.setColumns(10);
-			txtCodigo.setBounds(100, 112, 156, 20);
+			txtCodigo.setBounds(120, 112, 146, 20);
 			panel.add(txtCodigo);
 		}			
 		{
 			textField = new JTextField();
 			textField.setColumns(10);
-			textField.setBounds(500, 29, 148, 20);
+			textField.setBounds(502, 29, 156, 20);
 			panel.add(textField);
 		}
 		{
-			JComboBox comboBox = new JComboBox();
-			comboBox.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Industrial", "Agricultura ", "Alimentaci\u00F3n", "Comercio ", "Construcci\u00F3n", "Educaci\u00F3n ", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n ", "Miner\u00EDa ", "Petrolero ", "Telecomunicaciones ", "Salud ", "Financieros", "P\u00FAblico ", "Silvicultura ", "Textil ", "Tecnol\u00F3gico", "Transporte"}));
-			comboBox.setBounds(100, 70, 156, 20);
-			panel.add(comboBox);
+			JComboBox cbxSector = new JComboBox();
+			cbxSector.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Industrial", "Agricultura ", "Alimentaci\u00F3n", "Comercio ", "Construcci\u00F3n", "Educaci\u00F3n ", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n ", "Miner\u00EDa ", "Petrolero ", "Telecomunicaciones ", "Salud ", "Financieros", "P\u00FAblico ", "Silvicultura ", "Textil ", "Tecnol\u00F3gico", "Transporte"}));
+			cbxSector.setBounds(502, 70, 156, 20);
+			panel.add(cbxSector);
 		}
 		{
 			textField_1 = new JTextField();
 			textField_1.setColumns(10);
-			textField_1.setBounds(500, 112, 148, 20);
+			textField_1.setBounds(120, 70, 148, 20);
 			panel.add(textField_1);
 		}
 		{
@@ -130,7 +130,7 @@ public class RegEmpresa extends JDialog {
 		}
 		{
 			JLabel lblRaznSocial = new JLabel("Raz\u00F3n Social:");
-			lblRaznSocial.setBounds(382, 115, 98, 14);
+			lblRaznSocial.setBounds(33, 73, 98, 14);
 			panel.add(lblRaznSocial);
 		}
 		{
@@ -198,31 +198,42 @@ public class RegEmpresa extends JDialog {
 			{
 				textField_6 = new JTextField();
 				textField_6.setColumns(10);
-				textField_6.setBounds(90, 31, 156, 20);
+				textField_6.setBounds(81, 31, 175, 20);
 				panel_1.add(textField_6);
 			}
 			{
 				JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
-				lblTelfono.setBounds(23, 72, 195, 14);
+				lblTelfono.setBounds(372, 31, 195, 14);
 				panel_1.add(lblTelfono);
 			}
 			{
 				JLabel lblEmail = new JLabel("Email:");
-				lblEmail.setBounds(372, 31, 195, 14);
+				lblEmail.setBounds(23, 72, 195, 14);
 				panel_1.add(lblEmail);
 			}
 			{
 				textField_9 = new JTextField();
 				textField_9.setColumns(10);
-				textField_9.setBounds(420, 31, 218, 20);
+				textField_9.setBounds(81, 70, 175, 20);
 				panel_1.add(textField_9);
 			}
 			{
 				JFormattedTextField txtFTelefono = new JFormattedTextField(Utils.getMaskTelefono());
 				txtFTelefono.setToolTipText("");
 				txtFTelefono.setForeground(Color.BLACK);
-				txtFTelefono.setBounds(90, 70, 156, 20);
+				txtFTelefono.setBounds(436, 31, 156, 20);
 				panel_1.add(txtFTelefono);
+			}
+			{
+				JLabel lblCargo = new JLabel("Cargo:");
+				lblCargo.setBounds(372, 72, 195, 14);
+				panel_1.add(lblCargo);
+			}
+			{
+				JComboBox cbxCargoContacto = new JComboBox();
+				cbxCargoContacto.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "CEO", "CTO", "RRHH", "Secretario/a del CEO"}));
+				cbxCargoContacto.setBounds(436, 69, 156, 20);
+				panel_1.add(cbxCargoContacto);
 			}
 		}
 	}
