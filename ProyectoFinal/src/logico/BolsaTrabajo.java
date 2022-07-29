@@ -92,14 +92,17 @@ public class BolsaTrabajo {
 		ArrayList<String> cedulasForAnulacion = solicitud.getCedulasPersonasContratadas();
 		this.personal.forEach(persona -> {
 			if(cedulasForAnulacion.contains(persona.getCedula())) {
-				// Desemplear
-				persona.setIdEmpresaContratacion(null);
+				this.desemplearPersonal(persona);
+			}
+		});
+	}
 
-				persona.getSolicitudes().forEach(solicitudPersonal -> {
-					if(solicitudPersonal.getEstado() == EstadoSolicitudPersonal.PENDIENTE){
-						solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
-					}
-				});
+	public void desemplearPersonal(Personal personal) {
+		personal.setIdEmpresaContratacion(null);
+
+		personal.getSolicitudes().forEach(solicitudPersonal -> {
+			if(solicitudPersonal.getEstado() == EstadoSolicitudPersonal.PENDIENTE){
+				solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
 			}
 		});
 	}
