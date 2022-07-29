@@ -30,17 +30,19 @@ public class SolicitudEmpresa {
 	private String areaTecnica;
 	private ArrayList<String> oficios;
 	private float porcentajeMatchRequerido;
+	private String nacionalidad;
 
 	private static int genNumber = 0;
 
 	public SolicitudEmpresa(String id, String RNCEmpresa, int cantidadPlazasNecesarias,
 			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado,
-			String sexo, boolean disponibilidadSalirCiudad,
+			String sexo, String nacionalidad, boolean disponibilidadSalirCiudad,
 			boolean disponibilidadCambioResidencia, String tipoDeTrabajo, boolean esCasado, String carrera,
 			String universidad, String areaTecnica, float porcentajeMatchRequerido) {
 
 		super();
 		this.id = id;
+		this.nacionalidad = nacionalidad;
 		this.RNCEmpresa = RNCEmpresa;
 		this.porcentajeMatchRequerido = porcentajeMatchRequerido;
 		this.cantidadPlazasNecesarias = cantidadPlazasNecesarias;
@@ -251,5 +253,21 @@ public class SolicitudEmpresa {
 
 	public String getRNCEmpresa() {
 		return RNCEmpresa;
+	}
+
+	public String getNacionalidad() {
+		return nacionalidad;
+	}
+
+	public void setNacionalidad(String nacionalidad) {
+		this.nacionalidad = nacionalidad;
+	}
+
+	public void setIdiomas(ArrayList<String> idiomas) {
+		this.idiomas = idiomas;
+	}
+
+	public void setOficios(ArrayList<String> oficios) {
+		this.oficios = oficios;
 	}
 }

@@ -8,6 +8,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
+import enums.EstadoSolicitudEmpresa;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.SolicitudEmpresa;
@@ -63,6 +64,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 				"RNC de la Empresa",
 				"Tipo de personal solicitado",
 				"Plazas necesarias",
+				"Plazas suplidas",
 				"Estado"
 		};
 
@@ -75,10 +77,10 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		}
 
 		setResizable(false);
-		setBounds(100, 100, 978, 570);
+		setBounds(100, 100, 1107, 570);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
-		contentPanel.setBounds(0, 0, 962, 494);
+		contentPanel.setBounds(0, 0, 1091, 494);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel);
 		contentPanel.setLayout(new BorderLayout(0, 0)); {
@@ -88,7 +90,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			panel.setLayout(null);
 			{
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(8, 78, 934, 395);
+				scrollPane.setBounds(8, 78, 1063, 395);
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				panel.add(scrollPane); {
 					tablaSolicitudes = new NonEditableTable();
@@ -102,6 +104,15 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 								if(result.size() != 0) {
 									selectedSolicitud = result.get(0);
 									setButtonsState(true);
+									if(selectedSolicitud.getEstado() == EstadoSolicitudEmpresa.ANULADA || selectedSolicitud.getEstado() == EstadoSolicitudEmpresa.SATISFECHA) {
+										btnAnular.setEnabled(false);
+										btnModificarCondiciones.setEnabled(false);
+										btnVerPosiblesCandidatos.setEnabled(false);
+									}
+									else {
+										if(selectedSolicitud.getCedulasPersonasContratadas().size() > 0)
+											btnModificarCondiciones.setEnabled(false);
+									}
 								}
 							}
 						}
@@ -115,7 +126,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 
 			JPanel panelFilter = new JPanel();
 			panelFilter.setBorder(new TitledBorder(null, "Filtrado", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-			panelFilter.setBounds(8, 11, 934, 56);
+			panelFilter.setBounds(8, 11, 1063, 56);
 			panel.add(panelFilter);
 			panelFilter.setLayout(null);
 
@@ -124,7 +135,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			panelFilter.add(lblNewLabel);
 
 			txtIDSolicitud = new JTextField();
-			txtIDSolicitud.setBounds(43, 18, 457, 20);
+			txtIDSolicitud.setBounds(43, 18, 482, 20);
 			panelFilter.add(txtIDSolicitud);
 			txtIDSolicitud.setColumns(12);
 
@@ -148,7 +159,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 					}
 				}
 			});
-			btnFilter.setBounds(510, 16, 193, 23);
+			btnFilter.setBounds(535, 16, 254, 23);
 			panelFilter.add(btnFilter);
 
 			btnReset = new JButton("Mostrar todas las solicitudes");
@@ -161,14 +172,14 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 				}
 			});
 			btnReset.setEnabled(false);
-			btnReset.setBounds(713, 17, 211, 23);
+			btnReset.setBounds(799, 16, 254, 23);
 			panelFilter.add(btnReset);
 		} 
 		JPanel buttonPane = new JPanel();
-		buttonPane.setBounds(0, 494, 962, 33);
+		buttonPane.setBounds(0, 494, 1091, 33);
 		getContentPane().add(buttonPane); {
 			btnVerDetalles = new JButton("Ver detalles");
-			btnVerDetalles.setBounds(664, 5, 166, 23);
+			btnVerDetalles.setBounds(793, 5, 166, 23);
 			btnVerDetalles.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					openRegSolicitudEmpresa(false);
@@ -179,7 +190,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			buttonPane.add(btnVerDetalles);
 		}{
 			JButton btnCancelar = new JButton("Cancelar");
-			btnCancelar.setBounds(840, 5, 112, 23);
+			btnCancelar.setBounds(969, 5, 112, 23);
 			btnCancelar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					dispose();
@@ -196,7 +207,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 					int option = JOptionPane.showConfirmDialog(null, "¿Desea anular la solicitud de c\u00f3digo " + selectedSolicitud.getId() + "? Se desemplearan los candidatos asociados.", "Confirmaci\u00f3n", JOptionPane.WARNING_MESSAGE);
 
 					if(JOptionPane.YES_OPTION == option) {
-						//					BolsaTrabajo.getInstance().anularSolicitudEmpresa(selectedSolicitud);
+						BolsaTrabajo.getInstance().anularSolicitudEmpresa(selectedSolicitud);
 						JOptionPane.showMessageDialog(null,
 								"Solicitud anulada correctamente.",
 								"Informaci\u00f3n",
@@ -211,7 +222,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			}
 		});
 		btnAnular.setEnabled(false);
-		btnAnular.setBounds(468, 5, 186, 23);
+		btnAnular.setBounds(597, 5, 186, 23);
 		buttonPane.add(btnAnular);
 
 		btnModificarCondiciones = new JButton("Modificar condiciones");
@@ -221,7 +232,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			}
 		});
 		btnModificarCondiciones.setEnabled(false);
-		btnModificarCondiciones.setBounds(272, 5, 186, 23);
+		btnModificarCondiciones.setBounds(401, 5, 186, 23);
 		buttonPane.add(btnModificarCondiciones);
 
 		btnVerPosiblesCandidatos = new JButton("Ver posibles candidatos");
@@ -236,7 +247,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		});
 		btnVerPosiblesCandidatos.setToolTipText("Aplicar el algoritmo de selecci\u00F3n");
 		btnVerPosiblesCandidatos.setEnabled(false);
-		btnVerPosiblesCandidatos.setBounds(76, 5, 186, 23);
+		btnVerPosiblesCandidatos.setBounds(205, 5, 186, 23);
 		buttonPane.add(btnVerPosiblesCandidatos);
 
 		loadRowsInTable(getDataSolicitudes(selectedEmpresa, ""));
@@ -251,7 +262,8 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 
 			// Para evitar errores
 			setButtonsState(false);
-			selectedSolicitud = null;					
+			selectedSolicitud = null;
+			loadRowsInTable(getDataSolicitudes(selectedEmpresa, txtIDSolicitud.getText()));
 		}
 	}
 	// Obtener los datos de las solicitudes dependiendo del tipo de listado
@@ -277,7 +289,8 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			row[2] = solicitud.getRNCEmpresa();
 			row[3] = solicitud.getTipoPersonalSolicitado();
 			row[4] = solicitud.getCantidadPlazasNecesarias();
-			row[5] = solicitud.getEstado().toString();
+			row[5] = solicitud.getCedulasPersonasContratadas().size();
+			row[6] = solicitud.getEstado().toString();
 			model.addRow(row);
 		}
 	}

@@ -60,9 +60,9 @@ public class RegSolEmpresa extends JDialog {
 	private Checkbox ckDispSalirCiudad;
 	private Checkbox ckSoltero;
 	private JSpinner spnEdad;
-	private JLabel label_1;
+	private JLabel lblSalarioMximoOfrecido;
 	private JSpinner spnAgnosExp;
-	private JLabel label_2;
+	private JLabel lblSalarioMnimoOfrecido;
 	private JComboBox cbxNacionalidad;
 	private JSpinner spnCantPlazas;
 	private JFormattedTextField txtFRNC;
@@ -92,6 +92,8 @@ public class RegSolEmpresa extends JDialog {
 
 	private SolicitudEmpresa solicitudLoaded = null;
 	private boolean isForModify = false;
+	private boolean tieneValoresIniciales = false;
+	private JRadioButton rdbtnNoAplica;
 
 	/**
 	 * Launch the application.
@@ -113,8 +115,16 @@ public class RegSolEmpresa extends JDialog {
 		this.solicitudLoaded = solicitud;
 		this.isForModify = isForModify;
 
+		if(this.solicitudLoaded == null) {
+			setTitle("Solicitud de Empresa");
+		}
+		else {
+			this.tieneValoresIniciales = true;
+			this.selectedEmpresa = getDatosEmpresa(this.solicitudLoaded.getRNCEmpresa());
+			setTitle((this.isForModify ? "Modificar " : "Ver detalles de ") + "la solicitud " + solicitud.getId());
+		}
+
 		setResizable(false);
-		setTitle("Solicitud de Empresa");
 		setModal(true);
 		setBounds(100, 100, 748, 699);
 		setLocationRelativeTo(null);
@@ -143,7 +153,13 @@ public class RegSolEmpresa extends JDialog {
 				}
 				{
 					txtCode = new JTextField();
-					txtCode.setText(SolicitudEmpresa.genID());
+					// Para evitar generar un codigo innecesariamente
+					if(solicitudLoaded == null){
+						txtCode.setText(SolicitudEmpresa.genID());						
+					}
+					else {
+						txtCode.setText(solicitudLoaded.getId());
+					}
 					txtCode.setEditable(false);
 					txtCode.setColumns(10);
 					txtCode.setBounds(139, 8, 154, 20);
@@ -223,8 +239,8 @@ public class RegSolEmpresa extends JDialog {
 				pnRequisitos.setLayout(null);
 
 				cbxNacionalidad = new JComboBox();
-				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a"}));
-				cbxNacionalidad.setBounds(148, 302, 154, 20);
+				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a", "Otra"}));
+				cbxNacionalidad.setBounds(114, 302, 182, 20);
 				pnRequisitos.add(cbxNacionalidad);
 				{
 					ckDispSalirCiudad = new Checkbox("Disponibilidad para salir de la Ciudad");
@@ -289,47 +305,47 @@ public class RegSolEmpresa extends JDialog {
 					}
 				}
 				{
-					label_2 = new JLabel("Salario M\u00EDnimo:");
-					label_2.setBounds(19, 223, 165, 14);
-					pnRequisitos.add(label_2);
+					lblSalarioMnimoOfrecido = new JLabel("Salario M\u00EDnimo Ofrecido:");
+					lblSalarioMnimoOfrecido.setBounds(19, 223, 165, 14);
+					pnRequisitos.add(lblSalarioMnimoOfrecido);
 				}
 				{
 					spnSalarioMin = new JSpinner();
 					spnSalarioMin.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
-					spnSalarioMin.setBounds(148, 220, 154, 20);
+					spnSalarioMin.setBounds(172, 220, 154, 20);
 					pnRequisitos.add(spnSalarioMin);
 				}
 				{
-					JLabel label = new JLabel("A\u00F1os de Experiencia:");
-					label.setBounds(19, 264, 182, 14);
-					pnRequisitos.add(label);
+					JLabel lblAosDeExperiencia = new JLabel("A\u00F1os de Experiencia M\u00EDnimos:");
+					lblAosDeExperiencia.setBounds(19, 264, 182, 14);
+					pnRequisitos.add(lblAosDeExperiencia);
 				}
 				{
 					spnAgnosExp = new JSpinner();
 					spnAgnosExp.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-					spnAgnosExp.setBounds(148, 261, 154, 20);
+					spnAgnosExp.setBounds(200, 261, 154, 20);
 					pnRequisitos.add(spnAgnosExp);
 				}
 				{
-					label_1 = new JLabel("Salario M\u00E1ximo:");
-					label_1.setBounds(367, 223, 165, 14);
-					pnRequisitos.add(label_1);
+					lblSalarioMximoOfrecido = new JLabel("Salario M\u00E1ximo Ofrecido:");
+					lblSalarioMximoOfrecido.setBounds(382, 223, 165, 14);
+					pnRequisitos.add(lblSalarioMximoOfrecido);
 				}
 				{
 					spnSalarioMax = new JSpinner();
 					spnSalarioMax.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
-					spnSalarioMax.setBounds(476, 220, 136, 20);
+					spnSalarioMax.setBounds(535, 220, 136, 20);
 					pnRequisitos.add(spnSalarioMax);
 				}
 				{
 					JLabel label = new JLabel("Edad M\u00EDnima:");
-					label.setBounds(367, 264, 165, 14);
+					label.setBounds(446, 264, 165, 14);
 					pnRequisitos.add(label);
 				}
 				{
 					spnEdad = new JSpinner();
 					spnEdad.setModel(new SpinnerNumberModel(new Integer(18), new Integer(18), null, new Integer(1)));
-					spnEdad.setBounds(476, 261, 136, 20);
+					spnEdad.setBounds(535, 261, 136, 20);
 					pnRequisitos.add(spnEdad);
 				}
 				{
@@ -360,7 +376,7 @@ public class RegSolEmpresa extends JDialog {
 
 					pnUniversitario = new JPanel();
 					pnUniversitario.setLayout(null);
-					pnUniversitario.setBorder(null);
+					pnUniversitario.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 					pnUniversitario.setBounds(10, 420, 691, 71);
 					pnRequisitos.add(pnUniversitario);
 					{
@@ -398,7 +414,7 @@ public class RegSolEmpresa extends JDialog {
 					}
 					{
 						cbxAreaTecnica = new JComboBox();
-						cbxAreaTecnica.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Administraci\u00F3n de Micro, Peque\u00F1as y Medianas Empresas", "Artes Culinarias", "Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa", "Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas", "Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral", "Programaci\u00F3n Web", ""}));
+						cbxAreaTecnica.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Administraci\u00F3n de Micro, Peque\u00F1as y Medianas Empresas", "Artes Culinarias", "Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa", "Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas", "Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral", "Programaci\u00F3n Web"}));
 						cbxAreaTecnica.setBounds(22, 36, 273, 20);
 						pnTecnico.add(cbxAreaTecnica);
 					}
@@ -471,14 +487,14 @@ public class RegSolEmpresa extends JDialog {
 					}
 					{
 						JLabel label = new JLabel("Sexo:");
-						label.setBounds(367, 305, 48, 14);
+						label.setBounds(405, 303, 48, 14);
 						pnRequisitos.add(label);
 					}
 					rdbtnFemenino = new JRadioButton("Femenino");
-					rdbtnFemenino.setBounds(421, 300, 100, 23);
+					rdbtnFemenino.setBounds(459, 299, 82, 23);
 					pnRequisitos.add(rdbtnFemenino);
 					rdbtnMasculino = new JRadioButton("Masculino");
-					rdbtnMasculino.setBounds(523, 300, 88, 23);
+					rdbtnMasculino.setBounds(543, 299, 88, 23);
 					pnRequisitos.add(rdbtnMasculino);
 
 					sexoButtonGroup = new ButtonGroup();
@@ -507,28 +523,27 @@ public class RegSolEmpresa extends JDialog {
 					label_3.setBounds(676, 30, 25, 14);
 					pnRequisitos.add(label_3);
 
+					rdbtnNoAplica = new JRadioButton("N/A");
+					rdbtnNoAplica.setSelected(true);
+					rdbtnNoAplica.setBounds(633, 299, 64, 23);
+					pnRequisitos.add(rdbtnNoAplica);
+					sexoButtonGroup.add(rdbtnNoAplica);
 
 					rbUniversitario.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							pnObrero.setVisible(false);
-							pnTecnico.setVisible(false);
-							pnUniversitario.setVisible(true);
+							cambiarPanelesTipoPersonal(pnUniversitario);
 						}
 					});
 
 					rbTecnico.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							pnObrero.setVisible(false);
-							pnTecnico.setVisible(true);
-							pnUniversitario.setVisible(false);
+							cambiarPanelesTipoPersonal(pnTecnico);
 						}
 					});
 
 					rbObrero.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							pnTecnico.setVisible(false);
-							pnObrero.setVisible(true);
-							pnUniversitario.setVisible(false);
+							cambiarPanelesTipoPersonal(pnObrero);
 						}
 					});
 				}
@@ -538,47 +553,72 @@ public class RegSolEmpresa extends JDialog {
 					buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 					getContentPane().add(buttonPane, BorderLayout.SOUTH);
 					{
-						JButton btnSolicitar = new JButton("Solicitar");
-						btnSolicitar.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								if(Utils.getSpinnerFloatValue(spnSalarioMin) >= Utils.getSpinnerFloatValue(spnSalarioMax)) {
-									JOptionPane.showMessageDialog(null,
-											"El salario m\u00ednimo tiene que ser menor que el salario m\u00e1ximo.",
-											"Advertencia",
-											JOptionPane.WARNING_MESSAGE);
-								}
-								else if(selectedEmpresa == null) {
-									JOptionPane.showMessageDialog(null,
-											"Ingrese el RNC de la empresa para poder registrar la solicitud.",
-											"Error",
-											JOptionPane.ERROR_MESSAGE);
-								}
-								else if(faltanDatos()) {
-									JOptionPane.showMessageDialog(null,
-											"Faltan datos para registrar la solicitud.",
-											"Error",
-											JOptionPane.ERROR_MESSAGE);
-								}
-								else {
-									if(crearSolicitud()) {
+						if(this.isForModify || !this.tieneValoresIniciales) {
+							String textButton = "Solicitar";
+
+							if(this.solicitudLoaded != null) {
+								textButton = "Modificar condiciones";
+							}
+
+							JButton btnSolicitar = new JButton(textButton);
+							btnSolicitar.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									if(Utils.getSpinnerFloatValue(spnSalarioMin) >= Utils.getSpinnerFloatValue(spnSalarioMax)) {
 										JOptionPane.showMessageDialog(null,
-												"Solicitud creada correctamente.",
-												"Informaci\u00f3n",
-												JOptionPane.INFORMATION_MESSAGE);
-										clearForm();
+												"El salario m\u00ednimo tiene que ser menor que el salario m\u00e1ximo.",
+												"Advertencia",
+												JOptionPane.WARNING_MESSAGE);
 									}
-									else {
+									else if(selectedEmpresa == null) {
 										JOptionPane.showMessageDialog(null,
-												"Hubo un error desconocido al intentar crear la solicitud.",
+												"Ingrese el RNC de la empresa para poder registrar la solicitud.",
 												"Error",
 												JOptionPane.ERROR_MESSAGE);
 									}
+									else if(faltanDatos()) {
+										JOptionPane.showMessageDialog(null,
+												"Faltan datos para registrar la solicitud.",
+												"Error",
+												JOptionPane.ERROR_MESSAGE);
+									}
+									else {
+										if(tieneValoresIniciales && solicitudLoaded != null) {								
+											if(modificarSolicitud()) {
+												JOptionPane.showMessageDialog(null,
+														"Solicitud modificada correctamente.",
+														"Informaci\u00f3n",
+														JOptionPane.INFORMATION_MESSAGE);
+												dispose();
+											}
+											else {
+												JOptionPane.showMessageDialog(null,
+														"Hubo un error desconocido al intentar modificar la solicitud.",
+														"Error",
+														JOptionPane.ERROR_MESSAGE);
+											}
+										}
+										else {
+											if(crearSolicitud()) {
+												JOptionPane.showMessageDialog(null,
+														"Solicitud creada correctamente.",
+														"Informaci\u00f3n",
+														JOptionPane.INFORMATION_MESSAGE);
+												clearForm();
+											}
+											else {
+												JOptionPane.showMessageDialog(null,
+														"Hubo un error desconocido al intentar crear la solicitud.",
+														"Error",
+														JOptionPane.ERROR_MESSAGE);
+											}											
+										}
+									}
 								}
-							}
-						});
-						btnSolicitar.setActionCommand("OK");
-						buttonPane.add(btnSolicitar);
-						getRootPane().setDefaultButton(btnSolicitar);
+							});
+							btnSolicitar.setActionCommand("OK");
+							buttonPane.add(btnSolicitar);
+							getRootPane().setDefaultButton(btnSolicitar);							
+						}
 					}
 					{
 						JButton btnCancelar = new JButton("Cancelar");
@@ -605,6 +645,124 @@ public class RegSolEmpresa extends JDialog {
 			if(component instanceof Checkbox)
 				oficiosGroup.add((Checkbox) component);
 		}
+
+		if(solicitudLoaded != null)
+			loadInitialData();
+	}
+
+	private void cambiarPanelesTipoPersonal(JPanel panel) {
+		if(panel.equals(pnUniversitario)){
+			pnObrero.setVisible(false);
+			pnTecnico.setVisible(false);
+			pnUniversitario.setVisible(true);
+		}
+		else if(panel.equals(pnObrero)){
+			pnObrero.setVisible(true);
+			pnTecnico.setVisible(false);
+			pnUniversitario.setVisible(false);
+		}
+		else{
+			pnObrero.setVisible(false);
+			pnTecnico.setVisible(true);
+			pnUniversitario.setVisible(false);
+		}
+	}
+
+	private void makeUISpinnersMoreReadable() {
+		Utils.makeSpinnerMoreReadable(spnCantPlazas);
+		Utils.makeSpinnerMoreReadable(spnPorcentajeMatch);
+		Utils.makeSpinnerMoreReadable(spnSalarioMax);
+		Utils.makeSpinnerMoreReadable(spnSalarioMin);
+		Utils.makeSpinnerMoreReadable(spnEdad);
+		Utils.makeSpinnerMoreReadable(spnAgnosExp);
+	}
+
+	private void deshabilitarComboboxes() {
+		cbxAreaTecnica.setEnabled(false);
+		cbxCarrera.setEnabled(false);
+		cbxModalidadTrabajo.setEnabled(false);
+		cbxNacionalidad.setEnabled(false);
+		cbxUniversidad.setEnabled(false);
+	}
+
+	private void deshabilitarCheckboxes() {
+		// Requisitos
+		ckDispSalirCiudad.setEnabled(false);
+		ckDispCambioResidencia.setEnabled(false);
+		ckSoltero.setEnabled(false);
+
+		// Idiomas
+		idiomasGroup.forEach(checkbox -> checkbox.setEnabled(false));
+
+		// Oficios
+		oficiosGroup.forEach(checkbox -> checkbox.setEnabled(false));
+	}
+
+	private void deshabilitarComponentes() {
+		makeUISpinnersMoreReadable();
+		deshabilitarComboboxes();
+		deshabilitarCheckboxes();
+		Utils.disableEachAbstractButton(sexoButtonGroup);
+	}
+
+	private void loadInitialData() {
+		// Datos generales
+		spnCantPlazas.setValue(Integer.valueOf(solicitudLoaded.getCantidadPlazasNecesarias()));
+		txtFRNC.setText(selectedEmpresa.getRNC());
+		txtFRNC.setEditable(false);
+		btnBuscarEmpresa.setEnabled(false);
+		btnBuscarEmpresa.setVisible(false);
+		txtNombreComercial.setText(selectedEmpresa.getNombreComercial());
+
+		// Requisitos
+		ckDispSalirCiudad.setState(solicitudLoaded.isDisponibilidadSalirCiudad());
+		ckDispCambioResidencia.setState(solicitudLoaded.isDisponibilidadCambioResidencia());
+		ckSoltero.setState(!solicitudLoaded.isEsCasado());
+		spnPorcentajeMatch.setValue(Float.valueOf(solicitudLoaded.getPorcentajeMatchRequerido()));
+		cbxModalidadTrabajo.setSelectedItem(solicitudLoaded.getTipoDeTrabajo());
+
+		// Idiomas
+		idiomasGroup.forEach(checkBox -> {
+			checkBox.setState(solicitudLoaded.getIdiomas().contains(checkBox.getLabel()));
+		});
+
+		// Otros requisitos
+		spnSalarioMin.setValue(Float.valueOf(solicitudLoaded.getSalarioMin()));
+		spnSalarioMax.setValue(Float.valueOf(solicitudLoaded.getSalarioMax()));
+		spnAgnosExp.setValue(Integer.valueOf(solicitudLoaded.getAgnosExperiencia()));
+		spnEdad.setValue(Integer.valueOf(solicitudLoaded.getEdad()));
+		cbxNacionalidad.setSelectedItem(solicitudLoaded.getNacionalidad());	
+		String sexo = solicitudLoaded.getSexo(); 
+		if(sexo == "N/A")
+			sexoButtonGroup.setSelected(rdbtnNoAplica.getModel(), true);
+		else
+			sexoButtonGroup.setSelected(sexo.equalsIgnoreCase("Masculino") ? rdbtnMasculino.getModel() : rdbtnFemenino.getModel(), true);
+
+		// Tipo de personal
+		if(solicitudLoaded.getTipoPersonalSolicitado().equalsIgnoreCase("Universitario")){
+			cbxUniversidad.setSelectedItem(solicitudLoaded.getUniversidad());
+			cbxCarrera.setSelectedItem(solicitudLoaded.getCarrera());
+			tipoPersonalButtonGroup.setSelected(rbUniversitario.getModel(), true);
+			cambiarPanelesTipoPersonal(pnUniversitario);
+		}
+		else if(solicitudLoaded.getTipoPersonalSolicitado().equalsIgnoreCase("Obrero")){
+			oficiosGroup.forEach(oficio -> {
+				oficio.setState(solicitudLoaded.getOficios().contains(oficio.getLabel()));
+			});
+			tipoPersonalButtonGroup.setSelected(rbObrero.getModel(), true);
+			cambiarPanelesTipoPersonal(pnObrero);
+		}
+		else{
+			cbxAreaTecnica.setSelectedItem(solicitudLoaded.getAreaTecnica());
+			tipoPersonalButtonGroup.setSelected(rbTecnico.getModel(), true);
+			cambiarPanelesTipoPersonal(pnTecnico);
+		}
+
+		// Impedir el cambio del tipo de personal
+		Utils.disableEachAbstractButton(tipoPersonalButtonGroup);
+
+		if(!isForModify)
+			deshabilitarComponentes();
 	}
 
 	// Obtener todos los idiomas seleccionados
@@ -696,11 +854,11 @@ public class RegSolEmpresa extends JDialog {
 				universidad = cbxUniversidad.getSelectedItem().toString();
 			}
 			else {
-				oficios = getIdiomasSelected();
+				oficios = getOficiosSelected();
 			}
 
 			SolicitudEmpresa solicitudEmpresa = new SolicitudEmpresa(
-					SolicitudEmpresa.genID(),
+					txtCode.getText(),
 					selectedEmpresa.getRNC(),
 					Utils.getSpinnerIntValue(spnCantPlazas),
 					Utils.getSpinnerFloatValue(spnSalarioMax),
@@ -709,6 +867,7 @@ public class RegSolEmpresa extends JDialog {
 					Utils.getSpinnerIntValue(spnAgnosExp),
 					tipoPersonal,
 					Utils.getSelectedRadioButtonText(sexoButtonGroup),
+					cbxNacionalidad.getSelectedItem().toString(),
 					ckDispSalirCiudad.getState(),
 					ckDispCambioResidencia.getState(), 
 					cbxModalidadTrabajo.getSelectedItem().toString(),
@@ -718,6 +877,7 @@ public class RegSolEmpresa extends JDialog {
 					areaTecnica,
 					Utils.getSpinnerFloatValue(spnPorcentajeMatch)
 					);
+			solicitudEmpresa.setIdiomas(getIdiomasSelected());
 
 			// Cargar oficios en solicitud
 			if(oficios != null) {
@@ -730,12 +890,50 @@ public class RegSolEmpresa extends JDialog {
 		return exito;
 	}
 
+	private boolean modificarSolicitud() {
+		boolean exito = false;
+
+		if(solicitudLoaded != null) {
+			solicitudLoaded.setCantidadPlazasNecesarias(Utils.getSpinnerIntValue(spnCantPlazas));
+			solicitudLoaded.setSalarioMax(Utils.getSpinnerFloatValue(spnSalarioMax));
+			solicitudLoaded.setSalarioMin(Utils.getSpinnerFloatValue(spnSalarioMin));
+			solicitudLoaded.setEdad(Utils.getSpinnerIntValue(spnEdad));
+			solicitudLoaded.setAgnosExperiencia(Utils.getSpinnerIntValue(spnAgnosExp));
+			solicitudLoaded.setSexo(Utils.getSelectedRadioButtonText(sexoButtonGroup));
+			solicitudLoaded.setNacionalidad(cbxNacionalidad.getSelectedItem().toString());
+			solicitudLoaded.setDisponibilidadCambioResidencia(ckDispCambioResidencia.getState());
+			solicitudLoaded.setDisponibilidadSalirCiudad(ckDispSalirCiudad.getState());
+			solicitudLoaded.setEsCasado(!ckSoltero.getState());
+			solicitudLoaded.setPorcentajeMatchRequerido(Utils.getSpinnerFloatValue(spnPorcentajeMatch));
+			solicitudLoaded.setTipoDeTrabajo(cbxModalidadTrabajo.getSelectedItem().toString());
+
+			String tipoPersonal = Utils.getSelectedRadioButtonText(tipoPersonalButtonGroup);
+			if(tipoPersonal != null) {
+				if(tipoPersonal.equalsIgnoreCase("Universitario")) {
+					solicitudLoaded.setCarrera(cbxCarrera.getSelectedItem().toString());
+					solicitudLoaded.setUniversidad(cbxUniversidad.getSelectedItem().toString());
+				}
+				else if(tipoPersonal.equalsIgnoreCase("Obrero")) {
+					solicitudLoaded.setOficios(getOficiosSelected());
+				}
+				else {
+					solicitudLoaded.setAreaTecnica(cbxAreaTecnica.getSelectedItem().toString());
+				}
+			}
+
+			solicitudLoaded.setIdiomas(getIdiomasSelected());
+			exito = true;
+		}
+
+		return exito;
+	}
+
 	private void clearForm() {
 		txtCode.setText(SolicitudEmpresa.genID());
 		spnCantPlazas.setValue(Integer.valueOf(0));
 		spnAgnosExp.setValue(Integer.valueOf(0));
 		spnEdad.setValue(Integer.valueOf(18));
-		sexoButtonGroup.clearSelection();
+		sexoButtonGroup.setSelected(rdbtnNoAplica.getModel(), true);
 		cbxNacionalidad.setSelectedIndex(0);
 		cbxModalidadTrabajo.setSelectedIndex(0);
 		spnSalarioMax.setValue(Float.valueOf(0.0f));
