@@ -3,6 +3,9 @@ package logico;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import enums.EstadoSolicitudEmpresa;
+import enums.EstadoSolicitudPersonal;
+
 public class BolsaTrabajo {
 	private BolsaTrabajo() {
 		super();
@@ -81,5 +84,42 @@ public class BolsaTrabajo {
 		return new ArrayList<Personal>(personal.stream()
 				.filter(candidato -> solicitud.getCedulasPersonasContratadas().contains(candidato.getCedula()))
 				.collect(Collectors.toList()));
+	}
+
+	public void anularSolicitudEmpresa(SolicitudEmpresa solicitud) {
+		solicitud.setEstado(EstadoSolicitudEmpresa.ANULADA);
+
+		ArrayList<String> cedulasForAnulacion = solicitud.getCedulasPersonasContratadas();
+		this.personal.forEach(persona -> {
+			if(cedulasForAnulacion.contains(persona.getCedula())) {
+				// Desemplear
+				persona.setIdEmpresaContratacion(null);
+
+				persona.getSolicitudes().forEach(solicitudPersonal -> {
+					if(solicitudPersonal.getEstado() == EstadoSolicitudPersonal.PENDIENTE){
+						solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
+					}
+				});
+			}
+		});
+	}
+
+	public void contratarPersonal(String cedula, String RNCEmpresaContratacion, String idSolicitudPersonal) {
+		ArrayList<Personal> result = getPersonalByID(cedula);
+		if(result.size() > 0) {
+			Personal personal = result.get(0);
+			personal.setIdEmpresaContratacion(RNCEmpresaContratacion);
+			personal.getSolicitudes().forEach(solicitud -> {
+				if(idSolicitudPersonal != null){
+					if(idSolicitudPersonal.equalsIgnoreCase(solicitud.getId())){
+						solicitud.setEstado(EstadoSolicitudPersonal.SATISFECHA);
+						return;
+					}
+				}
+
+				if(solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA)
+					solicitud.setEstado(EstadoSolicitudPersonal.PENDIENTE);
+			});
+		}
 	}
 }
