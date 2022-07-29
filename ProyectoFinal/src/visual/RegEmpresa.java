@@ -25,17 +25,20 @@ import javax.swing.UIManager;
 public class RegEmpresa extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JFormattedTextField txtFCedCliente;
+	private JFormattedTextField txtFRNC;
 	private JComboBox cbxTipo;
-	private JTextField txtCodigo;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_9;
+	private JTextField txtRubro;
+	private JTextField txtNombreComercial;
+	private JTextField txtRazonSocial;
+	private JTextField txtCiudadResidencia;
+	private JTextField txtDireccion;
+	private JTextField txtPais;
+	private JTextField txtProvincia;
+	private JTextField txtNombreContacto;
+	private JTextField txtEmailContacto;
+	private JComboBox cbxSector;
+	private JFormattedTextField txtFTelefono;
+	private JComboBox cbxCargoContacto;
 
 	/**
 	 * Launch the application.
@@ -72,11 +75,11 @@ public class RegEmpresa extends JDialog {
 		lblNewLabel.setBounds(33, 32, 94, 14);
 		panel.add(lblNewLabel);
 		try{
-			txtFCedCliente = new JFormattedTextField(Utils.getMaskCedula());
-			txtFCedCliente.setForeground(Color.BLACK);
-			txtFCedCliente.setToolTipText("");
-			txtFCedCliente.setBounds(120, 29, 146, 20);
-			panel.add(txtFCedCliente);
+			txtFRNC = new JFormattedTextField(Utils.getMaskCedula());
+			txtFRNC.setForeground(Color.BLACK);
+			txtFRNC.setToolTipText("");
+			txtFRNC.setBounds(120, 29, 146, 20);
+			panel.add(txtFRNC);
 		}catch(Exception ex){}
 		{
 			JLabel lblNewLabel_1 = new JLabel("Tipo de empresa:");
@@ -100,28 +103,28 @@ public class RegEmpresa extends JDialog {
 			panel.add(lblNombre);
 		}
 		{
-			txtCodigo = new JTextField();
-			txtCodigo.setColumns(10);
-			txtCodigo.setBounds(120, 112, 146, 20);
-			panel.add(txtCodigo);
+			txtRubro = new JTextField();
+			txtRubro.setColumns(10);
+			txtRubro.setBounds(120, 112, 146, 20);
+			panel.add(txtRubro);
 		}			
 		{
-			textField = new JTextField();
-			textField.setColumns(10);
-			textField.setBounds(502, 29, 156, 20);
-			panel.add(textField);
+			txtNombreComercial = new JTextField();
+			txtNombreComercial.setColumns(10);
+			txtNombreComercial.setBounds(502, 29, 156, 20);
+			panel.add(txtNombreComercial);
 		}
 		{
-			JComboBox cbxSector = new JComboBox();
+			cbxSector = new JComboBox();
 			cbxSector.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Industrial", "Agricultura ", "Alimentaci\u00F3n", "Comercio ", "Construcci\u00F3n", "Educaci\u00F3n ", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n ", "Miner\u00EDa ", "Petrolero ", "Telecomunicaciones ", "Salud ", "Financieros", "P\u00FAblico ", "Silvicultura ", "Textil ", "Tecnol\u00F3gico", "Transporte"}));
 			cbxSector.setBounds(502, 70, 156, 20);
 			panel.add(cbxSector);
 		}
 		{
-			textField_1 = new JTextField();
-			textField_1.setColumns(10);
-			textField_1.setBounds(120, 70, 148, 20);
-			panel.add(textField_1);
+			txtRazonSocial = new JTextField();
+			txtRazonSocial.setColumns(10);
+			txtRazonSocial.setBounds(120, 70, 148, 20);
+			panel.add(txtRazonSocial);
 		}
 		{
 			JLabel lblNewLabel_3 = new JLabel("Rubro:");
@@ -145,10 +148,10 @@ public class RegEmpresa extends JDialog {
 				panel_1.add(label);
 			}
 			{
-				textField_2 = new JTextField();
-				textField_2.setColumns(10);
-				textField_2.setBounds(161, 31, 179, 20);
-				panel_1.add(textField_2);
+				txtCiudadResidencia = new JTextField();
+				txtCiudadResidencia.setColumns(10);
+				txtCiudadResidencia.setBounds(161, 31, 179, 20);
+				panel_1.add(txtCiudadResidencia);
 			}
 			{
 				JLabel label = new JLabel("Direcci\u00F3n:");
@@ -156,10 +159,10 @@ public class RegEmpresa extends JDialog {
 				panel_1.add(label);
 			}
 			{
-				textField_3 = new JTextField();
-				textField_3.setColumns(10);
-				textField_3.setBounds(161, 70, 179, 20);
-				panel_1.add(textField_3);
+				txtDireccion = new JTextField();
+				txtDireccion.setColumns(10);
+				txtDireccion.setBounds(161, 70, 179, 20);
+				panel_1.add(txtDireccion);
 			}
 			{
 				JLabel label = new JLabel("Provincia:");
@@ -172,16 +175,16 @@ public class RegEmpresa extends JDialog {
 				panel_1.add(label);
 			}
 			{
-				textField_4 = new JTextField();
-				textField_4.setColumns(10);
-				textField_4.setBounds(443, 70, 195, 20);
-				panel_1.add(textField_4);
+				txtPais = new JTextField();
+				txtPais.setColumns(10);
+				txtPais.setBounds(453, 70, 195, 20);
+				panel_1.add(txtPais);
 			}
 			{
-				textField_5 = new JTextField();
-				textField_5.setColumns(10);
-				textField_5.setBounds(443, 31, 195, 20);
-				panel_1.add(textField_5);
+				txtProvincia = new JTextField();
+				txtProvincia.setColumns(10);
+				txtProvincia.setBounds(453, 31, 195, 20);
+				panel_1.add(txtProvincia);
 			}
 		}
 		{
@@ -196,10 +199,10 @@ public class RegEmpresa extends JDialog {
 				panel_1.add(lblNombre_1);
 			}
 			{
-				textField_6 = new JTextField();
-				textField_6.setColumns(10);
-				textField_6.setBounds(81, 31, 175, 20);
-				panel_1.add(textField_6);
+				txtNombreContacto = new JTextField();
+				txtNombreContacto.setColumns(10);
+				txtNombreContacto.setBounds(81, 31, 175, 20);
+				panel_1.add(txtNombreContacto);
 			}
 			{
 				JLabel lblTelfono = new JLabel("Tel\u00E9fono:");
@@ -212,13 +215,13 @@ public class RegEmpresa extends JDialog {
 				panel_1.add(lblEmail);
 			}
 			{
-				textField_9 = new JTextField();
-				textField_9.setColumns(10);
-				textField_9.setBounds(81, 70, 175, 20);
-				panel_1.add(textField_9);
+				txtEmailContacto = new JTextField();
+				txtEmailContacto.setColumns(10);
+				txtEmailContacto.setBounds(81, 70, 175, 20);
+				panel_1.add(txtEmailContacto);
 			}
 			{
-				JFormattedTextField txtFTelefono = new JFormattedTextField(Utils.getMaskTelefono());
+				txtFTelefono = new JFormattedTextField(Utils.getMaskTelefono());
 				txtFTelefono.setToolTipText("");
 				txtFTelefono.setForeground(Color.BLACK);
 				txtFTelefono.setBounds(453, 31, 195, 20);
@@ -230,7 +233,7 @@ public class RegEmpresa extends JDialog {
 				panel_1.add(lblCargo);
 			}
 			{
-				JComboBox cbxCargoContacto = new JComboBox();
+				cbxCargoContacto = new JComboBox();
 				cbxCargoContacto.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "CEO", "CTO", "RRHH", "Secretario/a del CEO", "Gerente de Log\u00EDstica", "Gerente de Comunicaciones", "Gerente de Operaciones", "Gerente de Servicios Administrativos", "Otro"}));
 				cbxCargoContacto.setBounds(453, 69, 195, 20);
 				panel_1.add(cbxCargoContacto);
@@ -260,4 +263,68 @@ public class RegEmpresa extends JDialog {
 		}
 	}
 }
+	private boolean elemVacios() {
+		boolean vacio = false;
+		if (Utils.isCbxDefaultValue(cbxCargoContacto)) {
+			vacio = true;
+		}
+		else if (Utils.isCbxDefaultValue(cbxSector)) {
+			vacio = true;
+		}
+		else if (Utils.isCbxDefaultValue(cbxTipo)) {
+			vacio = true;
+		}
+		else if (Utils.isMaskCedulaDefaultValue(txtFRNC.getText())) {
+			vacio = true;
+		}
+		else if (Utils.isMaskTelefonoDefaultValue(txtFTelefono.getText())) {
+			vacio = true;
+		}
+		else if (txtCiudadResidencia.getText().isEmpty()) {
+			vacio = true;
+		}
+		else if (txtDireccion.getText().isEmpty()) {
+			vacio = true;
+		}
+		else if (txtEmailContacto.getText().isEmpty()) {
+			vacio = true;
+		}
+		else if (txtNombreComercial.getText().isEmpty()) {
+			vacio = true;
+		}
+		else if (txtNombreContacto.getText().isEmpty()) {
+			vacio = true;
+		}
+		else if (txtPais.getText().isEmpty()) {
+			vacio = true;
+		}
+		else if (txtProvincia.getText().isEmpty()) {
+			vacio = true;
+		}
+		else if (txtRazonSocial.getText().isEmpty()) {
+			vacio = true;
+		}
+		else if (txtRubro.getText().isEmpty()) {
+			vacio = true;
+		}
+		return vacio;
+	}
+	
+	
+	private void clean() {
+		cbxCargoContacto.setSelectedIndex(0);
+		cbxSector.setSelectedIndex(0);
+		cbxTipo.setSelectedIndex(0);
+		txtCiudadResidencia.setText("");
+		txtDireccion.setText("");
+		txtEmailContacto.setText("");
+		txtFRNC.setText("");
+		txtFTelefono.setText("");
+		txtNombreComercial.setText("");
+		txtNombreContacto.setText("");
+		txtPais.setText("");
+		txtProvincia.setText("");
+		txtRazonSocial.setText("");
+		txtRubro.setText("");
+	}
 }
