@@ -8,6 +8,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
+import logico.Banco;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.SolicitudEmpresa;
@@ -29,15 +30,18 @@ import javax.swing.JTextField;
 
 public class ListadoSolicitudesEmpresa extends JDialog {
 	private final JPanel contentPanel = new JPanel();
-	private JTable tablaEmpresas;
+	private JTable tablaSolicitudes;
 	private DefaultTableModel model;
 	private Object[] row;
 	private JButton btnVerDetalles;
-	private Empresa selectedEmpresa = null;
 	private JButton btnAnular;
 	private JTextField txtIDSolicitud;
-	private JButton btnVerPosiblesCandidatos;
+	private JButton btnModificarCondiciones;
 	private JButton btnReset;
+	private JButton btnVerPosiblesCandidatos;
+
+	private Empresa selectedEmpresa = null;
+	private SolicitudEmpresa selectedSolicitud = null;
 
 	/**
 	 * Launch the application.
@@ -69,6 +73,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			setTitle("Listado de solicitudes");			
 		}
 		else {
+			selectedEmpresa = empresa;
 			setTitle("Listado de solicitudes de " + empresa.getNombreComercial() + " (" + empresa.getRNC() + ")");
 		}
 
@@ -89,27 +94,25 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 				scrollPane.setBounds(8, 78, 934, 395);
 				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 				panel.add(scrollPane); {
-					tablaEmpresas = new NonEditableTable();
-					tablaEmpresas.getTableHeader().setReorderingAllowed(false);
-					tablaEmpresas.addMouseListener(new MouseAdapter() {
+					tablaSolicitudes = new NonEditableTable();
+					tablaSolicitudes.getTableHeader().setReorderingAllowed(false);
+					tablaSolicitudes.addMouseListener(new MouseAdapter() {
 						public void mouseClicked(MouseEvent e) {
-							int index = tablaEmpresas.getSelectedRow();
+							int index = tablaSolicitudes.getSelectedRow();
 							if(index >= 0) {
-								String codigoString = tablaEmpresas.getValueAt(index, 0).toString();
-								ArrayList<Empresa> result = BolsaTrabajo.getInstance().getEmpresasByID(codigoString);
+								String codigoString = tablaSolicitudes.getValueAt(index, 0).toString();
+								ArrayList<SolicitudEmpresa> result = getDataSolicitudes(selectedEmpresa, codigoString);
 								if(result.size() != 0) {
-									selectedEmpresa = result.get(0);									
-									if(selectedEmpresa != null) {
-										setButtonsState(true);
-									}
+									selectedSolicitud = result.get(0);
+									setButtonsState(true);
 								}
 							}
 						}
 					});
 					model = new DefaultTableModel();
 					model.setColumnIdentifiers(headers);
-					tablaEmpresas.setModel(model);
-					scrollPane.setViewportView(tablaEmpresas);
+					tablaSolicitudes.setModel(model);
+					scrollPane.setViewportView(tablaSolicitudes);
 				}
 			}
 
@@ -139,16 +142,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 								JOptionPane.ERROR_MESSAGE);
 					}
 					else {
-						// En caso de ser un listado de una empresa en especifico
-
-						if(selectedEmpresa != null) {
-							loadRowsInTable(BolsaTrabajo.getInstance().getSolicitudesEmpresaByID(selectedEmpresa.getRNC(), txtIDSolicitud.getText()));							
-						}
-						// En caso de ser un listado general
-						else {
-							loadRowsInTable(BolsaTrabajo.getInstance().getSolicitudesEmpresaByID(txtIDSolicitud.getText()));
-						}
-
+						loadRowsInTable(getDataSolicitudes(selectedEmpresa, txtIDSolicitud.getText()));
 						btnReset.setEnabled(true);
 						setButtonsState(false);
 					}
@@ -160,14 +154,10 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			btnReset = new JButton("Mostrar todas las solicitudes");
 			btnReset.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(selectedEmpresa != null) {
-						loadRowsInTable(BolsaTrabajo.getInstance().getSolicitudesEmpresaByID(selectedEmpresa.getRNC(), ""));							
-					}
-					// En caso de ser un listado general
-					else {
-						loadRowsInTable(BolsaTrabajo.getInstance().getSolicitudesEmpresaByID(""));
-					}
+					loadRowsInTable(getDataSolicitudes(selectedEmpresa, ""));
 					setButtonsState(false);
+					btnReset.setEnabled(false);
+					txtIDSolicitud.setText("");
 				}
 			});
 			btnReset.setEnabled(false);
@@ -207,27 +197,42 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		btnAnular = new JButton("Anular solicitud");
 		btnAnular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// TODO implementar todo de anular solicitdes
+				int option = JOptionPane.showConfirmDialog(null, "¿Desea anular la solicitud de código " + selectedSolicitud.getId() + "? Se desemplearan los candidatos asociados.", "Confirmación", JOptionPane.WARNING_MESSAGE);
+
+				if(JOptionPane.YES_OPTION == option) {
+					BolsaTrabajo.getInstance().anularSolicitudEmpresa(selectedSolicitud);
+					loadRowsInTable(getDataSolicitudes(selectedEmpresa, txtIDSolicitud.getText()));
+					setButtonsState(false);
+				}
 			}
 		});
 		btnAnular.setEnabled(false);
 		btnAnular.setBounds(468, 5, 186, 23);
 		buttonPane.add(btnAnular);
 
+		btnModificarCondiciones = new JButton("Modificar condiciones");
+		btnModificarCondiciones.setEnabled(false);
+		btnModificarCondiciones.setBounds(272, 5, 186, 23);
+		buttonPane.add(btnModificarCondiciones);
+
 		btnVerPosiblesCandidatos = new JButton("Ver posibles candidatos");
 		btnVerPosiblesCandidatos.setEnabled(false);
-		btnVerPosiblesCandidatos.setBounds(272, 5, 186, 23);
+		btnVerPosiblesCandidatos.setBounds(76, 5, 186, 23);
 		buttonPane.add(btnVerPosiblesCandidatos);
 
+		loadRowsInTable(getDataSolicitudes(selectedEmpresa, ""));
+	}
+
+	private ArrayList<SolicitudEmpresa> getDataSolicitudes(Empresa selectedEmpresa, String id){
 		BolsaTrabajo instanceBolsaTrabajo = BolsaTrabajo.getInstance();
-		ArrayList<SolicitudEmpresa> solicitudesEmp;
-		if(empresa == null) {
-			solicitudesEmp = instanceBolsaTrabajo.getSolicitudesEmpresaByID("");
+
+		// En caso de ser un listado general
+		if(selectedEmpresa == null) {
+			return instanceBolsaTrabajo.getSolicitudesEmpresaByID(id);
 		}
-		else {
-			solicitudesEmp = instanceBolsaTrabajo.getSolicitudesEmpresaByID(empresa.getRNC(), "");
-		}
-		loadRowsInTable(solicitudesEmp);
+
+		// En caso de ser un listado para una entidad especifica
+		return instanceBolsaTrabajo.getSolicitudesEmpresaByID(selectedEmpresa.getRNC(), id);
 	}
 
 	// Cargar datos a la tabla
@@ -247,6 +252,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 	private void setButtonsState(boolean isEnabled) {
 		btnVerDetalles.setEnabled(isEnabled);
 		btnAnular.setEnabled(isEnabled);
+		btnModificarCondiciones.setEnabled(isEnabled);
 		btnVerPosiblesCandidatos.setEnabled(isEnabled);
 	}
 }
