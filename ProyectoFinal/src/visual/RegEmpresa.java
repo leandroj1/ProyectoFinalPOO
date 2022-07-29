@@ -19,6 +19,10 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+
+import logico.BolsaTrabajo;
+import logico.Empresa;
+import logico.Ubicacion;
 import logico.Utils;
 import javax.swing.UIManager;
 
@@ -247,6 +251,30 @@ public class RegEmpresa extends JDialog {
 		getContentPane().add(buttonPane, BorderLayout.SOUTH);
 		{
 			JButton btnRegistrar = new JButton("Registrar");
+			btnRegistrar.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if (elemVacios()) {
+						JOptionPane.showMessageDialog(null, "Tiene que completar todos los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+					}
+					else {	
+						if (Utils.isAValidEmail(txtEmailContacto.getText())) {
+							if (BolsaTrabajo.getInstance().buscarEmpresaByRNC(txtFRNC.getText()) == null) {
+								Ubicacion ubicacion = new Ubicacion(txtPais.getText(), txtProvincia.getText(), txtCiudadResidencia.getText(), txtDireccion.getText());
+								Empresa empresa = new Empresa(txtFRNC.getText(), txtNombreComercial.getText(), txtRazonSocial.getText(), txtRubro.getText(), cbxCargoContacto.getSelectedItem().toString(), txtNombreContacto.getText(), txtFTelefono.getText(), txtEmailContacto.getText(), cbxSector.getSelectedItem().toString(), cbxTipo.getSelectedItem().toString(), ubicacion);
+								BolsaTrabajo.getInstance().agregarEmpresa(empresa);
+								JOptionPane.showMessageDialog(null, "Registro exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+								clean();
+							}
+							else {
+								JOptionPane.showMessageDialog(null, "Esta empresa ya est\u00E1 registrada, por favor ingrese otra", "Advertencia", JOptionPane.WARNING_MESSAGE);
+							}
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "El email ingresado no es v\u00E1lido, por favor ingrese otro", "Advertencia", JOptionPane.WARNING_MESSAGE);
+						}
+					}
+				}
+			});
 			btnRegistrar.setActionCommand("OK");
 			buttonPane.add(btnRegistrar);
 			getRootPane().setDefaultButton(btnRegistrar);
