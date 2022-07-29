@@ -221,7 +221,7 @@ public class RegEmpresa extends JDialog {
 				JFormattedTextField txtFTelefono = new JFormattedTextField(Utils.getMaskTelefono());
 				txtFTelefono.setToolTipText("");
 				txtFTelefono.setForeground(Color.BLACK);
-				txtFTelefono.setBounds(436, 31, 156, 20);
+				txtFTelefono.setBounds(453, 31, 195, 20);
 				panel_1.add(txtFTelefono);
 			}
 			{
@@ -231,8 +231,8 @@ public class RegEmpresa extends JDialog {
 			}
 			{
 				JComboBox cbxCargoContacto = new JComboBox();
-				cbxCargoContacto.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "CEO", "CTO", "RRHH", "Secretario/a del CEO"}));
-				cbxCargoContacto.setBounds(436, 69, 156, 20);
+				cbxCargoContacto.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "CEO", "CTO", "RRHH", "Secretario/a del CEO", "Gerente de Log\u00EDstica", "Gerente de Comunicaciones", "Gerente de Operaciones", "Gerente de Servicios Administrativos", "Otro"}));
+				cbxCargoContacto.setBounds(453, 69, 195, 20);
 				panel_1.add(cbxCargoContacto);
 			}
 		}
