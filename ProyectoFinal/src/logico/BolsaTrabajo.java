@@ -82,4 +82,18 @@ public class BolsaTrabajo {
 				.filter(candidato -> solicitud.getCedulasPersonasContratadas().contains(candidato.getCedula()))
 				.collect(Collectors.toList()));
 	}
+	
+	public Empresa buscarEmpresaByRNC(String codEmpresa) {
+		Empresa aux = null;
+		int ind = 0;
+		boolean encontrado = false;
+		while(ind < empresas.size() && !encontrado) {
+			if(empresas.get(ind).getRNC().equalsIgnoreCase(codEmpresa)) {
+				aux = empresas.get(ind);
+				encontrado = true;
+			}
+			ind++;
+		}
+		return aux;
+	}
 }
