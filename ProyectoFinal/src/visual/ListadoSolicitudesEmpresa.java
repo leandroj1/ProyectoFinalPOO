@@ -8,7 +8,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
-import logico.Banco;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.SolicitudEmpresa;
@@ -20,8 +19,6 @@ import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.function.BiFunction;
-import java.util.function.Function;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -31,8 +28,8 @@ import javax.swing.JTextField;
 public class ListadoSolicitudesEmpresa extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable tablaSolicitudes;
-	private DefaultTableModel model;
-	private Object[] row;
+	private static DefaultTableModel model;
+	private static Object[] row;
 	private JButton btnVerDetalles;
 	private JButton btnAnular;
 	private JTextField txtIDSolicitud;
@@ -129,21 +126,24 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			txtIDSolicitud = new JTextField();
 			txtIDSolicitud.setBounds(43, 18, 457, 20);
 			panelFilter.add(txtIDSolicitud);
-			txtIDSolicitud.setColumns(10);
+			txtIDSolicitud.setColumns(12);
 
 			JButton btnFilter = new JButton("Filtrar datos");
 			btnFilter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					// Si es mayor que 12, no es un ID valido
-					if(!txtIDSolicitud.getText().startsWith("SE") || txtIDSolicitud.getText().length() > 12) {
+					String id = txtIDSolicitud.getText().toUpperCase();
+					if(!id.startsWith("SE") || id.length() > 12) {
 						JOptionPane.showMessageDialog(null,
-								"Ingrese un ID válido para poder filtrar las solicitudes.",
+								"Ingrese un ID v\u00e1lido para poder filtrar las solicitudes.",
 								"Error",
 								JOptionPane.ERROR_MESSAGE);
+						txtIDSolicitud.requestFocus();
 					}
 					else {
-						loadRowsInTable(getDataSolicitudes(selectedEmpresa, txtIDSolicitud.getText()));
+						loadRowsInTable(getDataSolicitudes(selectedEmpresa, id));
 						btnReset.setEnabled(true);
+						selectedSolicitud = null;
 						setButtonsState(false);
 					}
 				}
@@ -171,11 +171,14 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			btnVerDetalles.setBounds(664, 5, 166, 23);
 			btnVerDetalles.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					if(selectedEmpresa != null) {
-						// Abrir ventana
+					if(selectedSolicitud != null) {
+						RegSolEmpresa detalles = new RegSolEmpresa(selectedSolicitud);
+						detalles.setModal(true);
+						detalles.setVisible(true);
 
 						// Para evitar errores
 						setButtonsState(false);
+						selectedSolicitud = null;
 					}
 				}
 			});
@@ -197,11 +200,20 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		btnAnular = new JButton("Anular solicitud");
 		btnAnular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int option = JOptionPane.showConfirmDialog(null, "¿Desea anular la solicitud de código " + selectedSolicitud.getId() + "? Se desemplearan los candidatos asociados.", "Confirmación", JOptionPane.WARNING_MESSAGE);
+				if(selectedSolicitud != null) {
+					int option = JOptionPane.showConfirmDialog(null, "¿Desea anular la solicitud de c\u00f3digo " + selectedSolicitud.getId() + "? Se desemplearan los candidatos asociados.", "Confirmaci\u00f3n", JOptionPane.WARNING_MESSAGE);
+					
+					if(JOptionPane.YES_OPTION == option) {
+//					BolsaTrabajo.getInstance().anularSolicitudEmpresa(selectedSolicitud);
+						JOptionPane.showMessageDialog(null,
+								"Solicitud anulada correctamente.",
+								"Informaci\u00f3n",
+								JOptionPane.INFORMATION_MESSAGE);
+						loadRowsInTable(getDataSolicitudes(selectedEmpresa, txtIDSolicitud.getText()));
+					}					
 
-				if(JOptionPane.YES_OPTION == option) {
-					BolsaTrabajo.getInstance().anularSolicitudEmpresa(selectedSolicitud);
-					loadRowsInTable(getDataSolicitudes(selectedEmpresa, txtIDSolicitud.getText()));
+					// Para evitar errores
+					selectedSolicitud = null;
 					setButtonsState(false);
 				}
 			}
@@ -211,11 +223,30 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		buttonPane.add(btnAnular);
 
 		btnModificarCondiciones = new JButton("Modificar condiciones");
+		btnModificarCondiciones.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedSolicitud != null) {
+					// Para evitar errores
+					setButtonsState(false);
+					selectedSolicitud = null;					
+				}
+			}
+		});
 		btnModificarCondiciones.setEnabled(false);
 		btnModificarCondiciones.setBounds(272, 5, 186, 23);
 		buttonPane.add(btnModificarCondiciones);
 
 		btnVerPosiblesCandidatos = new JButton("Ver posibles candidatos");
+		btnVerPosiblesCandidatos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedSolicitud != null) {
+					// Para evitar errores
+					setButtonsState(false);
+					selectedSolicitud = null;				
+				}
+			}
+		});
+		btnVerPosiblesCandidatos.setToolTipText("Aplicar el algoritmo de selecci\u00F3n");
 		btnVerPosiblesCandidatos.setEnabled(false);
 		btnVerPosiblesCandidatos.setBounds(76, 5, 186, 23);
 		buttonPane.add(btnVerPosiblesCandidatos);
@@ -236,15 +267,17 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 	}
 
 	// Cargar datos a la tabla
-	private void loadRowsInTable(ArrayList<SolicitudEmpresa> solicitudes) {
+	private static void loadRowsInTable(ArrayList<SolicitudEmpresa> solicitudes) {
+		model.setRowCount(0);
 		row = new Object[model.getColumnCount()];
 		for (SolicitudEmpresa solicitud : solicitudes) {
 			row[0] = solicitud.getId();
 			row[1] = Utils.getDateFormatted(solicitud.getFecha());
-			row[3] = solicitud.getRNCEmpresa();
-			row[4] = solicitud.getTipoPersonalSolicitado();
-			row[5] = solicitud.getCantidadPlazasNecesarias();
-			row[6] = solicitud.getEstado().toString();
+			row[2] = solicitud.getRNCEmpresa();
+			row[3] = solicitud.getTipoPersonalSolicitado();
+			row[4] = solicitud.getCantidadPlazasNecesarias();
+			row[5] = solicitud.getEstado().toString();
+			model.addRow(row);
 		}
 	}
 

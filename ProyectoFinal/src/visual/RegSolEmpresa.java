@@ -90,12 +90,14 @@ public class RegSolEmpresa extends JDialog {
 	private JPanel pnObrero;
 	private JPanel pnIdiomas;
 
+	private SolicitudEmpresa solicitudLoaded = null;
+
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			RegSolEmpresa dialog = new RegSolEmpresa();
+			RegSolEmpresa dialog = new RegSolEmpresa(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -106,7 +108,8 @@ public class RegSolEmpresa extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegSolEmpresa() {		
+	public RegSolEmpresa(SolicitudEmpresa solicitud) {
+		solicitudLoaded = solicitud;
 		setResizable(false);
 		setTitle("Solicitud de Empresa");
 		setModal(true);
@@ -635,16 +638,11 @@ public class RegSolEmpresa extends JDialog {
 	private boolean faltanDatos() {
 		boolean faltan = false;
 
+		// No importa si elige un sexo o no
 		if(Utils.getSpinnerFloatValue(spnPorcentajeMatch) == 0.0f
-				|| Utils.getSpinnerIntValue(spnCantPlazas) == 0) {
-			faltan = true;
-		}
-		if(Utils.isCbxDefaultValue(cbxNacionalidad) 
-				|| !(rdbtnFemenino.isSelected() 
-						|| rdbtnMasculino.isSelected())) {
-			faltan = true;
-		}
-		if(Utils.isCbxDefaultValue(cbxModalidadTrabajo)) {
+				|| Utils.getSpinnerIntValue(spnCantPlazas) == 0
+				|| Utils.isCbxDefaultValue(cbxNacionalidad) 
+				|| Utils.isCbxDefaultValue(cbxModalidadTrabajo)) {
 			faltan = true;
 		}
 
