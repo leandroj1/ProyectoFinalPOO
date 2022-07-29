@@ -56,7 +56,7 @@ public class RegEmpresa extends JDialog {
 	public RegEmpresa() {		
 	setModal(true);
 	setTitle("Registro de Empresa");
-	setBounds(100, 100, 733, 522);
+	setBounds(100, 100, 733, 516);
 	setLocationRelativeTo(null);
 	getContentPane().setLayout(new BorderLayout());
 	contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
