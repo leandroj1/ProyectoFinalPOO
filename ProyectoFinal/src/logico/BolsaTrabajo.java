@@ -110,6 +110,7 @@ public class BolsaTrabajo {
 			Personal personal = result.get(0);
 			personal.setIdEmpresaContratacion(RNCEmpresaContratacion);
 			personal.getSolicitudes().forEach(solicitud -> {
+				// En caso de que se contrate por una solicitud que hizo
 				if(idSolicitudPersonal != null){
 					if(idSolicitudPersonal.equalsIgnoreCase(solicitud.getId())){
 						solicitud.setEstado(EstadoSolicitudPersonal.SATISFECHA);
@@ -117,7 +118,7 @@ public class BolsaTrabajo {
 					}
 				}
 
-				if(solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA)
+				if(solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA || solicitud.getEstado() == EstadoSolicitudPersonal.SATISFECHA)
 					solicitud.setEstado(EstadoSolicitudPersonal.PENDIENTE);
 			});
 		}
