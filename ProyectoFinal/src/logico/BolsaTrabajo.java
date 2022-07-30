@@ -1,6 +1,8 @@
 package logico;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import enums.EstadoSolicitudEmpresa;
@@ -125,5 +127,144 @@ public class BolsaTrabajo {
 					solicitud.setEstado(EstadoSolicitudPersonal.PENDIENTE);
 			});
 		}
+	}
+
+	// Porcentaje de match asociado a las propiedades como salarioMax y salarioMin
+	private float getMatchPropiedadesGenerales(Personal personalObj, SolicitudPersonal solicitudPersonal,
+			SolicitudEmpresa solicitudEmpresa, int cantidadRequisitos) {
+		float match = 0.0f, cantToSum = 1.0f / cantidadRequisitos;
+
+		String sexoRequerido = solicitudEmpresa.getSexo();
+		// Si no aplica, el sexo del candidato no tiene relevancia
+		if (sexoRequerido.equalsIgnoreCase("N/A")) {
+			match += cantToSum;
+		} else {
+			if (personalObj.getSexo().equalsIgnoreCase(solicitudEmpresa.getSexo()))
+				match += cantToSum;
+		}
+
+		// El salario cuenta por 2 propiedades
+		if (solicitudPersonal.getSalarioEsperado() >= solicitudEmpresa.getSalarioMin()
+				&& solicitudPersonal.getSalarioEsperado() <= solicitudEmpresa.getSalarioMax())
+			match += 2 * cantToSum;
+
+		if (personalObj.getEdad() >= solicitudEmpresa.getEdad())
+			match += cantToSum;
+		if (solicitudPersonal.getAgnosExperiencia() >= solicitudEmpresa.getAgnosExperiencia())
+			match += cantToSum;
+
+		// Si es falso, no se requiere la disponibilidad, lo mismo para [isDisponibilidadSalirCiudad]
+		if(!solicitudEmpresa.isDisponibilidadCambioResidencia()) {
+			match += cantToSum;
+		}
+		else {
+			if (solicitudEmpresa.isDisponibilidadCambioResidencia() == solicitudPersonal.isDisponibilidadCambioResidencia())
+				match += cantToSum;
+		}
+		if(!solicitudEmpresa.isDisponibilidadSalirCiudad()) {
+			match += cantToSum;
+		}
+		else {
+			if (solicitudEmpresa.isDisponibilidadSalirCiudad() == solicitudPersonal.isDisponibilidadSalirCiudad())
+				match += cantToSum;
+		}
+
+		if (solicitudPersonal.getModalidadDeTrabajo().equalsIgnoreCase(solicitudEmpresa.getTipoDeTrabajo()))
+			match += cantToSum;
+
+		// Si tiene la propiedad como true significa que no importa si es casado o no
+		if (solicitudEmpresa.isEsCasado()) {
+			match += cantToSum;
+		}
+		// Si es falso, significa que quiere que sea soltero
+		else if (solicitudEmpresa.isEsCasado() == personalObj.isEsCasado()) {
+			match += cantToSum;
+		}
+
+		float acumuladoIdiomas = 0.0f;
+		ArrayList<String> idiomasRequeridos = solicitudEmpresa.getIdiomas();
+		for (String idiomaPersonal : personalObj.getIdiomas()) {
+			if (idiomasRequeridos.contains(idiomaPersonal))
+				acumuladoIdiomas += (cantToSum / idiomasRequeridos.size());
+		}
+		match += acumuladoIdiomas;
+
+		// Esta entre 0 y 1
+		return match;
+	}
+
+	// Obtener el porcentaje de match de una solicitud
+	private float getPorcentajeMatchFrom(Personal personalObj, SolicitudPersonal solicitudPersonal,
+			SolicitudEmpresa solicitudEmpresa, int cantidadRequisitos) {
+		float acumulado = 0.0f, cantToSum = 1.0f / cantidadRequisitos;
+		if (personalObj.toString().equalsIgnoreCase(solicitudEmpresa.getTipoPersonalSolicitado())) {
+			// Por ser del mismo tipo
+			acumulado += cantToSum;
+
+			// Propiedades especificas
+			if (solicitudEmpresa.getTipoPersonalSolicitado().equalsIgnoreCase("Universitario")) {
+				if (solicitudPersonal.getCarrera().equalsIgnoreCase(solicitudEmpresa.getCarrera())) {
+					acumulado += cantToSum;
+					if (solicitudPersonal.getUniversidad().equalsIgnoreCase(solicitudEmpresa.getUniversidad())) {
+						acumulado += cantToSum;
+					}
+				} else {
+					// No es de la carrera que se requiere
+					return 0.0f;
+				}
+			} else if (solicitudEmpresa.getTipoPersonalSolicitado().equalsIgnoreCase("Obrero")) {
+				float acumuladoOficios = 0.0f;
+				ArrayList<String> oficiosSolicitudPersonal = solicitudPersonal.getOficios();
+				for (String oficio : solicitudEmpresa.getOficios()) {
+					if (oficiosSolicitudPersonal.contains(oficio))
+						acumuladoOficios += cantToSum / oficiosSolicitudPersonal.size();
+				}
+
+				if (acumuladoOficios > 0.0f) {
+					acumulado += acumuladoOficios;
+				} else {
+					// No tiene ninguno de los oficios que se requiere
+					return 0.0f;
+				}
+			} else {
+				if (solicitudPersonal.getAreaTecnica().equalsIgnoreCase(solicitudEmpresa.getAreaTecnica())) {
+					acumulado += cantToSum;
+				} else {
+					// No es del area tecnica que se requiere
+					return 0.0f;
+				}
+			}
+
+			acumulado += getMatchPropiedadesGenerales(personalObj, solicitudPersonal, solicitudEmpresa,
+					cantidadRequisitos);
+		}
+
+		return acumulado * 100.0f;
+	}
+
+	public Map<Personal, SolicitudPersonal> getCandidatosByPorcentajeMatch(SolicitudEmpresa solicitudEmpresa,
+			float porcentajeMatchRequerido) {
+		Map<Personal, SolicitudPersonal> candidatos = new HashMap<Personal, SolicitudPersonal>();
+
+		if (solicitudEmpresa != null && (porcentajeMatchRequerido >= 0.0f && porcentajeMatchRequerido <= 100.0f)) {
+			int cantidadRequisitos = solicitudEmpresa.getCantidadRequisitos();
+
+			this.personal.forEach(person -> {
+				person.getSolicitudes().forEach(solicitud -> {
+					// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
+					float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
+							cantidadRequisitos);
+
+					if (resultPorcentaje >= porcentajeMatchRequerido) {
+						// Asignar porcentaje de match para no calcularlo de nuevo
+						solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
+
+						candidatos.put(person, solicitud);
+					}
+				});
+			});
+		}
+
+		return candidatos;
 	}
 }

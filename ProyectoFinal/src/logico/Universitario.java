@@ -7,9 +7,9 @@ public class Universitario extends Personal {
 	private String carrera;
 	private String universidad;
 
-	public Universitario(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
+	public Universitario(String cedula, String nombre, Date fechaNacimiento, String sexo, boolean esCasado, String telefonoPrincipal,
 			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, String carrera, String universidad, Ubicacion ubicacion) {
-		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion);
+		super(cedula, nombre, fechaNacimiento, sexo, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion);
 		this.carrera = carrera;
 		this.universidad = universidad;
 	}
