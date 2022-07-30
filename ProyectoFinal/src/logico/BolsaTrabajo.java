@@ -169,6 +169,16 @@ public class BolsaTrabajo {
 				match += cantToSum;
 		}
 
+		// Si no prefiere una nacionalidad
+		if(solicitudEmpresa.getNacionalidad().equalsIgnoreCase("Sin preferencia")) {
+			match += cantToSum;
+		}
+		else {
+			if(solicitudEmpresa.getNacionalidad().equalsIgnoreCase(personalObj.getNacionalidad())) {
+				match += cantToSum;
+			}
+		}
+
 		if (solicitudPersonal.getModalidadDeTrabajo().equalsIgnoreCase(solicitudEmpresa.getTipoDeTrabajo()))
 			match += cantToSum;
 

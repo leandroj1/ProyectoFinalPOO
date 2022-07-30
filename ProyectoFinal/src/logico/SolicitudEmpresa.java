@@ -34,7 +34,7 @@ public class SolicitudEmpresa {
 
 	private static int genNumber = 0;
 	// Cantidad de requisitos por defecto
-	private final int kDefaultRequisitosCount = 11;
+	private final int kDefaultRequisitosCount = 12;
 
 	public SolicitudEmpresa(String id, String RNCEmpresa, int cantidadPlazasNecesarias,
 			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado,

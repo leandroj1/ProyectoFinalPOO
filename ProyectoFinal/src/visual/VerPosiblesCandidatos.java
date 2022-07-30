@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import customs.CheckBoxsEditableTable;
 
@@ -19,6 +20,7 @@ public class VerPosiblesCandidatos extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
+	private DefaultTableModel model;
 
 	/**
 	 * Launch the application.
@@ -37,7 +39,14 @@ public class VerPosiblesCandidatos extends JDialog {
 	 * Create the dialog.
 	 */
 	public VerPosiblesCandidatos() {
+		final String[] headers = {
+			"Selección",
+			"Nombre del candidato",
+			"Porcentaje de match"
+		};
+		
 		setBounds(100, 100, 615, 390);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -47,6 +56,9 @@ public class VerPosiblesCandidatos extends JDialog {
 			contentPanel.add(scrollPane);
 			{
 				table = new CheckBoxsEditableTable();
+				model = new DefaultTableModel();
+				model.setColumnIdentifiers(headers);
+				table.setModel(model);
 				scrollPane.setViewportView(table);
 			}
 		}
