@@ -199,6 +199,7 @@ public class ListarEmpresas extends JDialog {
 					RegEmpresa.desactivado();
 					empresa.setVisible(true);
 					setButtonsState(false);
+					selectedEmpresa = null;
 				}
 			}
 		});
