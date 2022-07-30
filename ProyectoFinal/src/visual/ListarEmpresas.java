@@ -138,7 +138,7 @@ public class ListarEmpresas extends JDialog {
 			btnFilter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(Utils.isMaskCedulaDefaultValue(txtRNC.getText())) {
-						JOptionPane.showMessageDialog(null, "Tiene que completar la cédula", "Advertencia", JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(null, "Tiene que completar la c\u00e9dula.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 					}
 					else {
 						Empresa e1 = BolsaTrabajo.getInstance().buscarEmpresaByRNC(txtRNC.getText());
