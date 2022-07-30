@@ -130,12 +130,12 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			panel.add(panelFilter);
 			panelFilter.setLayout(null);
 
-			JLabel lblNewLabel = new JLabel("ID:");
-			lblNewLabel.setBounds(10, 21, 46, 14);
+			JLabel lblNewLabel = new JLabel("ID de la solicitud:");
+			lblNewLabel.setBounds(10, 21, 115, 14);
 			panelFilter.add(lblNewLabel);
 
 			txtIDSolicitud = new JTextField();
-			txtIDSolicitud.setBounds(43, 18, 482, 20);
+			txtIDSolicitud.setBounds(108, 18, 417, 20);
 			panelFilter.add(txtIDSolicitud);
 			txtIDSolicitud.setColumns(12);
 
@@ -152,14 +152,33 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 						txtIDSolicitud.requestFocus();
 					}
 					else {
-						loadRowsInTable(getDataSolicitudes(selectedEmpresa, id));
-						btnReset.setEnabled(true);
-						selectedSolicitud = null;
-						setButtonsState(false);
+						ArrayList<SolicitudEmpresa> solicitudes = getDataSolicitudes(selectedEmpresa, id);
+						// ID completo
+						if(solicitudes.size() == 0) {
+							if(id.length() == 12) {
+								JOptionPane.showMessageDialog(null,
+										"No hay datos asociados al ID '" + id + "'.",
+										"Advertencia",
+										JOptionPane.WARNING_MESSAGE);
+							}
+							else {
+								JOptionPane.showMessageDialog(null,
+										"No existen datos asociados al filtro '" + id + "'.",
+										"Advertencia",
+										JOptionPane.WARNING_MESSAGE);
+							}
+							txtIDSolicitud.requestFocus();
+						}
+						else {
+							loadRowsInTable(solicitudes);
+							btnReset.setEnabled(true);
+							selectedSolicitud = null;
+							setButtonsState(false);							
+						}
 					}
 				}
 			});
-			btnFilter.setBounds(535, 16, 254, 23);
+			btnFilter.setBounds(535, 17, 254, 23);
 			panelFilter.add(btnFilter);
 
 			btnReset = new JButton("Mostrar todas las solicitudes");
@@ -172,7 +191,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 				}
 			});
 			btnReset.setEnabled(false);
-			btnReset.setBounds(799, 16, 254, 23);
+			btnReset.setBounds(799, 17, 254, 23);
 			panelFilter.add(btnReset);
 		} 
 		JPanel buttonPane = new JPanel();

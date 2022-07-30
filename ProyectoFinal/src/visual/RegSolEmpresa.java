@@ -239,7 +239,7 @@ public class RegSolEmpresa extends JDialog {
 				pnRequisitos.setLayout(null);
 
 				cbxNacionalidad = new JComboBox();
-				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a", "Otra"}));
+				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Sin preferencia", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a", "Otra"}));
 				cbxNacionalidad.setBounds(114, 302, 182, 20);
 				pnRequisitos.add(cbxNacionalidad);
 				{
