@@ -215,6 +215,7 @@ public class ListarEmpresas extends JDialog {
 					empresa.setVisible(true);
 					loadRowsInTable(BolsaTrabajo.getInstance().getEmpresasByID(""), null);
 					setButtonsState(false);
+					selectedEmpresa = null;
 				}
 			}
 		});
