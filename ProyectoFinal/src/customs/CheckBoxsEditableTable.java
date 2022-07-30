@@ -1,15 +1,31 @@
 package customs;
 
+import javax.swing.table.DefaultTableModel;
+
 public class CheckBoxsEditableTable extends NonEditableTable {
-	public CheckBoxsEditableTable() {
+	private int columnCheckboxes;
+
+	public CheckBoxsEditableTable(DefaultTableModel model, int columnCheckboxes) {
 		super();
+		super.setModel(model);
+		this.columnCheckboxes = columnCheckboxes;
 	}
-	
+
+	// La primera columna es de los chec
 	@Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-		// La primera columna es la delos checkboxes
-		if(columnIndex == 0) {
-			this.dataModel.setValueAt(aValue, rowIndex, columnIndex);
-		}
-    }
+	public boolean isCellEditable(int row, int column) {
+		if(column == columnCheckboxes)
+			return true;
+
+		return super.isCellEditable(row, column);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@Override
+	public Class getColumnClass(int column) {
+		if(column == columnCheckboxes)
+			return Boolean.class;
+
+		return String.class;
+	}
 }

@@ -10,6 +10,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import customs.CheckBoxsEditableTable;
+import customs.NonEditableTable;
+import logico.SolicitudEmpresa;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -21,13 +23,15 @@ public class VerPosiblesCandidatos extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JTable table;
 	private DefaultTableModel model;
+	private SolicitudEmpresa solicitudLoaded = null;
+	private JButton btnContratar;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			VerPosiblesCandidatos dialog = new VerPosiblesCandidatos();
+			VerPosiblesCandidatos dialog = new VerPosiblesCandidatos(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -38,14 +42,15 @@ public class VerPosiblesCandidatos extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public VerPosiblesCandidatos() {
-		final String[] headers = {
-			"Selección",
-			"Nombre del candidato",
-			"Porcentaje de match"
-		};
-		
-		setBounds(100, 100, 615, 390);
+	public VerPosiblesCandidatos(SolicitudEmpresa solicitud) {
+		solicitudLoaded = solicitud;
+
+		final Object[] columnNames = {"Selección", "Nombre del candidato", "Porcentaje de March"};
+        Object[][] data = {};
+        DefaultTableModel model = new DefaultTableModel(data, columnNames);
+
+
+		setBounds(100, 100, 615, 433);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
@@ -55,34 +60,34 @@ public class VerPosiblesCandidatos extends JDialog {
 			JScrollPane scrollPane = new JScrollPane();
 			contentPanel.add(scrollPane);
 			{
-				table = new CheckBoxsEditableTable();
-				model = new DefaultTableModel();
-				model.setColumnIdentifiers(headers);
-				table.setModel(model);
+				table = new CheckBoxsEditableTable(model, 0);
+		        table.setPreferredScrollableViewportSize(table.getPreferredSize());
 				scrollPane.setViewportView(table);
 			}
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Contratar candidatos seleccionados");
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
-			}
-			{
-				JButton cancelButton = new JButton("Cancelar");
-				cancelButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						dispose();
-					}
-				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				JPanel buttonPane = new JPanel();
+				buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
+				getContentPane().add(buttonPane, BorderLayout.SOUTH);
+				{
+					btnContratar = new JButton("Contratar candidatos seleccionados");
+					btnContratar.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+						}
+					});
+					btnContratar.setActionCommand("OK");
+					buttonPane.add(btnContratar);
+					getRootPane().setDefaultButton(btnContratar);
+				}
+				{
+					JButton cancelButton = new JButton("Cancelar");
+					cancelButton.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							dispose();
+						}
+					});
+					cancelButton.setActionCommand("Cancel");
+					buttonPane.add(cancelButton);
+				}
 			}
 		}
-	}
-
-}
+	}}
