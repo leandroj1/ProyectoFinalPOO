@@ -67,7 +67,8 @@ public class RegEmpresa extends JDialog {
 		if(auxEmpresa == null ) {
 			setTitle("Registro de Empresa");
 		}else {
-			setTitle("Modificar Empresa");
+			setTitle("Modificar datos de la empresa " + auxEmpresa.getNombreComercial());
+
 		}
 		setModal(true);
 		setBounds(100, 100, 733, 516);
@@ -304,7 +305,7 @@ public class RegEmpresa extends JDialog {
 								auxEmpresa.setNombreContacto(txtNombreContacto.getText());
 								auxEmpresa.setEmailContacto(txtEmailContacto.getText());
 								auxEmpresa.setCargoContacto(cbxCargoContacto.getSelectedItem().toString());
-								JOptionPane.showMessageDialog(null, "Actualización exitosa", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(null, "ActualizaciÃ³n exitosa", "Informacion", JOptionPane.INFORMATION_MESSAGE);
 								dispose();
 							}
 		
