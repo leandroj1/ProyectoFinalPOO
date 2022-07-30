@@ -100,7 +100,8 @@ public class RegEmpresa extends JDialog {
 			}
 			{
 				cbxTipo = new JComboBox();
-				cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Micro", "Mediana", "Peque\u00F1a ", "Grande", "Emergente"}));
+				cbxTipo.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Micro", "Mediana", "Peque\u00F1a", "Grande", "Emergente"}));
+
 				cbxTipo.setBounds(502, 112, 156, 20);
 				panel.add(cbxTipo);
 			}
