@@ -31,18 +31,19 @@ public class RegEmpresa extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private JFormattedTextField txtFRNC;
 	private JComboBox cbxTipo;
+	private JComboBox cbxSector;
 	private JTextField txtRubro;
 	private JTextField txtNombreComercial;
 	private JTextField txtRazonSocial;
-	private JTextField txtCiudadResidencia;
-	private JTextField txtDireccion;
-	private JTextField txtPais;
-	private JTextField txtProvincia;
-	private JTextField txtNombreContacto;
-	private JTextField txtEmailContacto;
-	private JComboBox cbxSector;
-	private JFormattedTextField txtFTelefono;
-	private JComboBox cbxCargoContacto;
+	private static JTextField txtCiudadResidencia;
+	private static JTextField txtDireccion;
+	private static JTextField txtPais;
+	private static JTextField txtProvincia;
+	private static JTextField txtNombreContacto;
+	private static JTextField txtEmailContacto;
+	private static JFormattedTextField txtFTelefono;
+	private static JComboBox cbxCargoContacto;
+	private static JButton btnRegistrar;
 	private Empresa auxEmpresa = null;
 
 	/**
@@ -256,7 +257,7 @@ public class RegEmpresa extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton btnRegistrar = new JButton("Registrar");
+				btnRegistrar = new JButton("Registrar");
 				if(auxEmpresa != null) {
 					btnRegistrar.setText("Actualizar");
 				}
@@ -345,14 +346,27 @@ public class RegEmpresa extends JDialog {
 			cbxTipo.setSelectedItem(auxEmpresa.getTipo());
 			txtRazonSocial.setText(auxEmpresa.getRazonSocial());
 			txtRubro.setText(auxEmpresa.getRubro());
-			cbxSector.setEditable(false);
-			cbxTipo.setEditable(false);
+			cbxSector.setEnabled(false);
+			cbxTipo.setEnabled(false);
 			txtFRNC.setEditable(false);
 			txtNombreComercial.setEditable(false);
 			txtRazonSocial.setEditable(false);
 			txtRubro.setEditable(false);			
 		}
 
+	}
+	
+	public static void desactivado() {
+		cbxCargoContacto.setEnabled(false);
+		txtCiudadResidencia.setEditable(false);
+		txtDireccion.setEditable(false);
+		txtEmailContacto.setEditable(false);
+		txtFTelefono.setEditable(false);
+		txtNombreContacto.setEditable(false);
+		txtPais.setEditable(false);
+		txtProvincia.setEditable(false);
+		btnRegistrar.setEnabled(false);
+		btnRegistrar.setVisible(false);		
 	}
 	
 	private boolean elemVacios() {

@@ -162,6 +162,14 @@ public class ListarEmpresas extends JDialog {
 		buttonPane.add(btnVerSolicitudesPendientes);
 		
 		btnVerDetalles = new JButton("Ver detalles");
+		btnVerDetalles.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegEmpresa empresa = new RegEmpresa(selectedEmpresa);
+				empresa.setTitle("Empresa");
+				RegEmpresa.desactivado();
+				empresa.setVisible(true);
+			}
+		});
 		btnVerDetalles.setEnabled(false);
 		btnVerDetalles.setBounds(194, 5, 143, 23);
 		buttonPane.add(btnVerDetalles);
