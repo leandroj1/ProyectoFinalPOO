@@ -166,6 +166,7 @@ public class ListarEmpresas extends JDialog {
 
 						// Para evitar errores
 						setButtonsState(false);
+						selectedEmpresa = null;
 					}
 				}
 			});
