@@ -275,7 +275,8 @@ public class RegEmpresa extends JDialog {
 										ubicacion = new Ubicacion(txtPais.getText(), txtProvincia.getText(), txtCiudadResidencia.getText(), txtDireccion.getText());
 										Empresa empresa = new Empresa(txtFRNC.getText(), txtNombreComercial.getText(), txtRazonSocial.getText(), txtRubro.getText(), cbxCargoContacto.getSelectedItem().toString(), txtNombreContacto.getText(), txtFTelefono.getText(), txtEmailContacto.getText(), cbxSector.getSelectedItem().toString(), cbxTipo.getSelectedItem().toString(), ubicacion);
 										BolsaTrabajo.getInstance().agregarEmpresa(empresa);
-										JOptionPane.showMessageDialog(null, "Registro exitoso", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+										JOptionPane.showMessageDialog(null, "Registro exitoso.", "Informaci\u00f3n", JOptionPane.INFORMATION_MESSAGE);
+
 										clean();
 									}
 									else {
