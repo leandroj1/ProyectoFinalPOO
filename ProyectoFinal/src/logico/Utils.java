@@ -8,8 +8,12 @@ import java.util.regex.Pattern;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
+import javax.swing.ComboBoxEditor;
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
 
 public class Utils {
@@ -120,9 +124,17 @@ public class Utils {
 	// Regex para evalaur si un email es valido
 	public static boolean isAValidEmail(String email) {
 		final String regex = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@" 
-        + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+				+ "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
 		final Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
 
 		return pattern.matcher(email).find();
+	}
+
+	// Deshabilitar cada radio button
+	public static void disableEachAbstractButton(ButtonGroup group) {
+		Enumeration<AbstractButton> enumeration = group.getElements();
+		while (enumeration.hasMoreElements()) {
+			enumeration.nextElement().setEnabled(false);
+		}
 	}
 }
