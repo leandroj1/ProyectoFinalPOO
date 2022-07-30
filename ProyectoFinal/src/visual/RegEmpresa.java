@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -273,7 +274,8 @@ public class RegEmpresa extends JDialog {
 							}
 							else {	
 								if (Utils.isAValidEmail(txtEmailContacto.getText())) {
-									if (BolsaTrabajo.getInstance().buscarEmpresaByRNC(txtFRNC.getText()) == null) {
+									ArrayList<Empresa> resultado = BolsaTrabajo.getInstance().getEmpresasByID(txtFRNC.getText());
+									if (resultado.size() == 0) {
 										ubicacion = new Ubicacion(txtPais.getText(), txtProvincia.getText(), txtCiudadResidencia.getText(), txtDireccion.getText());
 										Empresa empresa = new Empresa(txtFRNC.getText(), txtNombreComercial.getText(), txtRazonSocial.getText(), txtRubro.getText(), cbxCargoContacto.getSelectedItem().toString(), txtNombreContacto.getText(), txtFTelefono.getText(), txtEmailContacto.getText(), cbxSector.getSelectedItem().toString(), cbxTipo.getSelectedItem().toString(), ubicacion);
 										BolsaTrabajo.getInstance().agregarEmpresa(empresa);

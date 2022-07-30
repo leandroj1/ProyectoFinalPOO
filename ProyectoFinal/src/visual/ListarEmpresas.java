@@ -140,9 +140,10 @@ public class ListarEmpresas extends JDialog {
 					if(Utils.isMaskCedulaDefaultValue(txtRNC.getText())) {
 						JOptionPane.showMessageDialog(null, "Tiene que completar la c\u00e9dula.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 					}
-					else {
-						Empresa e1 = BolsaTrabajo.getInstance().buscarEmpresaByRNC(txtRNC.getText());
-						if(e1 != null) {
+					else {			
+						ArrayList<Empresa> resultado = BolsaTrabajo.getInstance().getEmpresasByID(txtRNC.getText());
+						if(resultado.size() > 0) {
+							Empresa e1 =  resultado.get(0);
 							loadRowsInTable(null,e1);
 							btnReset.setEnabled(true);
 						}
@@ -230,28 +231,26 @@ public class ListarEmpresas extends JDialog {
 	// Cargar datos a la tabla
 	private void loadRowsInTable(ArrayList<Empresa> empresas, Empresa e1) {
 		row = new Object[model.getColumnCount()];
+		model.setRowCount(0);
 		if(e1 == null) {
-			model.setRowCount(0);
 			for (Empresa empresa : empresas) {
-				row[0] = empresa.getRNC();
-				row[1] = empresa.getNombreComercial();
-				row[2] = empresa.getRazonSocial();
-				row[3] = empresa.getSector();
-				row[4] = empresa.getRubro();
-				row[5] = empresa.getUbicacion().toString();
-				model.addRow(row);
+				addRowDataEmpresa(empresa);
 			}
 		}
 		else {
-			model.setRowCount(0);
-			row[0] = e1.getRNC();
-			row[1] = e1.getNombreComercial();
-			row[2] = e1.getRazonSocial();
-			row[3] = e1.getSector();
-			row[4] = e1.getRubro();
-			row[5] = e1.getUbicacion().toString();	
-			model.addRow(row);
+			addRowDataEmpresa(e1);
 		}
+	}
+	
+	private void addRowDataEmpresa(Empresa empresa) {
+		row = new Object[model.getColumnCount()];
+		row[0] = empresa.getRNC();
+		row[1] = empresa.getNombreComercial();
+		row[2] = empresa.getRazonSocial();
+		row[3] = empresa.getSector();
+		row[4] = empresa.getRubro();
+		row[5] = empresa.getUbicacion().toString();
+		model.addRow(row);
 	}
 
 	// Cambiar el estado de los botones de solicitudes
