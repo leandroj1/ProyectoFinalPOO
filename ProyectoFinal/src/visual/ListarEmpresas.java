@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 public class ListarEmpresas extends JDialog {
@@ -32,6 +33,7 @@ public class ListarEmpresas extends JDialog {
 	private JButton btnVerSolicitudesPendientes;
 	private JTextField txtRNC;
 	private JButton btnVerDetalles;
+	private JButton btnModificar;
 
 	/**
 	 * Launch the application.
@@ -122,9 +124,34 @@ public class ListarEmpresas extends JDialog {
 			panelFilter.add(btnFilter);
 
 			JButton btnReset = new JButton("Mostrar todas las empresas");
+			btnReset.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					txtRNC.setText("");
+					loadRowsInTable(BolsaTrabajo.getInstance().getEmpresasByID(""), null);
+					btnReset.setEnabled(false);
+				}
+			});
 			btnReset.setEnabled(false);
 			btnReset.setBounds(658, 17, 211, 23);
 			panelFilter.add(btnReset);
+			
+			btnFilter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					if(Utils.isMaskCedulaDefaultValue(txtRNC.getText())) {
+						JOptionPane.showMessageDialog(null, "Tiene que completar la cédula", "Advertencia", JOptionPane.WARNING_MESSAGE);
+					}
+					else {
+						Empresa e1 = BolsaTrabajo.getInstance().buscarEmpresaByRNC(txtRNC.getText());
+						if(e1 != null) {
+							loadRowsInTable(null,e1);
+							btnReset.setEnabled(true);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Esta empresa no existe", "Error", JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			});
 		} 
 		JPanel buttonPane = new JPanel();
 		buttonPane.setBounds(0, 494, 904, 33);
@@ -134,7 +161,8 @@ public class ListarEmpresas extends JDialog {
 			btnVerSolicitudes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(selectedEmpresa != null) {
-						// Abrir ventana
+						ListadoSolicitudesEmpresa listadoSolicitudesEmpresa = new ListadoSolicitudesEmpresa(selectedEmpresa);
+						listadoSolicitudesEmpresa.setVisible(true);
 
 						// Para evitar errores
 						setButtonsState(false);
@@ -156,38 +184,69 @@ public class ListarEmpresas extends JDialog {
 			btnCancelar.setActionCommand("Cancel");
 			buttonPane.add(btnCancelar);
 		}
+		
 		btnVerSolicitudesPendientes = new JButton("Ver solicitudes pendientes");
 		btnVerSolicitudesPendientes.setEnabled(false);
 		btnVerSolicitudesPendientes.setBounds(357, 5, 186, 23);
 		buttonPane.add(btnVerSolicitudesPendientes);
-		
+
 		btnVerDetalles = new JButton("Ver detalles");
 		btnVerDetalles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegEmpresa empresa = new RegEmpresa(selectedEmpresa);
-				empresa.setTitle("Empresa");
-				RegEmpresa.desactivado();
-				empresa.setVisible(true);
+				if(selectedEmpresa != null) {
+					RegEmpresa empresa = new RegEmpresa(selectedEmpresa);
+					empresa.setTitle("Empresa");
+					RegEmpresa.desactivado();
+					empresa.setVisible(true);
+					setButtonsState(false);
+				}
 			}
 		});
 		btnVerDetalles.setEnabled(false);
 		btnVerDetalles.setBounds(194, 5, 143, 23);
 		buttonPane.add(btnVerDetalles);
+		
+		btnModificar = new JButton("Modificar");
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(selectedEmpresa != null) {
+					RegEmpresa empresa = new RegEmpresa(selectedEmpresa);
+					empresa.setVisible(true);
+					loadRowsInTable(BolsaTrabajo.getInstance().getEmpresasByID(""), null);
+					setButtonsState(false);
+				}
+			}
+		});
+		btnModificar.setEnabled(false);
+		btnModificar.setBounds(95, 5, 89, 23);
+		buttonPane.add(btnModificar);
 
-		loadRowsInTable(BolsaTrabajo.getInstance().getEmpresasByID(""));
+		loadRowsInTable(BolsaTrabajo.getInstance().getEmpresasByID(""), null);
 	}
 
 	// Cargar datos a la tabla
-	private void loadRowsInTable(ArrayList<Empresa> empresas) {
+	private void loadRowsInTable(ArrayList<Empresa> empresas, Empresa e1) {
 		row = new Object[model.getColumnCount()];
-		for (Empresa empresa : empresas) {
-			row[0] = empresa.getRNC();
-			row[1] = empresa.getNombreComercial();
-			row[2] = empresa.getRazonSocial();
-			row[3] = empresa.getSector();
-			row[4] = empresa.getRubro();
-			row[5] = empresa.getUbicacion().toString();
-
+		if(e1 == null) {
+			model.setRowCount(0);
+			for (Empresa empresa : empresas) {
+				row[0] = empresa.getRNC();
+				row[1] = empresa.getNombreComercial();
+				row[2] = empresa.getRazonSocial();
+				row[3] = empresa.getSector();
+				row[4] = empresa.getRubro();
+				row[5] = empresa.getUbicacion().toString();
+				model.addRow(row);
+			}
+		}
+		else {
+			model.setRowCount(0);
+			row[0] = e1.getRNC();
+			row[1] = e1.getNombreComercial();
+			row[2] = e1.getRazonSocial();
+			row[3] = e1.getSector();
+			row[4] = e1.getRubro();
+			row[5] = e1.getUbicacion().toString();	
 			model.addRow(row);
 		}
 	}
@@ -197,5 +256,7 @@ public class ListarEmpresas extends JDialog {
 		btnVerSolicitudes.setEnabled(isEnabled);
 		btnVerSolicitudesPendientes.setEnabled(isEnabled);
 		btnVerDetalles.setEnabled(isEnabled);
+		btnModificar.setEnabled(isEnabled);
+		
 	}
 }

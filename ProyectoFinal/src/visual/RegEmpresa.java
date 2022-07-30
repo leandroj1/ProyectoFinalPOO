@@ -290,7 +290,7 @@ public class RegEmpresa extends JDialog {
 							if(elemVacios()) {
 								JOptionPane.showMessageDialog(null, "Tiene que completar todos los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
 							}
-							else if (Utils.isAValidEmail(txtEmailContacto.getText())){
+							else if (!(Utils.isAValidEmail(txtEmailContacto.getText()))){
 								JOptionPane.showMessageDialog(null, "El email ingresado no es v\u00E1lido, por favor ingrese otro", "Advertencia", JOptionPane.WARNING_MESSAGE);
 							}
 							else {
