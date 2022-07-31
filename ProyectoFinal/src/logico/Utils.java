@@ -2,8 +2,11 @@ package logico;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Locale;
 
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.JSpinner;
 import javax.swing.text.MaskFormatter;
 
@@ -60,5 +63,18 @@ public class Utils {
 			editor.getTextField().setEnabled(true);
 			editor.getTextField().setEditable(false);
 		}
+	}
+	
+	public static String getNameRadioButtonSelected(ButtonGroup buttonGroup) {
+		Enumeration<AbstractButton> buttons = buttonGroup.getElements();
+		
+		do {
+            AbstractButton button = buttons.nextElement();
+            if (button.isSelected())
+                return button.getText();
+
+        } while (buttons.hasMoreElements());
+
+		return null;
 	}
 }

@@ -7,11 +7,10 @@ public class Obrero extends Personal {
 	private ArrayList<String> oficios;
 
 	public Obrero(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
-			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas,
-			boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia, boolean forTiempoCompleto,
-			Ubicacion ubicacion) {
-		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion);
-		this.oficios = new ArrayList<String>();
+			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion,
+			String genero, ArrayList<String> oficios) {
+		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion, genero);
+		this.oficios = oficios;
 	}
 
 	public ArrayList<String> getOficios() {

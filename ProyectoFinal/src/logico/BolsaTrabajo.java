@@ -26,12 +26,12 @@ public class BolsaTrabajo {
 	}
 	
 	public void agregarEmpresa(Empresa empresa) {
-		if (empresa != null)
+		if (empresa != null && getPersonalByID(empresa.getRNC()).size() == 0)
 			empresas.add(empresa);
 	}
 	
 	public void agregarPersonal(Personal candidato) {
-		if (candidato != null)
+		if (candidato != null && getPersonalByID(candidato.getCedula()).size() == 0)
 			personal.add(candidato);
 	}
 	
