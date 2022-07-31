@@ -96,7 +96,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registro de Solicitud de Empresa");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegSolEmpresa solEmpresa = new RegSolEmpresa();
+				RegSolEmpresa solEmpresa = new RegSolEmpresa(null, false);
 				solEmpresa.setVisible(true);
 			}
 		});

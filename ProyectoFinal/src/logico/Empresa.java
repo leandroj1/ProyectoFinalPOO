@@ -9,6 +9,7 @@ public class Empresa {
 	private String razonSocial; 
 	private String sector;
 	private ArrayList<SolicitudEmpresa> solicitudes;
+	private String cargoContacto;
 	private String tipo;
 	private String rubro;
 	private String nombreContacto;
@@ -16,7 +17,7 @@ public class Empresa {
 	private String emailContacto;
 	private Ubicacion ubicacion;
 
-	public Empresa(String RNC, String nombreComercial, String razonSocial, String rubro, String nombreContacto, String telefonoContacto, String emailContacto, String sector, String tipo, Ubicacion ubicacion) {
+	public Empresa(String RNC, String nombreComercial, String razonSocial, String rubro, String cargoContacto, String nombreContacto, String telefonoContacto, String emailContacto, String sector, String tipo, Ubicacion ubicacion) {
 		super();
 		this.RNC = RNC;
 		this.nombreComercial = nombreComercial;
@@ -25,6 +26,7 @@ public class Empresa {
 		this.tipo = tipo;
 		this.razonSocial = razonSocial;
 		this.rubro = rubro;
+		this.cargoContacto = cargoContacto;
 		this.nombreContacto = nombreContacto;
 		this.telefonoContacto = telefonoContacto;
 		this.emailContacto = emailContacto;
@@ -33,10 +35,6 @@ public class Empresa {
 
 	public String getRNC() {
 		return RNC;
-	}
-
-	public String getNombre() {
-		return nombreComercial;
 	}
 
 	public String getSector() {
@@ -105,5 +103,13 @@ public class Empresa {
 
 	public void setUbicacion(Ubicacion ubicacion) {
 		this.ubicacion = ubicacion;
+	}
+
+	public String getCargoContacto() {
+		return cargoContacto;
+	}
+
+	public void setCargoContacto(String cargoContacto) {
+		this.cargoContacto = cargoContacto;
 	}
 }

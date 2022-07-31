@@ -489,7 +489,7 @@ public class RegPersonal extends JDialog {
 						String nacionalidad = (String) cbxNacionalidad.getSelectedItem();
 						String telefonoPrincipal = txtFTelefono.getText();
 						String telefonoSecundario = txtFTelSec.getText();
-						String genero = Utils.getNameRadioButtonSelected(generoGroup);
+						String genero = Utils.getSelectedRadioButtonText(generoGroup);
 						boolean casado = chckbxCasado.isSelected();
 						Ubicacion ubicacion = new Ubicacion(txtPais.getText(), txtProvincia.getText(),
 								txtCiudadRes.getText(), txtDireccion.getText());
@@ -672,7 +672,7 @@ public class RegPersonal extends JDialog {
 			emptyFields.add("Telefono Principal");
 		if (txtFTelSec.getText().equals(Utils.getMaskTelefono().getMask().replace('#', '_')))
 			emptyFields.add("Telefono Secundario");
-		if (Utils.getNameRadioButtonSelected(generoGroup) == null)
+		if (Utils.getSelectedRadioButtonText(generoGroup) == null)
 			emptyFields.add("Genero");
 		if (txtPais.getText().isEmpty())
 			emptyFields.add("Pais");

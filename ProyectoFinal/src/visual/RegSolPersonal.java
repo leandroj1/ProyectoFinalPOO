@@ -100,13 +100,6 @@ public class RegSolPersonal extends JDialog {
 	public RegSolPersonal(Personal personal) {
 		ArrayList<String> idiomas = new ArrayList<String>();
 		idiomas.add("Ingles");
-		BolsaTrabajo.getInstance().agregarPersonal(
-				new Universitario("1", "Jean", new Date(), false, "849", "809", "DOM", idiomas, "Sistemas", "PUCMM",
-						new Ubicacion("Rep Dom", "Santiago", "Santiago", "Calle #2"), "Masculino"));
-		BolsaTrabajo.getInstance()
-				.agregarEmpresa(new Empresa("52", "Popotico Comercial", "Popotico Comercial", "Popotico Comercial",
-						"Popotico", "54", "papotico@gmail.com", "No se", "Tampoco se",
-						new Ubicacion("Rep Dom", "Santiago", "Santiago", "Calle #2")));
 		setResizable(false);
 		setTitle("Solicitud de Personal");
 		setModal(true);
@@ -431,9 +424,9 @@ public class RegSolPersonal extends JDialog {
 								float salarioEsperado = Utils.getSpinnerFloatValue(spnSalarioEsp);
 								int agnosExperiencia = (int) spnAgnosExp.getValue();
 								String modalidadTrabajo = (String) cbxModalidad.getSelectedItem();
-								boolean dispSalirCiudad = Utils.getNameRadioButtonSelected(dispCambiarResGroup)
+								boolean dispSalirCiudad = Utils.getSelectedRadioButtonText(dispCambiarResGroup)
 										.equalsIgnoreCase("si");
-								boolean dispCambiarResidencia = Utils.getNameRadioButtonSelected(dispCambiarResGroup)
+								boolean dispCambiarResidencia = Utils.getSelectedRadioButtonText(dispCambiarResGroup)
 										.equalsIgnoreCase("si");
 
 								ArrayList<String> oficios = new ArrayList<String>();
@@ -501,9 +494,9 @@ public class RegSolPersonal extends JDialog {
 			emptyFields.add("Modalidad de trabajo");
 		if (txtPDescripcion.getText().isEmpty())
 			emptyFields.add("Descripcion");
-		if (Utils.getNameRadioButtonSelected(dispCambiarResGroup) == null)
+		if (Utils.getSelectedRadioButtonText(dispCambiarResGroup) == null)
 			emptyFields.add("Disponibilidad para cambiar de residencia");
-		if (Utils.getNameRadioButtonSelected(dispSalirCiudadGroup) == null)
+		if (Utils.getSelectedRadioButtonText(dispSalirCiudadGroup) == null)
 			emptyFields.add("Disponibilidad para salir de la ciudad");
 
 		if (rbObrero.isSelected() && getOficiosSelected().isEmpty())
