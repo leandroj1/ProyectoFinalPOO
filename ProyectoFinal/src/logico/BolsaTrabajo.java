@@ -41,6 +41,10 @@ public class BolsaTrabajo {
 	}
 
 	public ArrayList<Personal> getPersonalByID(String cedula) {
+		if(cedula == null) {
+			return this.personal;
+		}
+
 		return new ArrayList<Personal>(personal.stream().filter(candidato -> candidato.getCedula().contains(cedula)).collect(Collectors.toList()));
 	}
 
@@ -111,7 +115,7 @@ public class BolsaTrabajo {
 
 		solicitudEmpresa.getCedulasPersonasContratadas().removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
 	}
-	
+
 
 	public void contratarPersonal(Personal personal, String RNCEmpresaContratacion, String idSolicitudPersonal) {
 		if(personal != null) {
@@ -254,27 +258,28 @@ public class BolsaTrabajo {
 		return acumulado * 100.0f;
 	}
 
-	public Map<Personal, SolicitudPersonal> getCandidatosByPorcentajeMatch(SolicitudEmpresa solicitudEmpresa,
-			float porcentajeMatchRequerido) {
+	public Map<Personal, SolicitudPersonal> getCandidatosByPorcentajeMatch(SolicitudEmpresa solicitudEmpresa, ArrayList<Personal> personalBusqueda) {
 		Map<Personal, SolicitudPersonal> candidatos = new HashMap<Personal, SolicitudPersonal>();
+		if(solicitudEmpresa != null) {
+			float porcentajeMatchRequerido = solicitudEmpresa.getPorcentajeMatchRequerido();
+			if (porcentajeMatchRequerido >= 0.0f && porcentajeMatchRequerido <= 100.0f) {
+				int cantidadRequisitos = solicitudEmpresa.getCantidadRequisitos();
 
-		if (solicitudEmpresa != null && (porcentajeMatchRequerido >= 0.0f && porcentajeMatchRequerido <= 100.0f)) {
-			int cantidadRequisitos = solicitudEmpresa.getCantidadRequisitos();
+				personalBusqueda.forEach(person -> {
+					person.getSolicitudes().forEach(solicitud -> {
+						// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
+						float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
+								cantidadRequisitos);
 
-			this.personal.forEach(person -> {
-				person.getSolicitudes().forEach(solicitud -> {
-					// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
-					float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
-							cantidadRequisitos);
+						if (resultPorcentaje >= porcentajeMatchRequerido) {
+							// Asignar porcentaje de match para no calcularlo de nuevo
+							solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
 
-					if (resultPorcentaje >= porcentajeMatchRequerido) {
-						// Asignar porcentaje de match para no calcularlo de nuevo
-						solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
-
-						candidatos.put(person, solicitud);
-					}
+							candidatos.put(person, solicitud);
+						}
+					});
 				});
-			});
+			}			
 		}
 
 		return candidatos;

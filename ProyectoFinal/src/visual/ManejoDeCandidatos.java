@@ -162,6 +162,9 @@ public class ManejoDeCandidatos extends JDialog {
 						else {
 							solicitudLoaded = result.get(0);
 							cargarDatosSolicitud(solicitudLoaded);
+
+							// Cargar datos del personal
+							cargarDatosTablaPersonal();
 						}
 					}
 				}
@@ -198,7 +201,8 @@ public class ManejoDeCandidatos extends JDialog {
 							"Porcentaje actualizado correctamente. El nuevo valor es " + nuevoPorcentaje + "%.",
 							"Informaci\u00f3n",
 							JOptionPane.INFORMATION_MESSAGE);
-					// TODO: cargar los datos de nuevo
+					// Cargar los datos de nuevo
+					cargarDatosTablaPersonal();
 				}
 			});
 			btnActualizarPorcentaje.setEnabled(false);
@@ -397,6 +401,29 @@ public class ManejoDeCandidatos extends JDialog {
 
 		if(tieneDatosIniciales) {
 			cargarDatosSolicitud(solicitudLoaded);
+		}
+	}
+
+	private Object[] getRowData(Personal personal, SolicitudPersonal solicitudPersonal){
+		Object[] row = new Object[model.getColumnCount()];
+		row[0] = false;
+		row[1] = personal.getCedula();
+		row[2] = personal.getNombre();
+		row[3] = Utils.roundTo2(solicitudPersonal.getPorcentajeMatchAsignado());
+		return row;
+	}
+
+	private void cargarDatosTablaPersonal() {
+		if(solicitudLoaded != null) {
+			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
+			this.dataCandidatos = bolsaTrabajo.getCandidatosByPorcentajeMatch(
+					solicitudLoaded, 
+					rdbtnContratacion.isSelected() ? bolsaTrabajo.getPersonalByID(null) : bolsaTrabajo.getPersonasContratadasBySolicitud(solicitudLoaded)					
+					);
+
+			this.dataCandidatos.forEach((persona, currentSolicitud) -> {
+				model.addRow(getRowData(persona, currentSolicitud));
+			});
 		}
 	}
 
