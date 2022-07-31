@@ -18,12 +18,15 @@ import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.Personal;
 import logico.SolicitudEmpresa;
+import logico.SolicitudPersonal;
 import logico.Utils;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
 import javax.swing.JLabel;
@@ -70,6 +73,8 @@ public class ManejoDeCandidatos extends JDialog {
 	private Personal personalSeleccionado = null;
 	private boolean tieneDatosIniciales = false;
 	private JLabel label;
+
+	private Map<Personal, SolicitudPersonal> dataCandidatos = null;
 
 	/**
 	 * Launch the application.
@@ -273,7 +278,7 @@ public class ManejoDeCandidatos extends JDialog {
 			accionGroup.add(rdbtnDesemplear);
 
 			panelData.add(rdbtnDesemplear);
-			
+
 			label = new JLabel("%");
 			label.setBounds(676, 23, 25, 14);
 			panelData.add(label);
@@ -314,8 +319,8 @@ public class ManejoDeCandidatos extends JDialog {
 					btnAccion.setEnabled(true);
 					btnAccion.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							ArrayList<Integer> indicesFilasSeleccionadas = getIndexesFilasSeleccionadas();
-							int cantidadPlazasSeleccionadas = indicesFilasSeleccionadas.size();
+							ArrayList<String> cedulaSeleccionadas = getCedulasSeleccionadas();
+							int cantidadPlazasSeleccionadas = cedulaSeleccionadas.size();
 							if(cantidadPlazasSeleccionadas == 0) {
 								JOptionPane.showMessageDialog(null,
 										"Seleccione al menos una persona.",
@@ -327,18 +332,18 @@ public class ManejoDeCandidatos extends JDialog {
 								if(JOptionPane.YES_OPTION == option) {
 									solicitudLoaded.setCantidadPlazasNecesarias(cantidadPlazasSeleccionadas);
 									txtPlazasNecesarias.setText(String.valueOf(cantidadPlazasSeleccionadas));
-									contratarPersonas();
+									contratarPersonas(getDataSeleccionada(cedulaSeleccionadas));
 								}
 							}
 							else {
 								if(rdbtnContratacion.isSelected())
 								{
-									contratarPersonas();
+									contratarPersonas(getDataSeleccionada(cedulaSeleccionadas));
 								}
 								else {
 									int option = JOptionPane.showConfirmDialog(null, "¿Est\u00e1 seguro de que desea desemplear a estas " + cantidadPlazasSeleccionadas +" personas?", "Confirmaci\u00f3n", JOptionPane.YES_NO_OPTION);
 									if(JOptionPane.YES_OPTION == option) {
-										desemplearPersonas();
+										desemplearPersonas(getDataSeleccionada(cedulaSeleccionadas));
 									}
 								}
 							}
@@ -389,7 +394,7 @@ public class ManejoDeCandidatos extends JDialog {
 				}
 			}
 		}
-		
+
 		if(tieneDatosIniciales) {
 			cargarDatosSolicitud(solicitudLoaded);
 		}
@@ -426,16 +431,16 @@ public class ManejoDeCandidatos extends JDialog {
 		return auxEmpresa;
 	}
 
-	private ArrayList<Integer> getIndexesFilasSeleccionadas() {
-		ArrayList<Integer> indexes = new ArrayList<Integer>();
+	private ArrayList<String> getCedulasSeleccionadas() {
+		ArrayList<String> cedulas = new ArrayList<String>();
 
 		for (int rowIndex = 0; rowIndex < model.getRowCount(); rowIndex++) {
 			if((boolean)(this.model.getValueAt(rowIndex, kColumnaCheckboxes))) {
-				indexes.add(Integer.valueOf(rowIndex));
+				cedulas.add(this.model.getValueAt(rowIndex, 1).toString());
 			}
 		}
 
-		return indexes;
+		return cedulas;
 	}
 
 	private void cambiarAccionVentana(boolean isForContratacion) {
@@ -458,11 +463,33 @@ public class ManejoDeCandidatos extends JDialog {
 		btnVerDetallesPersonaSeleccionada.setEnabled(false);
 	}
 
-	private void contratarPersonas() {
-		return;
+	private Map<Personal, SolicitudPersonal> getDataSeleccionada(ArrayList<String> cedulas){
+		Map<Personal, SolicitudPersonal> dataMap = new HashMap<Personal, SolicitudPersonal>();
+
+		dataCandidatos.forEach((personal, solicitudPersonal) -> {
+			if(cedulas.contains(personal.getCedula())){
+				dataMap.put(personal, solicitudPersonal);
+			}
+		});
+
+		return dataMap;
 	}
-	
-	private void desemplearPersonas() {
-		return;
+
+	private void contratarPersonas(Map<Personal, SolicitudPersonal> data) {
+		if(data != null) {
+			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
+			data.keySet().forEach(personal -> {
+				bolsaTrabajo.contratarPersonal(personal, solicitudLoaded.getRNCEmpresa(), data.get(personal).getId());
+			});
+		}
+	}
+
+	private void desemplearPersonas(Map<Personal, SolicitudPersonal> data) {
+		if(data.size() != 0) {
+			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
+			data.keySet().forEach(personal -> {
+				bolsaTrabajo.desemplearPersonal(personal, solicitudLoaded);				
+			});
+		}
 	}
 }

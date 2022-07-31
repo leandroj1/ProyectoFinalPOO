@@ -94,25 +94,27 @@ public class BolsaTrabajo {
 		ArrayList<String> cedulasForAnulacion = solicitud.getCedulasPersonasContratadas();
 		this.personal.forEach(persona -> {
 			if(cedulasForAnulacion.contains(persona.getCedula())) {
-				this.desemplearPersonal(persona);
+				this.desemplearPersonal(persona, solicitud);
 			}
 		});
 	}
 
-	public void desemplearPersonal(Personal personal) {
+	public void desemplearPersonal(Personal personal, SolicitudEmpresa solicitudEmpresa) {
 		personal.setIdEmpresaContratacion(null);
+		personal.setIdSolicitudPersonalContratacion(null);
 
 		personal.getSolicitudes().forEach(solicitudPersonal -> {
 			if(solicitudPersonal.getEstado() == EstadoSolicitudPersonal.PENDIENTE){
 				solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
 			}
 		});
-	}
 
-	public void contratarPersonal(String cedula, String RNCEmpresaContratacion, String idSolicitudPersonal) {
-		ArrayList<Personal> result = getPersonalByID(cedula);
-		if(result.size() > 0) {
-			Personal personal = result.get(0);
+		solicitudEmpresa.getCedulasPersonasContratadas().removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
+	}
+	
+
+	public void contratarPersonal(Personal personal, String RNCEmpresaContratacion, String idSolicitudPersonal) {
+		if(personal != null) {
 			personal.setIdEmpresaContratacion(RNCEmpresaContratacion);
 			personal.getSolicitudes().forEach(solicitud -> {
 				// En caso de que se contrate por una solicitud que hizo
