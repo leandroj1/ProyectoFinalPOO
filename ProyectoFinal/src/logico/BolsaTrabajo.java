@@ -266,18 +266,20 @@ public class BolsaTrabajo {
 				int cantidadRequisitos = solicitudEmpresa.getCantidadRequisitos();
 
 				personalBusqueda.forEach(person -> {
-					person.getSolicitudes().forEach(solicitud -> {
-						// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
-						float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
-								cantidadRequisitos);
-
-						if (resultPorcentaje >= porcentajeMatchRequerido) {
-							// Asignar porcentaje de match para no calcularlo de nuevo
-							solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
-
-							candidatos.put(person, solicitud);
-						}
-					});
+					if(person.getIdEmpresaContratacion() == null && person.getIdSolicitudPersonalContratacion() == null) {
+						person.getSolicitudes().forEach(solicitud -> {
+							// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
+							float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
+									cantidadRequisitos);
+							
+							if (resultPorcentaje >= porcentajeMatchRequerido) {
+								// Asignar porcentaje de match para no calcularlo de nuevo
+								solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
+								
+								candidatos.put(person, solicitud);
+							}
+						});						
+					}
 				});
 			}			
 		}
