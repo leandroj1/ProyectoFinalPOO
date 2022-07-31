@@ -235,10 +235,14 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 		btnModificarCondiciones.setBounds(401, 5, 186, 23);
 		buttonPane.add(btnModificarCondiciones);
 
-		btnVerPosiblesCandidatos = new JButton("Ver posibles candidatos");
+		btnVerPosiblesCandidatos = new JButton("Administrar candidatos");
 		btnVerPosiblesCandidatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(selectedSolicitud != null) {
+					ManejoDeCandidatos manejoDeCandidatos = new ManejoDeCandidatos(selectedSolicitud);
+					manejoDeCandidatos.setModal(true);
+					manejoDeCandidatos.setVisible(true);
+					
 					// Para evitar errores
 					setButtonsState(false);
 					selectedSolicitud = null;				
