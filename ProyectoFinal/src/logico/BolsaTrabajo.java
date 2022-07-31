@@ -87,7 +87,7 @@ public class BolsaTrabajo {
 	}
 
 	public ArrayList<Personal> getPersonasContratadasBySolicitud(SolicitudEmpresa solicitud) {
-		return new ArrayList<Personal>(personal.stream()
+		return new ArrayList<Personal>(this.personal.stream()
 				.filter(candidato -> solicitud.getCedulasPersonasContratadas().contains(candidato.getCedula()))
 				.collect(Collectors.toList()));
 	}
@@ -117,14 +117,15 @@ public class BolsaTrabajo {
 	}
 
 
-	public void contratarPersonal(Personal personal, String RNCEmpresaContratacion, String idSolicitudPersonal) {
-		if(personal != null) {
-			personal.setIdEmpresaContratacion(RNCEmpresaContratacion);
-			personal.getSolicitudes().forEach(solicitud -> {
+	public void contratarPersonal(Personal persona, SolicitudEmpresa solicitudEmpresa, String idSolicitudPersonal) {
+		if(persona != null) {
+			persona.setIdEmpresaContratacion(solicitudEmpresa.getRNCEmpresa());
+			persona.getSolicitudes().forEach(solicitud -> {
 				// En caso de que se contrate por una solicitud que hizo
 				if(idSolicitudPersonal != null){
 					if(idSolicitudPersonal.equalsIgnoreCase(solicitud.getId())){
 						solicitud.setEstado(EstadoSolicitudPersonal.SATISFECHA);
+						persona.setIdSolicitudPersonalContratacion(idSolicitudPersonal);
 						return;
 					}
 				}
@@ -132,6 +133,9 @@ public class BolsaTrabajo {
 				if(solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA || solicitud.getEstado() == EstadoSolicitudPersonal.SATISFECHA)
 					solicitud.setEstado(EstadoSolicitudPersonal.PENDIENTE);
 			});
+
+			// Agregar la cedula del personal a las personas contratadas
+			solicitudEmpresa.agregarCedulaPersonaContratada(persona.getCedula());
 		}
 	}
 
@@ -153,7 +157,10 @@ public class BolsaTrabajo {
 		if (solicitudPersonal.getSalarioEsperado() >= solicitudEmpresa.getSalarioMin()
 				&& solicitudPersonal.getSalarioEsperado() <= solicitudEmpresa.getSalarioMax())
 			match += 2 * cantToSum;
-
+		// Si es menor que el salario minimo ofrecido, se suma a favor de la empresa 
+		else if(solicitudPersonal.getSalarioEsperado() <= solicitudEmpresa.getSalarioMin())
+			match += 2 * cantToSum;
+			
 		if (personalObj.getEdad() >= solicitudEmpresa.getEdad())
 			match += cantToSum;
 		if (solicitudPersonal.getAgnosExperiencia() >= solicitudEmpresa.getAgnosExperiencia())
@@ -199,9 +206,15 @@ public class BolsaTrabajo {
 
 		float acumuladoIdiomas = 0.0f;
 		ArrayList<String> idiomasRequeridos = solicitudEmpresa.getIdiomas();
-		for (String idiomaPersonal : personalObj.getIdiomas()) {
-			if (idiomasRequeridos.contains(idiomaPersonal))
-				acumuladoIdiomas += (cantToSum / idiomasRequeridos.size());
+		// Si la empresa no requiere ningun idioma, se suma a favor del personal
+		if(idiomasRequeridos.size() == 0) {
+			acumuladoIdiomas = cantToSum;
+		}
+		else {
+			for (String idiomaPersonal : personalObj.getIdiomas()) {
+				if (idiomasRequeridos.contains(idiomaPersonal))
+					acumuladoIdiomas += (cantToSum / idiomasRequeridos.size());
+			}			
 		}
 		match += acumuladoIdiomas;
 
@@ -258,7 +271,7 @@ public class BolsaTrabajo {
 		return acumulado * 100.0f;
 	}
 
-	public Map<Personal, SolicitudPersonal> getCandidatosByPorcentajeMatch(SolicitudEmpresa solicitudEmpresa, ArrayList<Personal> personalBusqueda) {
+	public Map<Personal, SolicitudPersonal> getCandidatosByPorcentajeMatch(SolicitudEmpresa solicitudEmpresa, ArrayList<Personal> personalBusqueda, boolean getContratadasToo) {
 		Map<Personal, SolicitudPersonal> candidatos = new HashMap<Personal, SolicitudPersonal>();
 		if(solicitudEmpresa != null) {
 			float porcentajeMatchRequerido = solicitudEmpresa.getPorcentajeMatchRequerido();
@@ -266,7 +279,7 @@ public class BolsaTrabajo {
 				int cantidadRequisitos = solicitudEmpresa.getCantidadRequisitos();
 
 				personalBusqueda.forEach(person -> {
-					if(person.getIdEmpresaContratacion() == null && person.getIdSolicitudPersonalContratacion() == null) {
+					if((person.getIdEmpresaContratacion() == null && person.getIdSolicitudPersonalContratacion() == null) || getContratadasToo) {
 						person.getSolicitudes().forEach(solicitud -> {
 							// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
 							float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,

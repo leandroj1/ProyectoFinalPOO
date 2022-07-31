@@ -245,7 +245,8 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 					
 					// Para evitar errores
 					setButtonsState(false);
-					selectedSolicitud = null;				
+					selectedSolicitud = null;	
+					loadRowsInTable(getDataSolicitudes(selectedEmpresa, ""));
 				}
 			}
 		});

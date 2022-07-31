@@ -7,6 +7,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -14,6 +15,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import customs.CheckBoxsEditableTable;
+import enums.EstadoSolicitudEmpresa;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.Personal;
@@ -94,7 +96,7 @@ public class ManejoDeCandidatos extends JDialog {
 	 */
 	public ManejoDeCandidatos(SolicitudEmpresa solicitud) {
 		this.solicitudLoaded = solicitud;
-		final Object[] headers = {"Selección", "Cédula del candidato", "Nombre del candidato", "Porcentaje de March"};
+		final Object[] headers = {"Selección", "Cédula del candidato", "Nombre del candidato", "Porcentaje de Match"};
 		this.model = new DefaultTableModel();
 		model.setColumnIdentifiers(headers);
 		accionGroup = new ButtonGroup();
@@ -161,10 +163,24 @@ public class ManejoDeCandidatos extends JDialog {
 						}
 						else {
 							solicitudLoaded = result.get(0);
-							cargarDatosSolicitud(solicitudLoaded);
+							if(solicitudLoaded.getEstado() == EstadoSolicitudEmpresa.ANULADA) {
+								JOptionPane.showMessageDialog(null,
+										"Esta solicitud est\u00e1 anulada, no se puede administrar.",
+										"Error",
+										JOptionPane.ERROR_MESSAGE);
+								model.setRowCount(0);
+							}
+							else {
+								cargarDatosSolicitud(solicitudLoaded);
 
-							// Cargar datos del personal
-							cargarDatosTablaPersonal();
+								if(solicitudLoaded.getEstado() == EstadoSolicitudEmpresa.SATISFECHA) {
+									rdbtnContratacion.setSelected(true);
+									cambiarAccionVentana(false);
+								}
+
+								// Cargar datos del personal
+								cargarDatosTablaPersonal(false);								
+							}
 						}
 					}
 				}
@@ -196,13 +212,21 @@ public class ManejoDeCandidatos extends JDialog {
 			btnActualizarPorcentaje.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					float nuevoPorcentaje = Utils.getSpinnerFloatValue(spnPorcentajeMatch);
-					solicitudLoaded.setPorcentajeMatchRequerido(nuevoPorcentaje);
-					JOptionPane.showMessageDialog(null,
-							"Porcentaje actualizado correctamente. El nuevo valor es " + nuevoPorcentaje + "%.",
-							"Informaci\u00f3n",
-							JOptionPane.INFORMATION_MESSAGE);
-					// Cargar los datos de nuevo
-					cargarDatosTablaPersonal();
+					if(nuevoPorcentaje == 0.0f) {
+						JOptionPane.showMessageDialog(null,
+								"Ingrese un porcentaje mayor a 0.",
+								"Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+					else {
+						solicitudLoaded.setPorcentajeMatchRequerido(nuevoPorcentaje);
+						JOptionPane.showMessageDialog(null,
+								"Porcentaje actualizado correctamente. El nuevo valor es " + nuevoPorcentaje + "%.",
+								"Informaci\u00f3n",
+								JOptionPane.INFORMATION_MESSAGE);
+						// Cargar los datos de nuevo
+						cargarDatosTablaPersonal(false);						
+					}
 				}
 			});
 			btnActualizarPorcentaje.setEnabled(false);
@@ -262,6 +286,13 @@ public class ManejoDeCandidatos extends JDialog {
 			rdbtnContratacion = new JRadioButton("Contrataci\u00F3n");
 			rdbtnContratacion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					if(solicitudLoaded != null) {
+						if(solicitudLoaded.getEstado() == EstadoSolicitudEmpresa.SATISFECHA) {
+							accionGroup.setSelected(rdbtnDesemplear.getModel(), true);
+							cambiarAccionVentana(false);
+							return;
+						}
+					}
 					cambiarAccionVentana(true);
 				}
 			});
@@ -306,7 +337,7 @@ public class ManejoDeCandidatos extends JDialog {
 							ArrayList<Personal> result = BolsaTrabajo.getInstance().getPersonalByID(codigoString);
 							if(result.size() != 0) {
 								personalSeleccionado = result.get(0);
-								btnVerDetallesPersonaSeleccionada.setEnabled(false);
+								btnVerDetallesPersonaSeleccionada.setEnabled(true);
 							}
 						}
 					}
@@ -402,29 +433,51 @@ public class ManejoDeCandidatos extends JDialog {
 		if(tieneDatosIniciales) {
 			cargarDatosSolicitud(solicitudLoaded);
 		}
+		cargarDatosTablaPersonal(true);
 	}
 
+	// Obtener row
 	private Object[] getRowData(Personal personal, SolicitudPersonal solicitudPersonal){
 		Object[] row = new Object[model.getColumnCount()];
 		row[0] = false;
 		row[1] = personal.getCedula();
 		row[2] = personal.getNombre();
-		row[3] = Utils.roundTo2(solicitudPersonal.getPorcentajeMatchAsignado());
+		row[3] = Utils.roundTo2(solicitudPersonal.getPorcentajeMatchAsignado()) + "%";
 		return row;
 	}
 
-	private void cargarDatosTablaPersonal() {
+	// Llenar la tabla
+	// Por alguna razon, se muestra el mensaje primero y despues la interfaz cuando se abre una solicitud sin listado
+	// Entonces, firstRun arregla eso
+	private void cargarDatosTablaPersonal(boolean firstRun) {
+		model.setRowCount(0);
+
 		if(solicitudLoaded != null) {
 			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
 			this.dataCandidatos = bolsaTrabajo.getCandidatosByPorcentajeMatch(
 					solicitudLoaded, 
-					rdbtnContratacion.isSelected() ? bolsaTrabajo.getPersonalByID(null) : bolsaTrabajo.getPersonasContratadasBySolicitud(solicitudLoaded)					
+					rdbtnContratacion.isSelected() ? bolsaTrabajo.getPersonalByID(null) : bolsaTrabajo.getPersonasContratadasBySolicitud(solicitudLoaded),
+							rdbtnDesemplear.isSelected()
 					);
 
+			// Agregar datos a la tabla
 			this.dataCandidatos.forEach((persona, currentSolicitud) -> {
 				model.addRow(getRowData(persona, currentSolicitud));
 			});
+
+			// Actualizar la tabla
+			model.fireTableDataChanged();
+
+			if(this.dataCandidatos.size() == 0 && !firstRun) {
+				JOptionPane.showMessageDialog(null,
+						"No existen datos que mostrar.\n" + (rdbtnContratacion.isSelected() ? "No hay personas que cumplan con los requisitos de la solcitud." : "No se ha empleado a nadie."),
+						"Informaci\u00f3n",
+						JOptionPane.INFORMATION_MESSAGE);
+			}
 		}
+
+		// Para evitar errores
+		btnVerDetallesPersonaSeleccionada.setEnabled(false);
 	}
 
 	private void cargarDatosSolicitud(SolicitudEmpresa solicitudLoaded) {
@@ -458,6 +511,7 @@ public class ManejoDeCandidatos extends JDialog {
 		return auxEmpresa;
 	}
 
+	// Obtener las cedulas de las personas seleccionadas en la tabla
 	private ArrayList<String> getCedulasSeleccionadas() {
 		ArrayList<String> cedulas = new ArrayList<String>();
 
@@ -470,6 +524,7 @@ public class ManejoDeCandidatos extends JDialog {
 		return cedulas;
 	}
 
+	// Cambiar entre contratar y desemplear
 	private void cambiarAccionVentana(boolean isForContratacion) {
 		if(solicitudLoaded != null) {
 			spnPorcentajeMatch.setEnabled(isForContratacion);
@@ -488,6 +543,7 @@ public class ManejoDeCandidatos extends JDialog {
 		panelCandidatos.repaint();
 		personalSeleccionado = null;
 		btnVerDetallesPersonaSeleccionada.setEnabled(false);
+		cargarDatosTablaPersonal(false);
 	}
 
 	private Map<Personal, SolicitudPersonal> getDataSeleccionada(ArrayList<String> cedulas){
@@ -502,21 +558,93 @@ public class ManejoDeCandidatos extends JDialog {
 		return dataMap;
 	}
 
+	private void actualizarCantidadPlazas() {
+		int incremento = 0;
+		while(incremento <= 0) {
+			try {
+				incremento = Integer.parseInt(JOptionPane.showInputDialog(new JFrame(),"Ingrese en cu\u00e1nto incrementar la cantidad de plazas:"));
+				if(incremento <= 0) {
+					JOptionPane.showMessageDialog(null,"Ingrese un n\u00famero mayor que 0.","Error",JOptionPane.ERROR_MESSAGE); 
+				}
+				else {
+					solicitudLoaded.setCantidadPlazasNecesarias(solicitudLoaded.getCantidadPlazasNecesarias() + incremento);
+					txtPlazasNecesarias.setText(String.valueOf(solicitudLoaded.getCantidadPlazasNecesarias()));					
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null,"Ingrese un n\u00famero correcto.","Error",JOptionPane.ERROR_MESSAGE); 
+			}			
+		}
+	}
+
+	private void checkSiYaFueSatisfecha() {
+		if(solicitudLoaded != null) {
+			if(solicitudLoaded.getCantidadPlazasNecesarias() == solicitudLoaded.getCedulasPersonasContratadas().size()) {
+				int option = JOptionPane.showConfirmDialog(null, "La cantidad de plazas necesarias ya fue satisfecha.\n¿Desea incrementar la cantidad de plazas para poder seguir contratando?", "Confirmaci\u00f3n | Cantidad de plazas", JOptionPane.YES_NO_OPTION);
+				if(JOptionPane.YES_OPTION == option) {
+					actualizarCantidadPlazas();
+				}
+				else {
+					// Si ya fue satisfecha, solo puede desemplear
+					solicitudLoaded.setEstado(EstadoSolicitudEmpresa.SATISFECHA);
+					accionGroup.setSelected(rdbtnDesemplear.getModel(), true);
+					cambiarAccionVentana(false);
+				}
+			}
+		}
+	}
+
 	private void contratarPersonas(Map<Personal, SolicitudPersonal> data) {
 		if(data != null) {
 			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
 			data.keySet().forEach(personal -> {
-				bolsaTrabajo.contratarPersonal(personal, solicitudLoaded.getRNCEmpresa(), data.get(personal).getId());
+				bolsaTrabajo.contratarPersonal(personal, solicitudLoaded, data.get(personal).getId());
 			});
+
+			JOptionPane.showMessageDialog(null,
+					"Contrataci\u00f3n exitosa.",
+					"Informaci\u00f3n",
+					JOptionPane.INFORMATION_MESSAGE);
+			// Reiniciar la tabla
+			cargarDatosTablaPersonal(false);
+			// Saber si la solicitud fue satisfecha
+			checkSiYaFueSatisfecha();
+			return;
 		}
+
+		JOptionPane.showMessageDialog(null,
+				"Hubo un error desconocido al intentar contratar a las personas.",
+				"Error",
+				JOptionPane.ERROR_MESSAGE);
 	}
 
+	// Si ya esta satisfecha y desempleo a alguien, tiene que cambiar
+	private void actualizarEstadoSolicitud() {
+		if(solicitudLoaded.getEstado() == EstadoSolicitudEmpresa.SATISFECHA) {
+			solicitudLoaded.setEstado(EstadoSolicitudEmpresa.ACTIVA);
+		}
+	}
+	
 	private void desemplearPersonas(Map<Personal, SolicitudPersonal> data) {
 		if(data.size() != 0) {
 			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
 			data.keySet().forEach(personal -> {
 				bolsaTrabajo.desemplearPersonal(personal, solicitudLoaded);				
 			});
+			
+			JOptionPane.showMessageDialog(null,
+					"Se desemplearon las personas de forma correcta.",
+					"Informaci\u00f3n",
+					JOptionPane.INFORMATION_MESSAGE);
+			
+			cargarDatosTablaPersonal(false);
+			actualizarEstadoSolicitud();
+			
+			return;
 		}
+
+		JOptionPane.showMessageDialog(null,
+				"Hubo un error desconocido al intentar desemplear a las personas.",
+				"Error",
+				JOptionPane.ERROR_MESSAGE);
 	}
 }
