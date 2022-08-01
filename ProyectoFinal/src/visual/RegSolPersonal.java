@@ -587,7 +587,8 @@ public class RegSolPersonal extends JDialog {
 				ckSastre.setState(true);
 			if (oficios.contains(ckSoldador.getLabel()))
 				ckSoldador.setState(true);
-		} else if (personal.toString().equalsIgnoreCase("tecico")) {
+		} else if (personal.toString().equalsIgnoreCase("tecnico")) {
+
 			rbTecnico.doClick();
 			for (int index = 0; cbxAreaTecnica.getItemCount() > index; index++)
 				if (((Tecnico) personal).getAreaTecnica().equalsIgnoreCase((String) cbxAreaTecnica.getItemAt(index)))
