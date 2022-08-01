@@ -239,7 +239,7 @@ public class RegSolEmpresa extends JDialog {
 				pnRequisitos.setLayout(null);
 
 				cbxNacionalidad = new JComboBox();
-				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a", "Otra"}));
+				cbxNacionalidad.setModel(new DefaultComboBoxModel(new String[] {"<Seleccione>", "Sin preferencia", "Dominicano/a", "Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a", "Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a", "Otra"}));
 				cbxNacionalidad.setBounds(114, 302, 182, 20);
 				pnRequisitos.add(cbxNacionalidad);
 				{
@@ -311,7 +311,7 @@ public class RegSolEmpresa extends JDialog {
 				}
 				{
 					spnSalarioMin = new JSpinner();
-					spnSalarioMin.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+					spnSalarioMin.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1000)));
 					spnSalarioMin.setBounds(172, 220, 154, 20);
 					pnRequisitos.add(spnSalarioMin);
 				}
@@ -333,7 +333,7 @@ public class RegSolEmpresa extends JDialog {
 				}
 				{
 					spnSalarioMax = new JSpinner();
-					spnSalarioMax.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+					spnSalarioMax.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1000)));
 					spnSalarioMax.setBounds(535, 220, 136, 20);
 					pnRequisitos.add(spnSalarioMax);
 				}
