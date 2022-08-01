@@ -562,6 +562,7 @@ public class RegSolEmpresa extends JDialog {
 
 							JButton btnSolicitar = new JButton(textButton);
 							btnSolicitar.addActionListener(new ActionListener() {
+								String messageEmptyFields;
 								public void actionPerformed(ActionEvent e) {
 									if(Utils.getSpinnerFloatValue(spnSalarioMin) >= Utils.getSpinnerFloatValue(spnSalarioMax)) {
 										JOptionPane.showMessageDialog(null,
@@ -575,9 +576,9 @@ public class RegSolEmpresa extends JDialog {
 												"Error",
 												JOptionPane.ERROR_MESSAGE);
 									}
-									else if(faltanDatos()) {
+									else if(!(messageEmptyFields = checkEmptyFields()).isEmpty()) {
 										JOptionPane.showMessageDialog(null,
-												"Faltan datos para registrar la solicitud.",
+												messageEmptyFields,
 												"Error",
 												JOptionPane.ERROR_MESSAGE);
 									}
@@ -796,34 +797,51 @@ public class RegSolEmpresa extends JDialog {
 		return this.getOficiosSelected().size() > 0;
 	}
 
-	private boolean faltanDatos() {
-		boolean faltan = false;
+	private String checkEmptyFields() {
+		ArrayList<String> emptyFields = new ArrayList<String>();
 
 		// No importa si elige un sexo o no
-		if(Utils.getSpinnerFloatValue(spnPorcentajeMatch) == 0.0f
-				|| Utils.getSpinnerIntValue(spnCantPlazas) == 0
-				|| Utils.isCbxDefaultValue(cbxNacionalidad) 
-				|| Utils.isCbxDefaultValue(cbxModalidadTrabajo)) {
-			faltan = true;
+		if(Utils.getSpinnerFloatValue(spnPorcentajeMatch) == 0.0f) {
+			emptyFields.add("Porcentaje de match requerido");
+		}
+		if(Utils.getSpinnerIntValue(spnCantPlazas) == 0) {
+			emptyFields.add("Cantidad de plazas necesarias");
+		}
+		if(Utils.isCbxDefaultValue(cbxNacionalidad)) {
+			emptyFields.add("Nacionalidad");
+		}
+		if(Utils.isCbxDefaultValue(cbxModalidadTrabajo)) {
+			emptyFields.add("Modalidad del trabajo");
 		}
 
 		if(rbUniversitario.isSelected()) {
-			if(Utils.isCbxDefaultValue(cbxUniversidad) || Utils.isCbxDefaultValue(cbxCarrera)) {
-				faltan = true;
+			if(Utils.isCbxDefaultValue(cbxUniversidad)) {
+				emptyFields.add("Universidad");
+			}
+			if(Utils.isCbxDefaultValue(cbxCarrera)) {
+				emptyFields.add("Carrera");
 			}
 		}
 		else if(rbTecnico.isSelected()) {
 			if(Utils.isCbxDefaultValue(cbxAreaTecnica)) {
-				faltan = true;
+				emptyFields.add("\u00c1rea t\u00e9cnica");
 			}
 		}
 		else {
 			if(!hayOficiosSeleccionados()) {
-				faltan = true;
+				emptyFields.add("Oficios");
 			}
 		}
 
-		return faltan;
+		String message = "";
+		if (emptyFields.size() > 0) {
+			message = "Los siguientes campos est\u00e1n vac\u00edos:";
+			for (String emptyField : emptyFields) {
+				message += "\n\t- " + emptyField;
+			}
+		}
+
+		return message;
 	}
 
 	private Empresa getDatosEmpresa(String RNC) {
