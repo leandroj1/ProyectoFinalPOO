@@ -8,8 +8,8 @@ public class Obrero extends Personal {
 
 	public Obrero(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
 			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion,
-			String genero, ArrayList<String> oficios) {
-		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion, genero);
+			String sexo, ArrayList<String> oficios) {
+		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion, sexo);
 		this.oficios = oficios;
 	}
 

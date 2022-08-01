@@ -98,8 +98,6 @@ public class RegSolPersonal extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegSolPersonal(Personal personal) {
-		ArrayList<String> idiomas = new ArrayList<String>();
-		idiomas.add("Ingles");
 		setResizable(false);
 		setTitle("Solicitud de Personal");
 		setModal(true);

@@ -8,8 +8,8 @@ public class Tecnico extends Personal {
 
 	public Tecnico(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
 			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, String areaTecnica,
-			Ubicacion ubicacion, String genero) {
-		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion, genero);
+			Ubicacion ubicacion, String sexo) {
+		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion, sexo);
 		this.areaTecnica = areaTecnica;
 	}
 

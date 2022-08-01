@@ -514,7 +514,7 @@ public class RegPersonal extends JDialog {
 						}
 
 						if (auxPersonal == null) {
-							JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario");
+							JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario", null, JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 
@@ -661,7 +661,7 @@ public class RegPersonal extends JDialog {
 	private String comprobarCampos() {
 		ArrayList<String> emptyFields = new ArrayList<String>();
 
-		if (txtFCedulaP.getText().equals(Utils.getMaskCedula().getMask().replace('#', '_')))
+		if (Utils.isMaskCedulaDefaultValue(txtFCedulaP.getText()))
 			emptyFields.add("Cedula");
 		if (txtNombreCompleto.getText().isEmpty())
 			emptyFields.add("Nombre");
@@ -669,9 +669,9 @@ public class RegPersonal extends JDialog {
 			emptyFields.add("Fecha de Nacimiento");
 		if (((String) cbxNacionalidad.getSelectedItem()).isEmpty())
 			emptyFields.add("Nacionalidad");
-		if (txtFTelefono.getText().equals(Utils.getMaskTelefono().getMask().replace('#', '_')))
+		if (Utils.isMaskTelefonoDefaultValue(txtFTelefono.getText()))
 			emptyFields.add("Telefono Principal");
-		if (txtFTelSec.getText().equals(Utils.getMaskTelefono().getMask().replace('#', '_')))
+		if (Utils.isMaskTelefonoDefaultValue(txtFTelSec.getText()))
 			emptyFields.add("Telefono Secundario");
 		if (Utils.getSelectedRadioButtonText(generoGroup) == null)
 			emptyFields.add("Genero");

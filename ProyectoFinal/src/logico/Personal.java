@@ -18,10 +18,10 @@ public abstract class Personal {
 	private String idEmpresaContratacion;
 	private ArrayList<SolicitudPersonal> solicitudes;
 	private Ubicacion ubicacion;
-	private String genero;
+	private String sexo;
 
 	public Personal(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
-			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion, String genero) {
+			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion, String sexo) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -34,7 +34,7 @@ public abstract class Personal {
 		this.ubicacion = ubicacion;
 		this.idEmpresaContratacion = null;
 		this.solicitudes = new ArrayList<SolicitudPersonal>();
-		this.genero = genero;
+		this.sexo = sexo;
 	}
 
 	public boolean isEsCasado() {
@@ -131,6 +131,6 @@ public abstract class Personal {
 	}
 
 	public String getGenero() {
-		return genero;
+		return sexo;
 	}
 }
