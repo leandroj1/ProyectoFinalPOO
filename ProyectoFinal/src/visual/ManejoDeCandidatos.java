@@ -400,7 +400,9 @@ public class ManejoDeCandidatos extends JDialog {
 					btnVerDetallesPersonaSeleccionada.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
 							if(personalSeleccionado != null) {
-								// TODO: Llamar a la ventana encargada de esto
+								PropiedadesCumplidasPersonal propiedadesCumplidasPersonal = new PropiedadesCumplidasPersonal(personalSeleccionado, dataCandidatos.get(personalSeleccionado), solicitudLoaded);
+								propiedadesCumplidasPersonal.setModal(true);
+								propiedadesCumplidasPersonal.setVisible(true);
 
 								btnVerDetallesPersonaSeleccionada.setEnabled(false);
 								personalSeleccionado = null;								

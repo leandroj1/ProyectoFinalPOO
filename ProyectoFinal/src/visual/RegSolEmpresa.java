@@ -31,6 +31,8 @@ import javax.swing.JComboBox;
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class RegSolEmpresa extends JDialog {
 
@@ -322,7 +324,19 @@ public class RegSolEmpresa extends JDialog {
 				}
 				{
 					spnAgnosExp = new JSpinner();
-					spnAgnosExp.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+					spnAgnosExp.addChangeListener(new ChangeListener() {
+						public void stateChanged(ChangeEvent e) {
+							// Actualizar el valor minimo de la edad 
+							SpinnerNumberModel modelEdad = (SpinnerNumberModel)spnEdad.getModel();
+							Integer currentValue = (Integer)modelEdad.getValue();
+							int nuevoValor = Utils.getSpinnerIntValue(spnAgnosExp) + 18;
+							modelEdad.setMinimum(Integer.valueOf(nuevoValor));
+							if(currentValue.intValue() == 18 || currentValue.intValue() <= nuevoValor) {
+								modelEdad.setValue(Integer.valueOf(nuevoValor));
+							}
+						}
+					});
+					spnAgnosExp.setModel(new SpinnerNumberModel(0, 0, 100, 1));
 					spnAgnosExp.setBounds(200, 261, 154, 20);
 					pnRequisitos.add(spnAgnosExp);
 				}
@@ -344,7 +358,7 @@ public class RegSolEmpresa extends JDialog {
 				}
 				{
 					spnEdad = new JSpinner();
-					spnEdad.setModel(new SpinnerNumberModel(new Integer(18), new Integer(18), null, new Integer(1)));
+					spnEdad.setModel(new SpinnerNumberModel(18, 18, 118, 1));
 					spnEdad.setBounds(535, 261, 136, 20);
 					pnRequisitos.add(spnEdad);
 				}
