@@ -339,7 +339,8 @@ public class RegPersonal extends JDialog {
 						"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
 						"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
 						"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
-						"Programaci\u00F3n Web", "" }));
+						"Programaci\u00F3n Web"}));
+
 				cbxAreaTecnica.setBounds(29, 40, 273, 20);
 				pnTecnico.add(cbxAreaTecnica);
 
