@@ -56,7 +56,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem = new JMenuItem("Registrar Empresa");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegEmpresa regEmpresa = new RegEmpresa();
+				RegEmpresa regEmpresa = new RegEmpresa(null);
 				regEmpresa.setVisible(true);
 			}
 		});
@@ -65,7 +65,8 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("Listar Empresa");
 		mntmNewMenuItem_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				ListarEmpresas listarEmpresas = new ListarEmpresas();
+				listarEmpresas.setVisible(true);
 			}
 		});
 		mnNewMenu.add(mntmNewMenuItem_1);
@@ -96,13 +97,19 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registro de Solicitud de Empresa");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegSolEmpresa solEmpresa = new RegSolEmpresa();
+				RegSolEmpresa solEmpresa = new RegSolEmpresa(null, false);
 				solEmpresa.setVisible(true);
 			}
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_6);
 		
 		JMenuItem mntmNewMenuItem_7 = new JMenuItem("Listado de Solicitudes de Empresa");
+		mntmNewMenuItem_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListadoSolicitudesEmpresa listadoSolicitudesEmpresa = new ListadoSolicitudesEmpresa(null);
+				listadoSolicitudesEmpresa.setVisible(true);
+			}
+		});
 		mnNewMenu_3.add(mntmNewMenuItem_7);
 		
 		JMenu mnNewMenu_2 = new JMenu("Solicitud de Personal");
@@ -119,6 +126,18 @@ public class Principal extends JFrame {
 		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listado de Solicitudes de Personal");
 		mnNewMenu_2.add(mntmNewMenuItem_5);
+		
+		JMenu mnNewMenu_4 = new JMenu("Reportes");
+		menuBar.add(mnNewMenu_4);
+		
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Reporte 1");
+		mnNewMenu_4.add(mntmNewMenuItem_8);
+		
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Reporte 2");
+		mnNewMenu_4.add(mntmNewMenuItem_9);
+		
+		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Reporte 3");
+		mnNewMenu_4.add(mntmNewMenuItem_10);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

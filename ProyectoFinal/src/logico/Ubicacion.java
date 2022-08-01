@@ -34,4 +34,20 @@ public class Ubicacion {
 	public String toString() {
 		return direccion + ", " + ciudad + ", " + provincia + ", " + pais;
 	}
+
+	public void setPais(String pais) {
+		this.pais = pais;
+	}
+
+	public void setProvincia(String provincia) {
+		this.provincia = provincia;
+	}
+
+	public void setCiudad(String ciudad) {
+		this.ciudad = ciudad;
+	}
+
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
 }
