@@ -40,7 +40,7 @@ public class Principal extends JFrame {
 		setTitle("Bolsa de Trabajo BJL");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
-		// Ajustar el tamaño de la ventana 
+		// Ajustar el tamaï¿½o de la ventana 
 		dim = getToolkit().getScreenSize();		
 		setSize(dim.width, dim.height-35);
 
@@ -96,7 +96,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_6 = new JMenuItem("Registro de Solicitud de Empresa");
 		mntmNewMenuItem_6.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegSolEmpresa solEmpresa = new RegSolEmpresa();
+				RegSolEmpresa solEmpresa = new RegSolEmpresa(null, false);
 				solEmpresa.setVisible(true);
 			}
 		});

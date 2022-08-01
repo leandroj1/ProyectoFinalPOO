@@ -1,5 +1,7 @@
 package logico;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Enumeration;
@@ -15,6 +17,10 @@ import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
 public class Utils {
 	private static char defaultPlaceholder = '_';
@@ -136,5 +142,18 @@ public class Utils {
 		while (enumeration.hasMoreElements()) {
 			enumeration.nextElement().setEnabled(false);
 		}
+	}
+	
+	public static JSONArray getJSONContent (String path) {		
+		JSONParser parser = new JSONParser();
+		JSONArray jsonArray = null;
+		try {
+			jsonArray = (JSONArray) parser.parse(new FileReader(path));
+		} catch (IOException | ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return jsonArray;
 	}
 }

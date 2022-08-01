@@ -26,13 +26,15 @@ public class SolicitudPersonal {
 
 	private EstadoSolicitudPersonal estado;
 
-	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
-			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,String modalidadDeTrabajo) {
+	public SolicitudPersonal(String id, String cedulaPersonal, String RNCEmpresa, String descripcion,
+			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera,
+			String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,
+			String modalidadDeTrabajo) {
 
 		super();
 		this.id = id;
 		this.cedulaPersonal = cedulaPersonal;
-		RNCEmpresa = rNCEmpresa;
+		this.RNCEmpresa = RNCEmpresa;
 		this.descripcion = descripcion;
 		this.salarioEsperado = salarioEsperado;
 		this.agnosExperiencia = agnosExperiencia;
