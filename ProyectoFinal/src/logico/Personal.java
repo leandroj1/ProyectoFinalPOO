@@ -21,8 +21,8 @@ public abstract class Personal {
 	private Ubicacion ubicacion;
 	private String sexo;
 
-	public Personal(String cedula, String nombre, Date fechaNacimiento, String sexo, boolean esCasado, String telefonoPrincipal,
-			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion) {
+	public Personal(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
+			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion, String sexo) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -37,6 +37,7 @@ public abstract class Personal {
 		this.setIdSolicitudPersonalContratacion(null);
 		this.sexo = sexo;
 		this.solicitudes = new ArrayList<SolicitudPersonal>();
+		this.sexo = sexo;
 	}
 
 	public boolean isEsCasado() {
@@ -132,6 +133,7 @@ public abstract class Personal {
 		return nacionalidad;
 	}
 
+<<<<<<< HEAD
 	public String getSexo() {
 		return sexo;
 	}
@@ -143,4 +145,9 @@ public abstract class Personal {
 	public void setIdSolicitudPersonalContratacion(String idSolicitudPersonalContratacion) {
 		this.idSolicitudPersonalContratacion = idSolicitudPersonalContratacion;
 	}
+=======
+	public String getGenero() {
+		return sexo;
+	}
+>>>>>>> master
 }

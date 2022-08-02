@@ -313,7 +313,7 @@ public class RegSolEmpresa extends JDialog {
 				}
 				{
 					spnSalarioMin = new JSpinner();
-					spnSalarioMin.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+					spnSalarioMin.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1000)));
 					spnSalarioMin.setBounds(172, 220, 154, 20);
 					pnRequisitos.add(spnSalarioMin);
 				}
@@ -347,7 +347,7 @@ public class RegSolEmpresa extends JDialog {
 				}
 				{
 					spnSalarioMax = new JSpinner();
-					spnSalarioMax.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+					spnSalarioMax.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1000)));
 					spnSalarioMax.setBounds(535, 220, 136, 20);
 					pnRequisitos.add(spnSalarioMax);
 				}

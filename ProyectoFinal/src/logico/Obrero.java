@@ -6,10 +6,11 @@ import java.util.Date;
 public class Obrero extends Personal {
 	private ArrayList<String> oficios;
 
-	public Obrero(String cedula, String nombre, Date fechaNacimiento, String sexo, boolean esCasado, String telefonoPrincipal,
-			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion) {
-		super(cedula, nombre, fechaNacimiento, sexo, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion);
-		this.oficios = new ArrayList<String>();
+	public Obrero(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
+			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion,
+			String sexo, ArrayList<String> oficios) {
+		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion, sexo);
+		this.oficios = oficios;
 	}
 
 	public ArrayList<String> getOficios() {

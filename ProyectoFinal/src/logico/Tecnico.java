@@ -6,9 +6,10 @@ import java.util.Date;
 public class Tecnico extends Personal {
 	private String areaTecnica;
 
-	public Tecnico(String cedula, String nombre, Date fechaNacimiento, String sexo, boolean esCasado, String telefonoPrincipal,
-			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, String areaTecnica, Ubicacion ubicacion) {
-		super(cedula, nombre, fechaNacimiento, sexo, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion);
+	public Tecnico(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
+			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, String areaTecnica,
+			Ubicacion ubicacion, String sexo) {
+		super(cedula, nombre, fechaNacimiento, esCasado, telefonoPrincipal, telefonoSecundario, nacionalidad, idiomas, ubicacion, sexo);
 		this.areaTecnica = areaTecnica;
 	}
 
