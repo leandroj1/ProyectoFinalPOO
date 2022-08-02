@@ -442,10 +442,16 @@ public class RegSolPersonal extends JDialog {
 										new SolicitudPersonal(codigo, cedula, descripcion, salarioEsperado,
 												agnosExperiencia, tipoPersonal, areaTecnica, carrera, universidad,
 												dispSalirCiudad, dispCambiarResidencia, modalidadTrabajo));
-								;
+								
+								if (BolsaTrabajo.getInstance().getSolicitudesPersonalByID(codigo).size() != 1) {
+									JOptionPane.showMessageDialog(null,
+											"La solicitud a fallado en agregarse.", null,
+											JOptionPane.ERROR_MESSAGE);
+									return;
+								}
 
 								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0)
-										.getIdEmpresaContratacion() == null) {
+										.getIdEmpresaContratacion() != null) {
 									JOptionPane.showMessageDialog(null,
 											"El candidato ya esta contratado.\nIntente otra vez con otro usuario", null,
 											JOptionPane.WARNING_MESSAGE);
