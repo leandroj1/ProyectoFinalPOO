@@ -210,15 +210,15 @@ public class RegSolPersonal extends JDialog {
 						panel_1.add(label5);
 					}
 				}
-				
+
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setBounds(301, 218, 195, 48);
 				panel_1.add(scrollPane);
-				
-									txtPDescripcion = new JTextPane();
-									scrollPane.setViewportView(txtPDescripcion);
-									txtPDescripcion.setDragEnabled(false);
-									txtPDescripcion.setBorder(new LineBorder(new Color(192, 192, 192)));
+
+				txtPDescripcion = new JTextPane();
+				scrollPane.setViewportView(txtPDescripcion);
+				txtPDescripcion.setDragEnabled(false);
+				txtPDescripcion.setBorder(new LineBorder(new Color(192, 192, 192)));
 				{
 					JPanel pnTipoPersonal = new JPanel();
 					pnTipoPersonal.setLayout(null);
@@ -330,69 +330,69 @@ public class RegSolPersonal extends JDialog {
 								"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
 								"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
 								"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
-								"Programaci\u00F3n Web"}));
+								"Programaci\u00F3n Web" }));
 						cbxAreaTecnica.setBounds(22, 36, 273, 20);
 						pnTecnico.add(cbxAreaTecnica);
 					}
 				}
-				
-									pnObrero = new JPanel();
-									pnObrero.setVisible(false);
-									pnObrero.setLayout(null);
-									pnObrero.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Oficios",
-											TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-									pnObrero.setBounds(10, 475, 579, 82);
-									panel.add(pnObrero);
-									{
-										ckFontanero = new Checkbox("Fontanero");
-										ckFontanero.setBounds(10, 21, 117, 22);
-										pnObrero.add(ckFontanero);
-									}
-									{
-										ckSastre = new Checkbox("Sastre");
-										ckSastre.setBounds(10, 49, 117, 22);
-										pnObrero.add(ckSastre);
-									}
-									{
-										ckBarbero = new Checkbox("Barbero");
-										ckBarbero.setBounds(118, 21, 117, 22);
-										pnObrero.add(ckBarbero);
-									}
-									{
-										ckSoldador = new Checkbox("Soldador");
-										ckSoldador.setBounds(118, 49, 117, 22);
-										pnObrero.add(ckSoldador);
-									}
-									{
-										ckCerrajero = new Checkbox("Cerrajero");
-										ckCerrajero.setBounds(226, 21, 117, 22);
-										pnObrero.add(ckCerrajero);
-									}
-									{
-										ckMecanico = new Checkbox("Mec\u00E1nico");
-										ckMecanico.setBounds(226, 49, 117, 22);
-										pnObrero.add(ckMecanico);
-									}
-									{
-										ckPolicia = new Checkbox("Polic\u00EDa");
-										ckPolicia.setBounds(334, 21, 117, 22);
-										pnObrero.add(ckPolicia);
-									}
-									{
-										ckAlbagnil = new Checkbox("Alba\u00F1il");
-										ckAlbagnil.setBounds(334, 50, 117, 22);
-										pnObrero.add(ckAlbagnil);
-									}
-									{
-										ckExterminador = new Checkbox("Exterminador");
-										ckExterminador.setBounds(442, 21, 117, 22);
-										pnObrero.add(ckExterminador);
-									}
-									{
-										ckAgricultor = new Checkbox("Agricultor");
-										ckAgricultor.setBounds(442, 50, 117, 22);
-										pnObrero.add(ckAgricultor);
-									}
+
+				pnObrero = new JPanel();
+				pnObrero.setVisible(false);
+				pnObrero.setLayout(null);
+				pnObrero.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Oficios",
+						TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+				pnObrero.setBounds(10, 475, 579, 82);
+				panel.add(pnObrero);
+				{
+					ckFontanero = new Checkbox("Fontanero");
+					ckFontanero.setBounds(10, 21, 117, 22);
+					pnObrero.add(ckFontanero);
+				}
+				{
+					ckSastre = new Checkbox("Sastre");
+					ckSastre.setBounds(10, 49, 117, 22);
+					pnObrero.add(ckSastre);
+				}
+				{
+					ckBarbero = new Checkbox("Barbero");
+					ckBarbero.setBounds(118, 21, 117, 22);
+					pnObrero.add(ckBarbero);
+				}
+				{
+					ckSoldador = new Checkbox("Soldador");
+					ckSoldador.setBounds(118, 49, 117, 22);
+					pnObrero.add(ckSoldador);
+				}
+				{
+					ckCerrajero = new Checkbox("Cerrajero");
+					ckCerrajero.setBounds(226, 21, 117, 22);
+					pnObrero.add(ckCerrajero);
+				}
+				{
+					ckMecanico = new Checkbox("Mec\u00E1nico");
+					ckMecanico.setBounds(226, 49, 117, 22);
+					pnObrero.add(ckMecanico);
+				}
+				{
+					ckPolicia = new Checkbox("Polic\u00EDa");
+					ckPolicia.setBounds(334, 21, 117, 22);
+					pnObrero.add(ckPolicia);
+				}
+				{
+					ckAlbagnil = new Checkbox("Alba\u00F1il");
+					ckAlbagnil.setBounds(334, 50, 117, 22);
+					pnObrero.add(ckAlbagnil);
+				}
+				{
+					ckExterminador = new Checkbox("Exterminador");
+					ckExterminador.setBounds(442, 21, 117, 22);
+					pnObrero.add(ckExterminador);
+				}
+				{
+					ckAgricultor = new Checkbox("Agricultor");
+					ckAgricultor.setBounds(442, 50, 117, 22);
+					pnObrero.add(ckAgricultor);
+				}
 
 				{
 					JPanel buttonPane = new JPanel();
@@ -438,12 +438,17 @@ public class RegSolPersonal extends JDialog {
 									tipoPersonal = "Universitario";
 								}
 
-								SolicitudPersonal solPersonal = new SolicitudPersonal(codigo, cedula, descripcion,
-										salarioEsperado, agnosExperiencia, tipoPersonal, areaTecnica, carrera,
-										universidad, dispSalirCiudad, dispCambiarResidencia, modalidadTrabajo);
+								BolsaTrabajo.getInstance().agregarSolicitudEmpleado(cedula,
+										new SolicitudPersonal(codigo, cedula, descripcion, salarioEsperado,
+												agnosExperiencia, tipoPersonal, areaTecnica, carrera, universidad,
+												dispSalirCiudad, dispCambiarResidencia, modalidadTrabajo));
+								;
 
-								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0).getIdEmpresaContratacion() == null) {
-									JOptionPane.showMessageDialog(null, "El candidato ya esta contratado.\nIntente otra vez con otro usuario", null, JOptionPane.WARNING_MESSAGE);
+								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0)
+										.getIdEmpresaContratacion() == null) {
+									JOptionPane.showMessageDialog(null,
+											"El candidato ya esta contratado.\nIntente otra vez con otro usuario", null,
+											JOptionPane.WARNING_MESSAGE);
 									return;
 								}
 
