@@ -9,7 +9,6 @@ public class SolicitudPersonal {
 	private String id;
 	private Date fecha;
 	private String cedulaPersonal;
-	private String RNCEmpresa;
 	private String descripcion;
 	private float salarioEsperado;
 	private int agnosExperiencia;
@@ -26,13 +25,12 @@ public class SolicitudPersonal {
 
 	private EstadoSolicitudPersonal estado;
 
-	public SolicitudPersonal(String id, String cedulaPersonal, String rNCEmpresa, String descripcion,
+	public SolicitudPersonal(String id, String cedulaPersonal, String descripcion,
 			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,String modalidadDeTrabajo) {
 
 		super();
 		this.id = id;
 		this.cedulaPersonal = cedulaPersonal;
-		RNCEmpresa = rNCEmpresa;
 		this.descripcion = descripcion;
 		this.salarioEsperado = salarioEsperado;
 		this.agnosExperiencia = agnosExperiencia;
@@ -80,10 +78,6 @@ public class SolicitudPersonal {
 		return cedulaPersonal;
 	}
 
-	public String getRNCEmpresa() {
-		return RNCEmpresa;
-	}
-
 	public float getSalarioEsperado() {
 		return salarioEsperado;
 	}
@@ -110,10 +104,6 @@ public class SolicitudPersonal {
 
 	public String getTipoPersonal() {
 		return tipoPersonal;
-	}
-
-	public void setRNCEmpresa(String rNCEmpresa) {
-		RNCEmpresa = rNCEmpresa;
 	}
 
 	public void setDescripcion(String descripcion) {
