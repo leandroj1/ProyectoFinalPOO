@@ -158,7 +158,7 @@ public class BolsaTrabajo {
 		if (sexoRequerido.equalsIgnoreCase("N/A")) {
 			match += cantToSum;
 		} else {
-			if (personalObj.getSexo().equalsIgnoreCase(solicitudEmpresa.getSexo()))
+			if (personalObj.getGenero().equalsIgnoreCase(solicitudEmpresa.getSexo()))
 				match += cantToSum;
 		}
 

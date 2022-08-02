@@ -293,7 +293,7 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 		if (sexoRequerido.equalsIgnoreCase("N/A")) {
 			iconSexo.setIcon(icons[2]);
 		} else {
-			if (currentPersonal.getSexo().equalsIgnoreCase(currentSolicitudEmpresa.getSexo()))
+			if (currentPersonal.getGenero().equalsIgnoreCase(currentSolicitudEmpresa.getSexo()))
 				iconSexo.setIcon(icons[0]);
 		}
 
@@ -409,7 +409,7 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 	private void loadData() {
 		lblNombre.setText(currentPersonal.getNombre());
 		lblCedula.setText(currentPersonal.getCedula());
-		lblSexo.setText(currentPersonal.getSexo());
+		lblSexo.setText(currentPersonal.getGenero());
 		lblEdad.setText(String.valueOf(currentPersonal.getEdad()));
 		lblNacionalidad.setText(currentPersonal.getNacionalidad());
 		lblCasado.setText(!currentPersonal.isEsCasado() ? "S\u00ed" : "No");
