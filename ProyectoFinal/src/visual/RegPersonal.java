@@ -487,6 +487,12 @@ public class RegPersonal extends JDialog {
 						String cedula = txtFCedulaP.getText();
 						String nombre = txtNombreCompleto.getText();
 						Date fechaNacimiento = dcFechaNacimiento.getDate();
+						
+						if(Utils.yearsBetween(fechaNacimiento) < 18) {
+							JOptionPane.showMessageDialog(null, "Ingrese una edad mayor o igual a 18.", null, JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						
 						String nacionalidad = (String) cbxNacionalidad.getSelectedItem();
 						String telefonoPrincipal = txtFTelefono.getText();
 						String telefonoSecundario = txtFTelSec.getText();

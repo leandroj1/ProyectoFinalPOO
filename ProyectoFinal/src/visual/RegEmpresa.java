@@ -270,7 +270,7 @@ public class RegEmpresa extends JDialog {
 						Ubicacion ubicacion;
 						if(auxEmpresa == null) {
 							if (elemVacios()) {
-								JOptionPane.showMessageDialog(null, "Tiene que completar todos los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Tiene que completar todos los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
 							}
 							else {	
 								if (Utils.isAValidEmail(txtEmailContacto.getText())) {
@@ -310,7 +310,7 @@ public class RegEmpresa extends JDialog {
 								auxEmpresa.setNombreContacto(txtNombreContacto.getText());
 								auxEmpresa.setEmailContacto(txtEmailContacto.getText());
 								auxEmpresa.setCargoContacto(cbxCargoContacto.getSelectedItem().toString());
-								JOptionPane.showMessageDialog(null, "Actualización exitosa", "Informacion", JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.showMessageDialog(null, "Actualizaci\u00f3n exitosa", "Informaci\u00f3n", JOptionPane.INFORMATION_MESSAGE);
 								dispose();
 							}
 		

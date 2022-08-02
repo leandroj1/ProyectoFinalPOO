@@ -157,7 +157,7 @@ public class RegSolPersonal extends JDialog {
 					panel_1.add(lblNewLabel);
 
 					spnSalarioEsp = new JSpinner();
-					spnSalarioEsp.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1)));
+					spnSalarioEsp.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1000)));
 					spnSalarioEsp.setBounds(330, 107, 159, 20);
 					panel_1.add(spnSalarioEsp);
 
@@ -335,7 +335,7 @@ public class RegSolPersonal extends JDialog {
 								"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
 								"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
 								"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
-								"Programaci\u00F3n Web", "" }));
+								"Programaci\u00F3n Web"}));
 						cbxAreaTecnica.setBounds(22, 36, 273, 20);
 						pnTecnico.add(cbxAreaTecnica);
 					}
