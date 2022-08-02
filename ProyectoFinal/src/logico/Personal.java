@@ -87,11 +87,7 @@ public abstract class Personal {
 	}
 
 	public int getEdad() {
-		LocalDate nacimiento = fechaNacimiento.toInstant()
-		.atZone(ZoneId.systemDefault())
-		.toLocalDate();
-
-		return Period.between(nacimiento, LocalDate.now()).getYears();
+		return Utils.yearsBetween(fechaNacimiento);
 	}
 
 	public void removerIdioma(String idioma) {

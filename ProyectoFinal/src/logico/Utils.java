@@ -1,6 +1,9 @@
 package logico;
 
 import java.text.DateFormat;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
@@ -23,6 +26,15 @@ public class Utils {
 		String resultString = dateFormat.format(date);
 
 		return resultString;
+	}
+
+	// Obtener cantidad de agnos entre una fecha y fecha actual
+	public static int yearsBetween(Date date) {
+		LocalDate dt = date.toInstant()
+				.atZone(ZoneId.systemDefault())
+				.toLocalDate();
+
+		return Period.between(dt, LocalDate.now()).getYears();
 	}
 
 	// Mask de cedula
