@@ -8,12 +8,9 @@ import java.util.regex.Pattern;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-import javax.swing.ComboBoxEditor;
+
 import javax.swing.JComboBox;
 import javax.swing.JSpinner;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.text.JTextComponent;
 import javax.swing.text.MaskFormatter;
 
 public class Utils {

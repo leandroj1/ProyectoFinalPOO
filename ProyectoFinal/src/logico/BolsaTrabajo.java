@@ -29,12 +29,12 @@ public class BolsaTrabajo {
 	}
 
 	public void agregarEmpresa(Empresa empresa) {
-		if (empresa != null)
+		if (empresa != null && getPersonalByID(empresa.getRNC()).size() == 0)
 			empresas.add(empresa);
 	}
 
 	public void agregarPersonal(Personal candidato) {
-		if (candidato != null)
+		if (candidato != null && getPersonalByID(candidato.getCedula()).size() == 0)
 			personal.add(candidato);
 	}
 
@@ -58,7 +58,7 @@ public class BolsaTrabajo {
 	public void agregarSolicitudEmpleado(String cedula, SolicitudPersonal solicitud) {
 		ArrayList<Personal> personalAux = getPersonalByID(cedula);
 
-		if (personalAux.size() == 1) {
+		if (personalAux.size() == 1 && personalAux.get(0).getIdEmpresaContratacion() != null) {
 			personalAux.get(0).agregarSolicitud(solicitud);
 			solicitudesPersonal.add(solicitud);
 		}
@@ -105,6 +105,15 @@ public class BolsaTrabajo {
 				solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
 			}
 		});
+	}
+	
+	public ArrayList<SolicitudPersonal> getActiveSolPersonalByCedula(String cedula) {
+		ArrayList<SolicitudPersonal> solPersonalList = getSolicitudesPersonalByID(cedula, "");
+		ArrayList<SolicitudPersonal> solPersonalActive = new ArrayList<SolicitudPersonal>();
+		for (SolicitudPersonal solPersonal : solPersonalList)
+			if (solPersonal.getEstado() == EstadoSolicitudPersonal.ACTIVA)
+				solPersonalActive.add(solPersonal);
+		return solPersonalActive;
 	}
 
 	public void contratarPersonal(String cedula, String RNCEmpresaContratacion, String idSolicitudPersonal) {
