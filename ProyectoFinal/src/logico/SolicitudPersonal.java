@@ -24,6 +24,7 @@ public class SolicitudPersonal {
 	private static int genNumber;
 
 	private EstadoSolicitudPersonal estado;
+	private float porcentajeMatchAsignado;
 
 	public SolicitudPersonal(String id, String cedulaPersonal, String descripcion,
 			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,String modalidadDeTrabajo) {
@@ -166,5 +167,13 @@ public class SolicitudPersonal {
 
 	public void setModalidadDeTrabajo(String modalidadDeTrabajo) {
 		this.modalidadDeTrabajo = modalidadDeTrabajo;
+	}
+
+	public float getPorcentajeMatchAsignado() {
+		return porcentajeMatchAsignado;
+	}
+
+	public void setPorcentajeMatchAsignado(float porcentajeMatchAsignado) {
+		this.porcentajeMatchAsignado = porcentajeMatchAsignado;
 	}
 }

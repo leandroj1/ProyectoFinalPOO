@@ -16,6 +16,7 @@ public abstract class Personal {
 	private ArrayList<String> idiomas;
 	private String nacionalidad;
 	private String idEmpresaContratacion;
+	private String idSolicitudPersonalContratacion;
 	private ArrayList<SolicitudPersonal> solicitudes;
 	private Ubicacion ubicacion;
 	private String sexo;
@@ -33,6 +34,8 @@ public abstract class Personal {
 		this.idiomas = idiomas;
 		this.ubicacion = ubicacion;
 		this.idEmpresaContratacion = null;
+		this.setIdSolicitudPersonalContratacion(null);
+		this.sexo = sexo;
 		this.solicitudes = new ArrayList<SolicitudPersonal>();
 		this.sexo = sexo;
 	}
@@ -124,6 +127,14 @@ public abstract class Personal {
 
 	public String getNacionalidad() {
 		return nacionalidad;
+	}
+
+	public String getIdSolicitudPersonalContratacion() {
+		return idSolicitudPersonalContratacion;
+	}
+
+	public void setIdSolicitudPersonalContratacion(String idSolicitudPersonalContratacion) {
+		this.idSolicitudPersonalContratacion = idSolicitudPersonalContratacion;
 	}
 
 	public String getGenero() {

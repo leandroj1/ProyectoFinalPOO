@@ -33,6 +33,8 @@ public class SolicitudEmpresa {
 	private String nacionalidad;
 
 	private static int genNumber = 0;
+	// Cantidad de requisitos por defecto
+	private final int kDefaultRequisitosCount = 12;
 
 	public SolicitudEmpresa(String id, String RNCEmpresa, int cantidadPlazasNecesarias,
 			float salarioMax, float salarioMin, int edad, int agnosExperiencia, String tipoPersonalSolicitado,
@@ -269,5 +271,27 @@ public class SolicitudEmpresa {
 
 	public void setOficios(ArrayList<String> oficios) {
 		this.oficios = oficios;
+	}
+
+	// Obtener la cantidad de requisitos de la solicitud
+	public int getCantidadRequisitos() {
+		// Cantidad por defecto
+		int count = kDefaultRequisitosCount;
+
+		if (this.tipoPersonalSolicitado.equalsIgnoreCase("Universitario")) {
+			if (this.carrera != null)
+				count++;
+			if (this.universidad != null)
+				count++;
+		} else if (this.tipoPersonalSolicitado.equalsIgnoreCase("Obrero")) {
+			if (this.oficios != null)
+				if (this.oficios.size() > 0)
+					count++;
+		} else {
+			if (this.areaTecnica != null)
+				count++;
+		}
+
+		return count;
 	}
 }
