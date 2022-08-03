@@ -64,7 +64,7 @@ public class BolsaTrabajo {
 	public void agregarSolicitudEmpleado(String cedula, SolicitudPersonal solicitud) {
 		ArrayList<Personal> personalAux = getPersonalByID(cedula);
 
-		if (personalAux.size() == 1 && personalAux.get(0).getIdEmpresaContratacion() != null) {
+		if (personalAux.size() == 1 && personalAux.get(0).getIdEmpresaContratacion() == null) {
 			personalAux.get(0).agregarSolicitud(solicitud);
 			solicitudesPersonal.add(solicitud);
 		}

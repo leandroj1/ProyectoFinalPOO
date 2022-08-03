@@ -99,6 +99,12 @@ public class RegSolPersonal extends JDialog {
 	 * Create the dialog.
 	 */
 	public RegSolPersonal(Personal personal) {
+		ArrayList<String> idiomas = new ArrayList<String>();
+		idiomas.add("Ingles");
+		BolsaTrabajo.getInstance()
+				.agregarPersonal(new Tecnico("111-1111111-1", "Jean", new Date(), false, "(849)-351-5830",
+						"(849)-350-5830", "Dominicano", idiomas, "Algo",
+						new Ubicacion("Republica Dominicana", "Santiago", "Santiago", "Calle Brigida"), "Masculino"));
 		setResizable(false);
 		setTitle("Solicitud de Personal");
 		setModal(true);
@@ -442,10 +448,9 @@ public class RegSolPersonal extends JDialog {
 										new SolicitudPersonal(codigo, cedula, descripcion, salarioEsperado,
 												agnosExperiencia, tipoPersonal, areaTecnica, carrera, universidad,
 												dispSalirCiudad, dispCambiarResidencia, modalidadTrabajo));
-								
+
 								if (BolsaTrabajo.getInstance().getSolicitudesPersonalByID(codigo).size() != 1) {
-									JOptionPane.showMessageDialog(null,
-											"La solicitud a fallado en agregarse.", null,
+									JOptionPane.showMessageDialog(null, "La solicitud a fallado en agregarse.", null,
 											JOptionPane.ERROR_MESSAGE);
 									return;
 								}
@@ -494,7 +499,7 @@ public class RegSolPersonal extends JDialog {
 			emptyFields.add("Cedula");
 		if (Utils.getSpinnerFloatValue(spnSalarioEsp) <= 0)
 			emptyFields.add("Salario Esperado");
-		if (Utils.getSpinnerFloatValue(spnAgnosExp) <= 0)
+		if (Utils.getSpinnerIntValue(spnAgnosExp) <= 0)
 			emptyFields.add("A\00F1os de experiencia");
 		if (((String) cbxModalidad.getSelectedItem()).isEmpty())
 			emptyFields.add("Modalidad de trabajo");
