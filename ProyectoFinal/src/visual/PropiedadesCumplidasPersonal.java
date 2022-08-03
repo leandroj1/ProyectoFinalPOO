@@ -384,7 +384,7 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 			iconUniversidad.setIcon(icons[2]);
 			iconCarrera.setIcon(icons[2]);
 		}
-		else if(currentSolicitudEmpresa.getTipoDeTrabajo().equalsIgnoreCase("universitario")) {
+		else if(currentSolicitudEmpresa.getTipoPersonalSolicitado().equalsIgnoreCase("universitario")) {
 			if(currentSolicitudEmpresa.getCarrera().equalsIgnoreCase(currentSolicitudPersonal.getCarrera())) {
 				iconCarrera.setIcon(icons[0]);
 			}
