@@ -15,7 +15,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import customs.CheckBoxsEditableTable;
-import customs.ComparatorMappedData;
 import enums.EstadoSolicitudEmpresa;
 import logico.BolsaTrabajo;
 import logico.Empresa;
