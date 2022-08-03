@@ -224,10 +224,9 @@ public class RegPersonal extends JDialog {
 
 				dcFechaNacimiento = new JDateChooser();
 				// Set min date to avoid people under 18 years old
-				Calendar today = Calendar.getInstance();
-				Date minDate = new GregorianCalendar(today.get(Calendar.YEAR) - 18, today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH)).getTime();
-				dcFechaNacimiento.setMaxSelectableDate(minDate);
-				dcFechaNacimiento.setDate(minDate);
+				
+				dcFechaNacimiento.setMaxSelectableDate(getMinDate());
+				dcFechaNacimiento.setDate(getMinDate());
 				// Avoid writing in date chooser
 				((JTextFieldDateEditor)dcFechaNacimiento.getDateEditor()).setEditable(false);
 				dcFechaNacimiento.getCalendarButton().setEnabled(true);
@@ -609,11 +608,16 @@ public class RegPersonal extends JDialog {
 		}
 	}
 
+	private Date getMinDate() {
+		Calendar today = Calendar.getInstance();
+		return new GregorianCalendar(today.get(Calendar.YEAR) - 18, today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH)).getTime();
+	}
+
 	// Implementacion pendiente
 	private void clear() {
 		txtFCedulaP.setText("");
 		txtNombreCompleto.setText("");
-		dcFechaNacimiento.setDate(new Date());
+		dcFechaNacimiento.setDate(getMinDate());
 		cbxNacionalidad.setSelectedIndex(0);
 		txtFTelefono.setText("");
 		txtFTelSec.setText("");
@@ -626,6 +630,7 @@ public class RegPersonal extends JDialog {
 		cbxAreaTecnica.setSelectedIndex(0);
 		cbxUniversidad.setSelectedIndex(0);
 		cbxCarrera.setSelectedIndex(0);
+		idiomasGroup.setSelectedCheckbox(null);
 	}
 
 	private ArrayList<String> getIdiomasSelected() {
