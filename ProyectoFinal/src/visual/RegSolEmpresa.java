@@ -717,7 +717,7 @@ public class RegSolEmpresa extends JDialog {
 		makeUISpinnersMoreReadable();
 		deshabilitarComboboxes();
 		deshabilitarCheckboxes();
-		Utils.disableEachAbstractButton(sexoButtonGroup);
+		Utils.setEachAbstractButtonState(sexoButtonGroup, false);
 	}
 
 	private void loadInitialData() {
@@ -774,7 +774,7 @@ public class RegSolEmpresa extends JDialog {
 		}
 
 		// Impedir el cambio del tipo de personal
-		Utils.disableEachAbstractButton(tipoPersonalButtonGroup);
+		Utils.setEachAbstractButtonState(tipoPersonalButtonGroup, false);
 
 		if(!isForModify)
 			deshabilitarComponentes();

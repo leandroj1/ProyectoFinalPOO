@@ -2,13 +2,11 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BandCombineOp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -22,16 +20,13 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.BolsaTrabajo;
-import logico.Empresa;
 import logico.Obrero;
 import logico.Personal;
 import logico.SolicitudPersonal;
 import logico.Tecnico;
-import logico.Ubicacion;
 import logico.Universitario;
 import logico.Utils;
 
@@ -40,7 +35,6 @@ import java.awt.Checkbox;
 import javax.swing.UIManager;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 public class RegSolPersonal extends JDialog {
@@ -162,33 +156,33 @@ public class RegSolPersonal extends JDialog {
 					panel_1.add(spnAgnosExp);
 
 					JLabel label3 = new JLabel("\u00BFPosee disponibilidad para salir de la ciudad?");
-					label3.setBounds(46, 291, 330, 20);
+					label3.setBounds(46, 310, 330, 20);
 					panel_1.add(label3);
 
 					JLabel label2 = new JLabel("\u00BFPosee disponibilidad para cambiar de residencia?");
-					label2.setBounds(46, 328, 330, 20);
+					label2.setBounds(46, 347, 330, 20);
 					panel_1.add(label2);
 
 					dispCambiarResGroup = new ButtonGroup();
 					dispSalirCiudadGroup = new ButtonGroup();
 
 					rbSDispSalirCiudad = new JRadioButton("S\u00ED");
-					rbSDispSalirCiudad.setBounds(409, 294, 56, 14);
+					rbSDispSalirCiudad.setBounds(409, 313, 56, 14);
 					panel_1.add(rbSDispSalirCiudad);
 					dispSalirCiudadGroup.add(rbSDispSalirCiudad);
 
 					rbSDispCambiarRes = new JRadioButton("S\u00ED");
-					rbSDispCambiarRes.setBounds(409, 331, 56, 14);
+					rbSDispCambiarRes.setBounds(409, 350, 56, 14);
 					panel_1.add(rbSDispCambiarRes);
 					dispCambiarResGroup.add(rbSDispCambiarRes);
 
 					rbNDispSalirCiudad = new JRadioButton("No");
-					rbNDispSalirCiudad.setBounds(477, 294, 51, 14);
+					rbNDispSalirCiudad.setBounds(477, 313, 51, 14);
 					panel_1.add(rbNDispSalirCiudad);
 					dispSalirCiudadGroup.add(rbNDispSalirCiudad);
 
 					rbNDispCambiarRes = new JRadioButton("No");
-					rbNDispCambiarRes.setBounds(477, 331, 51, 14);
+					rbNDispCambiarRes.setBounds(477, 350, 51, 14);
 					panel_1.add(rbNDispCambiarRes);
 					dispCambiarResGroup.add(rbNDispCambiarRes);
 
@@ -212,7 +206,7 @@ public class RegSolPersonal extends JDialog {
 				}
 
 				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setBounds(301, 218, 195, 48);
+				scrollPane.setBounds(301, 218, 195, 81);
 				panel_1.add(scrollPane);
 
 				txtPDescripcion = new JTextPane();
@@ -275,7 +269,7 @@ public class RegSolPersonal extends JDialog {
 					pnUniversitario = new JPanel();
 					pnUniversitario.setLayout(null);
 					pnUniversitario
-							.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+					.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 					pnUniversitario.setBounds(10, 475, 579, 71);
 					panel.add(pnUniversitario);
 					{
@@ -308,7 +302,7 @@ public class RegSolPersonal extends JDialog {
 								"Ingenier\u00EDa de Ciencias de la Computaci\u00F3n", "Ingenier\u00EDa Telem\u00E1tica",
 								"Ingenier\u00EDa Ambiental", "Medicina", "Marketing", "Nutrici\u00F3n y Diet\u00E9tica",
 								"Psicolog\u00EDa", "Terapia F\u00EDsica", "Trabajo Social",
-								"Hospitalidad y Turismo" }));
+						"Hospitalidad y Turismo" }));
 						cbxCarrera.setBounds(243, 36, 273, 20);
 						pnUniversitario.add(cbxCarrera);
 					}
@@ -330,7 +324,7 @@ public class RegSolPersonal extends JDialog {
 								"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
 								"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
 								"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
-								"Programaci\u00F3n Web" }));
+						"Programaci\u00F3n Web" }));
 						cbxAreaTecnica.setBounds(22, 36, 273, 20);
 						pnTecnico.add(cbxAreaTecnica);
 					}
@@ -345,59 +339,59 @@ public class RegSolPersonal extends JDialog {
 				panel.add(pnObrero);
 				{
 					ckFontanero = new Checkbox("Fontanero");
-					ckFontanero.setBounds(10, 21, 117, 22);
+					ckFontanero.setBounds(10, 21, 102, 22);
 					pnObrero.add(ckFontanero);
 				}
 				{
 					ckSastre = new Checkbox("Sastre");
-					ckSastre.setBounds(10, 49, 117, 22);
+					ckSastre.setBounds(10, 49, 102, 22);
 					pnObrero.add(ckSastre);
 				}
 				{
 					ckBarbero = new Checkbox("Barbero");
-					ckBarbero.setBounds(118, 21, 117, 22);
+					ckBarbero.setBounds(118, 21, 102, 22);
 					pnObrero.add(ckBarbero);
 				}
 				{
 					ckSoldador = new Checkbox("Soldador");
-					ckSoldador.setBounds(118, 49, 117, 22);
+					ckSoldador.setBounds(118, 49, 102, 22);
 					pnObrero.add(ckSoldador);
 				}
 				{
 					ckCerrajero = new Checkbox("Cerrajero");
-					ckCerrajero.setBounds(226, 21, 117, 22);
+					ckCerrajero.setBounds(226, 21, 102, 22);
 					pnObrero.add(ckCerrajero);
 				}
 				{
 					ckMecanico = new Checkbox("Mec\u00E1nico");
-					ckMecanico.setBounds(226, 49, 117, 22);
+					ckMecanico.setBounds(226, 49, 102, 22);
 					pnObrero.add(ckMecanico);
 				}
 				{
 					ckPolicia = new Checkbox("Polic\u00EDa");
-					ckPolicia.setBounds(334, 21, 117, 22);
+					ckPolicia.setBounds(334, 21, 102, 22);
 					pnObrero.add(ckPolicia);
 				}
 				{
 					ckAlbagnil = new Checkbox("Alba\u00F1il");
-					ckAlbagnil.setBounds(334, 50, 117, 22);
+					ckAlbagnil.setBounds(334, 50, 102, 22);
 					pnObrero.add(ckAlbagnil);
 				}
 				{
 					ckExterminador = new Checkbox("Exterminador");
-					ckExterminador.setBounds(442, 21, 117, 22);
+					ckExterminador.setBounds(442, 21, 102, 22);
 					pnObrero.add(ckExterminador);
 				}
 				{
 					ckAgricultor = new Checkbox("Agricultor");
-					ckAgricultor.setBounds(442, 50, 117, 22);
+					ckAgricultor.setBounds(442, 50, 102, 22);
 					pnObrero.add(ckAgricultor);
 				}
 
 				{
 					JPanel buttonPane = new JPanel();
 					buttonPane
-							.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+					.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 					buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 					getContentPane().add(buttonPane, BorderLayout.SOUTH);
 					{
@@ -411,6 +405,13 @@ public class RegSolPersonal extends JDialog {
 								}
 
 								String cedula = txtFCedulaP.getText();
+
+								if(BolsaTrabajo.getInstance().getPersonalByID(cedula).size() == 0) {
+									JOptionPane.showMessageDialog(null, "No existe una persona con esa c\u00e9dula.", "Error",
+											JOptionPane.ERROR_MESSAGE);
+									return;
+								}
+
 								String codigo = txtCode.getText();
 								String descripcion = txtPDescripcion.getText();
 								float salarioEsperado = Utils.getSpinnerFloatValue(spnSalarioEsp);
@@ -438,13 +439,18 @@ public class RegSolPersonal extends JDialog {
 									tipoPersonal = "Universitario";
 								}
 
-								BolsaTrabajo.getInstance().agregarSolicitudEmpleado(cedula,
-										new SolicitudPersonal(codigo, cedula, descripcion, salarioEsperado,
-												agnosExperiencia, tipoPersonal, areaTecnica, carrera, universidad,
-												dispSalirCiudad, dispCambiarResidencia, modalidadTrabajo));
+								SolicitudPersonal nuevaSolicitud = new SolicitudPersonal(codigo, cedula, descripcion, salarioEsperado,
+										agnosExperiencia, tipoPersonal, areaTecnica, carrera, universidad,
+										dispSalirCiudad, dispCambiarResidencia, modalidadTrabajo);
+								// Agregar oficios a la solicitud
+								if(rbObrero.isSelected()) {
+									nuevaSolicitud.setOficios(oficios);
+								}
+
+								BolsaTrabajo.getInstance().agregarSolicitudEmpleado(cedula, nuevaSolicitud);
 
 								if (BolsaTrabajo.getInstance().getSolicitudesPersonalByID(codigo).size() != 1) {
-									JOptionPane.showMessageDialog(null, "La solicitud a fallado en agregarse.", null,
+									JOptionPane.showMessageDialog(null, "La solicitud ha fallado en agregarse.", null,
 											JOptionPane.ERROR_MESSAGE);
 									return;
 								}
@@ -452,16 +458,17 @@ public class RegSolPersonal extends JDialog {
 								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0)
 										.getIdEmpresaContratacion() != null) {
 									JOptionPane.showMessageDialog(null,
-											"El candidato ya esta contratado.\nIntente otra vez con otro usuario", null,
+											"El candidato ya est\u00e1 contratado.\nIntente otra vez con otro usuario.", null,
 											JOptionPane.WARNING_MESSAGE);
 									return;
 								}
 
-								if (JOptionPane.showConfirmDialog(null, "Quiere hacer otra solicitud?", null,
+								if (JOptionPane.showConfirmDialog(null, "La solicitud se agreg\u00f3 correctamente.\n¿Quiere hacer otra solicitud?", "Informaci\u00f3n",
 										JOptionPane.YES_NO_OPTION) == 1)
 									dispose();
 
 								clean();
+								loadPersonal(personal, false);
 							}
 						});
 						btnSolicitar.setActionCommand("OK");
@@ -483,22 +490,22 @@ public class RegSolPersonal extends JDialog {
 		}
 
 		if (personal != null)
-			loadPersonal(personal);
+			loadPersonal(personal, true);
 	}
 
 	private String comprobarCampos() {
 		ArrayList<String> emptyFields = new ArrayList<String>();
 
 		if (txtFCedulaP.getText().equals(Utils.getMaskCedula().getMask().replace('#', '_')))
-			emptyFields.add("Cedula");
+			emptyFields.add("C\u00e9dula");
 		if (Utils.getSpinnerFloatValue(spnSalarioEsp) <= 0)
 			emptyFields.add("Salario Esperado");
 		if (Utils.getSpinnerIntValue(spnAgnosExp) <= 0)
-			emptyFields.add("A\00F1os de experiencia");
+			emptyFields.add("Años de experiencia");
 		if (((String) cbxModalidad.getSelectedItem()).isEmpty())
 			emptyFields.add("Modalidad de trabajo");
-		if (txtPDescripcion.getText().isEmpty())
-			emptyFields.add("Descripcion");
+		if (txtPDescripcion.getText().trim().isEmpty())
+			emptyFields.add("Descripci\u00f3n");
 		if (Utils.getSelectedRadioButtonText(dispCambiarResGroup) == null)
 			emptyFields.add("Disponibilidad para cambiar de residencia");
 		if (Utils.getSelectedRadioButtonText(dispSalirCiudadGroup) == null)
@@ -518,7 +525,7 @@ public class RegSolPersonal extends JDialog {
 		String message = "";
 
 		if (emptyFields.size() > 0) {
-			message = "Los siguientes campos estan vacios o tienen un formato incorrecto: ";
+			message = "Los siguientes campos est\u00e1n vac\u00edos o tienen un formato incorrecto: ";
 
 			for (String emptyField : emptyFields)
 				message += "\n\t- " + emptyField;
@@ -553,58 +560,81 @@ public class RegSolPersonal extends JDialog {
 		return oficios;
 	}
 
-	private void loadPersonal(Personal personal) {
-		// TODO Auto-generated method stub
-		btnCancelar.setEnabled(false);
-		txtFCedulaP.setText(personal.getCedula());
-		txtFCedulaP.setEditable(false);
+	private void setComponentsEspecificosState(boolean state) {
+		Utils.setEachAbstractButtonState(tipoPersonalGroup, state);
+		// Hay deshabilitar cada campo para evitar acceder a ellos por el TAB
+		cbxCarrera.setEnabled(state);
+		cbxUniversidad.setEnabled(state);
+		cbxAreaTecnica.setEnabled(state);
 
-		if (personal.toString().equalsIgnoreCase("universitario")) {
-			rbUniversitario.doClick();
-
-			for (int index = 0; cbxUniversidad.getItemCount() > index; index++)
-				if (((Universitario) personal).getUniversidad()
-						.equalsIgnoreCase((String) cbxUniversidad.getItemAt(index)))
-					cbxUniversidad.setSelectedIndex(index);
-
-			for (int index = 0; cbxCarrera.getItemCount() > index; index++)
-				if (((Universitario) personal).getCarrera().equalsIgnoreCase((String) cbxCarrera.getItemAt(index)))
-					cbxCarrera.setSelectedIndex(index);
-		} else if (personal.toString().equalsIgnoreCase("obrero")) {
-			rbObrero.doClick();
-			ArrayList<String> oficios = ((Obrero) personal).getOficios();
-
-			if (oficios.contains(ckAgricultor.getLabel()))
-				ckAgricultor.setState(true);
-			if (oficios.contains(ckAlbagnil.getLabel()))
-				ckAlbagnil.setState(true);
-			if (oficios.contains(ckBarbero.getLabel()))
-				ckBarbero.setState(true);
-			if (oficios.contains(ckCerrajero.getLabel()))
-				ckCerrajero.setState(true);
-			if (oficios.contains(ckExterminador.getLabel()))
-				ckExterminador.setState(true);
-			if (oficios.contains(ckMecanico.getLabel()))
-				ckMecanico.setState(true);
-			if (oficios.contains(ckFontanero.getLabel()))
-				ckFontanero.setState(true);
-			if (oficios.contains(ckPolicia.getLabel()))
-				ckPolicia.setState(true);
-			if (oficios.contains(ckSastre.getLabel()))
-				ckSastre.setState(true);
-			if (oficios.contains(ckSoldador.getLabel()))
-				ckSoldador.setState(true);
-		} else if (personal.toString().equalsIgnoreCase("tecnico")) {
-
-			rbTecnico.doClick();
-			for (int index = 0; cbxAreaTecnica.getItemCount() > index; index++)
-				if (((Tecnico) personal).getAreaTecnica().equalsIgnoreCase((String) cbxAreaTecnica.getItemAt(index)))
-					cbxAreaTecnica.setSelectedIndex(index);
+		Component[] components = pnObrero.getComponents();
+		for (Component component : components) {
+			if(component instanceof Checkbox) {
+				component.setEnabled(state);
+			}
 		}
-
 	}
 
-	// Implementacion pendiente
+	private void loadPersonal(Personal personal, boolean firstRequest) {
+		// Como la solicitud inicial se hace con un tipo especifico, no se
+		// pueden cambiar los datos de tipo (e.g. carrera, etc)
+
+		if(personal != null) {			
+			btnCancelar.setEnabled(false);
+			txtFCedulaP.setText(personal.getCedula());
+			txtFCedulaP.setEditable(false);
+			
+			if(firstRequest) {
+				if (personal.toString().equalsIgnoreCase("universitario")) {
+					rbUniversitario.doClick();
+					
+					for (int index = 0; cbxUniversidad.getItemCount() > index; index++)
+						if (((Universitario) personal).getUniversidad()
+								.equalsIgnoreCase((String) cbxUniversidad.getItemAt(index)))
+							cbxUniversidad.setSelectedIndex(index);
+					
+					for (int index = 0; cbxCarrera.getItemCount() > index; index++)
+						if (((Universitario) personal).getCarrera().equalsIgnoreCase((String) cbxCarrera.getItemAt(index)))
+							cbxCarrera.setSelectedIndex(index);
+				} else if (personal.toString().equalsIgnoreCase("obrero")) {
+					rbObrero.doClick();
+					ArrayList<String> oficios = ((Obrero) personal).getOficios();
+					
+					if (oficios.contains(ckAgricultor.getLabel()))
+						ckAgricultor.setState(true);
+					if (oficios.contains(ckAlbagnil.getLabel()))
+						ckAlbagnil.setState(true);
+					if (oficios.contains(ckBarbero.getLabel()))
+						ckBarbero.setState(true);
+					if (oficios.contains(ckCerrajero.getLabel()))
+						ckCerrajero.setState(true);
+					if (oficios.contains(ckExterminador.getLabel()))
+						ckExterminador.setState(true);
+					if (oficios.contains(ckMecanico.getLabel()))
+						ckMecanico.setState(true);
+					if (oficios.contains(ckFontanero.getLabel()))
+						ckFontanero.setState(true);
+					if (oficios.contains(ckPolicia.getLabel()))
+						ckPolicia.setState(true);
+					if (oficios.contains(ckSastre.getLabel()))
+						ckSastre.setState(true);
+					if (oficios.contains(ckSoldador.getLabel()))
+						ckSoldador.setState(true);
+				} else if (personal.toString().equalsIgnoreCase("tecnico")) {
+					
+					rbTecnico.doClick();
+					for (int index = 0; cbxAreaTecnica.getItemCount() > index; index++)
+						if (((Tecnico) personal).getAreaTecnica().equalsIgnoreCase((String) cbxAreaTecnica.getItemAt(index)))
+							cbxAreaTecnica.setSelectedIndex(index);
+				}
+				setComponentsEspecificosState(false);
+				return;
+			}
+		}
+		rbUniversitario.doClick();
+		setComponentsEspecificosState(true);
+	}
+
 	private void clean() {
 		btnCancelar.setEnabled(true);
 		txtFCedulaP.setText("");
@@ -628,6 +658,10 @@ public class RegSolPersonal extends JDialog {
 		spnAgnosExp.setValue(0);
 		cbxModalidad.setSelectedIndex(0);
 		dispCambiarResGroup.clearSelection();
-		dispCambiarResGroup.clearSelection();
+		dispSalirCiudadGroup.clearSelection();
+		
+		// Habilitar el boton de cancelar de nuevo
+		btnCancelar.setEnabled(true);
+		Utils.setEachAbstractButtonState(tipoPersonalGroup, true);
 	}
 }
