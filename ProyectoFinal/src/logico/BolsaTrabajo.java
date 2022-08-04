@@ -332,7 +332,7 @@ public class BolsaTrabajo {
 		return candidatos;
 	}
 	
-	public Map<String, Integer> testRP3() {
+	public Map<String, Integer> getDataReporte3() {
 		// Cargarlas llamando el metodo
 		ArrayList<Empresa> empresas = this.empresas;
 		
