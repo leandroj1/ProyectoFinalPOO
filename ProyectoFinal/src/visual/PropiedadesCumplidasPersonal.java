@@ -9,8 +9,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import com.jgoodies.common.collect.ArrayListModel;
-
 import logico.Personal;
 import logico.SolicitudEmpresa;
 import logico.SolicitudPersonal;
@@ -20,7 +18,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
-import javax.swing.BoxLayout;
 import java.awt.GridLayout;
 
 public class PropiedadesCumplidasPersonal extends JDialog {

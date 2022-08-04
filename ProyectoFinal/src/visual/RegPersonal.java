@@ -3,7 +3,6 @@ package visual;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
@@ -22,10 +21,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.BolsaTrabajo;
@@ -44,7 +40,6 @@ import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 
 import javax.swing.UIManager;
-import javax.swing.JToggleButton;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 
@@ -630,7 +625,7 @@ public class RegPersonal extends JDialog {
 		cbxAreaTecnica.setSelectedIndex(0);
 		cbxUniversidad.setSelectedIndex(0);
 		cbxCarrera.setSelectedIndex(0);
-		idiomasGroup.setSelectedCheckbox(null);
+//		idiomasGroup.setSelectedCheckbox(null);
 	}
 
 	private ArrayList<String> getIdiomasSelected() {

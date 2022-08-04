@@ -4,12 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BandCombineOp;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -23,16 +20,13 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.BolsaTrabajo;
-import logico.Empresa;
 import logico.Obrero;
 import logico.Personal;
 import logico.SolicitudPersonal;
 import logico.Tecnico;
-import logico.Ubicacion;
 import logico.Universitario;
 import logico.Utils;
 
@@ -41,7 +35,6 @@ import java.awt.Checkbox;
 import javax.swing.UIManager;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 public class RegSolPersonal extends JDialog {
