@@ -148,7 +148,8 @@ public class BolsaTrabajo {
 						else if(persona.getGenero().equalsIgnoreCase("Masculino")) {
 							cantPersonalMasc++;
 						}
-						else if(persona.toString().equalsIgnoreCase("Universitario")) {
+						
+						if(persona.toString().equalsIgnoreCase("Universitario")) {
 							cantPersonalUni++;
 						}
 						else if(persona.toString().equalsIgnoreCase("Obrero")) {
