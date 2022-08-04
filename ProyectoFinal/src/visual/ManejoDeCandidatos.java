@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.text.MaskFormatter;
 
 import customs.CheckBoxsEditableTable;
@@ -28,11 +30,16 @@ import javax.swing.JScrollPane;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.awt.event.ActionEvent;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.RowSorterEvent;
+import javax.swing.event.RowSorterListener;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JRadioButton;
@@ -328,6 +335,14 @@ public class ManejoDeCandidatos extends JDialog {
 			panelCandidatos.add(scrollPane);
 			{
 				tablaPersonal = new CheckBoxsEditableTable(this.model, kColumnaCheckboxes);
+				
+				// Add sorter
+				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tablaPersonal.getModel());
+				List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>(1);
+				sortKeys.add(new RowSorter.SortKey(3, SortOrder.DESCENDING));
+				sorter.setSortKeys(sortKeys);		
+				tablaPersonal.setRowSorter(sorter);
+				
 				tablaPersonal.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -467,6 +482,8 @@ public class ManejoDeCandidatos extends JDialog {
 				model.addRow(getRowData(persona, currentSolicitud));
 			});
 
+			sortearTabla();
+			
 			// Actualizar la tabla
 			model.fireTableDataChanged();
 
@@ -480,6 +497,11 @@ public class ManejoDeCandidatos extends JDialog {
 
 		// Para evitar errores
 		btnVerDetallesPersonaSeleccionada.setEnabled(false);
+	}
+
+	// Sortear elementos de mayor a menor con el porcentaje
+	private void sortearTabla() {
+		
 	}
 
 	private void cargarDatosSolicitud(SolicitudEmpresa solicitudLoaded) {
