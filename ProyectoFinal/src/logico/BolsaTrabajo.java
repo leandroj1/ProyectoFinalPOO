@@ -22,6 +22,13 @@ public class BolsaTrabajo {
 	private ArrayList<Empresa> empresas;
 	private ArrayList<SolicitudEmpresa> solicitudesEmpresa;
 	private ArrayList<SolicitudPersonal> solicitudesPersonal;
+	
+//Propiedades del reporte
+	public static int cantPersonalUni = 0;
+	public static int cantPersonalTecnico = 0;
+	public static int cantPersonalObrero = 0;
+	public static int cantPersonalFem = 0;
+	public static int cantPersonalMasc = 0;
 
 	private static BolsaTrabajo instance;
 
@@ -135,6 +142,21 @@ public class BolsaTrabajo {
 					if(idSolicitudPersonal.equalsIgnoreCase(solicitud.getId())){
 						solicitud.setEstado(EstadoSolicitudPersonal.SATISFECHA);
 						persona.setIdSolicitudPersonalContratacion(idSolicitudPersonal);
+						if(persona.getGenero().equalsIgnoreCase("Femenino")) {
+							cantPersonalFem++;
+						}
+						else if(persona.getGenero().equalsIgnoreCase("Masculino")) {
+							cantPersonalMasc++;
+						}
+						else if(persona.toString().equalsIgnoreCase("Universitario")) {
+							cantPersonalUni++;
+						}
+						else if(persona.toString().equalsIgnoreCase("Obrero")) {
+							cantPersonalObrero++;
+						}
+						else if(persona.toString().equalsIgnoreCase("Tecnico")) {
+							cantPersonalTecnico++;
+						}	
 						return;
 					}
 				}
@@ -307,5 +329,24 @@ public class BolsaTrabajo {
 		}
 
 		return candidatos;
+	}
+	
+	public Map<String, Integer> testRP3() {
+		// Cargarlas llamando el metodo
+		ArrayList<Empresa> empresas = this.empresas;
+		
+		String[] keys = {"Industrial", "Agricultura", "Alimentaci\u00F3n", "Comercio", "Construcci\u00F3n", "Educaci\u00F3n", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n", "Miner\u00EDa", "Petrolero", "Telecomunicaciones", "Salud", "Financieros", "P\u00FAblico", "Silvicultura", "Textil", "Tecnol\u00F3gico", "Transporte"};
+		Map<String, Integer> data = new HashMap<String, Integer>();
+		for (String key : keys) {
+			data.put(key, Integer.valueOf(0));
+		}
+		
+		for (Empresa empresa : empresas) {
+			try {
+				data.replace(empresa.getSector(), Integer.valueOf(1 + data.get(empresa.getSector()).intValue()));
+			} catch (Exception e) {}
+		}
+		
+		return data;
 	}
 }
