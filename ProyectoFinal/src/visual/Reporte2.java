@@ -49,7 +49,7 @@ public class Reporte2 extends JDialog {
 	 * Create the dialog.
 	 */
 	public Reporte2() {
-		setTitle("Rep2-Sexo");
+		setTitle("Rep2: Cantidad de personas empleadas por sexo");
 		// TODO: agregar tipo de empresa
 		final String[] headers = {
 				"Cantidad de personas empleadas"

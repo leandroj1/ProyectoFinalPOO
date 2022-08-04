@@ -50,7 +50,7 @@ public class Reporte3 extends JDialog {
 	 * Create the dialog.
 	 */
 	public Reporte3() {
-		setTitle("Rep3-Sector");
+		setTitle("Rep3: Cantidad de Solicitudes por sector");
 		// TODO: agregar tipo de empresa
 		final String[] headers = {
 				"Sector",

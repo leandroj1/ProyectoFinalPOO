@@ -141,14 +141,7 @@ public class BolsaTrabajo {
 				if(idSolicitudPersonal != null){
 					if(idSolicitudPersonal.equalsIgnoreCase(solicitud.getId())){
 						solicitud.setEstado(EstadoSolicitudPersonal.SATISFECHA);
-						persona.setIdSolicitudPersonalContratacion(idSolicitudPersonal);
-						if(persona.getGenero().equalsIgnoreCase("Femenino")) {
-							cantPersonalFem++;
-						}
-						else if(persona.getGenero().equalsIgnoreCase("Masculino")) {
-							cantPersonalMasc++;
-						}
-						
+						persona.setIdSolicitudPersonalContratacion(idSolicitudPersonal);						
 						if(persona.toString().equalsIgnoreCase("Universitario")) {
 							cantPersonalUni++;
 						}
@@ -165,7 +158,12 @@ public class BolsaTrabajo {
 				if(solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA || solicitud.getEstado() == EstadoSolicitudPersonal.SATISFECHA)
 					solicitud.setEstado(EstadoSolicitudPersonal.PENDIENTE);
 			});
-
+			if(persona.getGenero().equalsIgnoreCase("Femenino")) {
+				cantPersonalFem++;
+			}
+			else if(persona.getGenero().equalsIgnoreCase("Masculino")) {
+				cantPersonalMasc++;
+			}
 			// Agregar la cedula del personal a las personas contratadas
 			solicitudEmpresa.agregarCedulaPersonaContratada(persona.getCedula());
 		}
