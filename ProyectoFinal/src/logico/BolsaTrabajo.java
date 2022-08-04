@@ -141,14 +141,14 @@ public class BolsaTrabajo {
 				if(idSolicitudPersonal != null){
 					if(idSolicitudPersonal.equalsIgnoreCase(solicitud.getId())){
 						solicitud.setEstado(EstadoSolicitudPersonal.SATISFECHA);
-						persona.setIdSolicitudPersonalContratacion(idSolicitudPersonal);						
-						if(persona.toString().equalsIgnoreCase("Universitario")) {
+						persona.setIdSolicitudPersonalContratacion(idSolicitudPersonal);	
+						if(solicitud.getTipoPersonal().equalsIgnoreCase("Universitario")) {
 							cantPersonalUni++;
 						}
-						else if(persona.toString().equalsIgnoreCase("Obrero")) {
+						else if(solicitud.getTipoPersonal().equalsIgnoreCase("Obrero")) {
 							cantPersonalObrero++;
 						}
-						else if(persona.toString().equalsIgnoreCase("Tecnico")) {
+						else if(solicitud.getTipoPersonal().equalsIgnoreCase("Tecnico")) {
 							cantPersonalTecnico++;
 						}	
 						return;
@@ -330,7 +330,7 @@ public class BolsaTrabajo {
 		return candidatos;
 	}
 	
-	public Map<String, Integer> testRP3() {
+	public Map<String, Integer> getDataReporte3() {
 		// Cargarlas llamando el metodo
 		ArrayList<Empresa> empresas = this.empresas;
 		

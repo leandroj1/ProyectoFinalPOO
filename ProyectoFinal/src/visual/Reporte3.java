@@ -108,7 +108,7 @@ public class Reporte3 extends JDialog {
 
 	}
 	private void loadRowsInTable() {
-		Map<String, Integer> data = BolsaTrabajo.getInstance().testRP3();
+		Map<String, Integer> data = BolsaTrabajo.getInstance().getDataReporte3();
 		row = new Object[model.getColumnCount()];
 		model.setRowCount(0);
 		data.forEach((sector, cantPersonas) -> {
