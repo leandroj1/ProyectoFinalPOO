@@ -155,7 +155,7 @@ public class BolsaTrabajo {
 						else if(persona.toString().equalsIgnoreCase("Obrero")) {
 							cantPersonalObrero++;
 						}
-						else if(persona.toString().equalsIgnoreCase("Tecnico")) {
+						else if(solicitud.getTipoPersonal().equalsIgnoreCase("Tecnico")) {
 							cantPersonalTecnico++;
 						}	
 						return;
