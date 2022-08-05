@@ -1,11 +1,13 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 import enums.EstadoSolicitudEmpresa;
 
-public class SolicitudEmpresa {
+public class SolicitudEmpresa implements Serializable{
+	private static final long serialVersionUID = 8597103356385508092L;
 	private String id;
 	private Date fecha;
 	private int cantidadPlazasNecesarias;

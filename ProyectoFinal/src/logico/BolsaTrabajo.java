@@ -1,5 +1,6 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,9 @@ import java.util.stream.Collectors;
 import enums.EstadoSolicitudEmpresa;
 import enums.EstadoSolicitudPersonal;
 
-public class BolsaTrabajo {
+public class BolsaTrabajo implements Serializable{
+	private static final long serialVersionUID = 618691540262182348L;
+
 	private BolsaTrabajo() {
 		super();
 		this.personal = new ArrayList<Personal>();
@@ -348,4 +351,9 @@ public class BolsaTrabajo {
 		
 		return data;
 	}
+	
+	public static void setBolsaTrabajo(BolsaTrabajo bolsaTrabajo) {
+		BolsaTrabajo.instance = bolsaTrabajo;
+	}
+	
 }

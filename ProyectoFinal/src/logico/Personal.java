@@ -2,11 +2,13 @@ package logico;
 
 import java.util.Date;
 import java.util.ArrayList;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 
-public abstract class Personal {
+public abstract class Personal implements Serializable{
+	private static final long serialVersionUID = 6682358128703110186L;
 	private String cedula;
 	private String nombre;
 	private Date fechaNacimiento;
