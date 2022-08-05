@@ -178,4 +178,9 @@ public class SolicitudPersonal implements Serializable{
 	public void setPorcentajeMatchAsignado(float porcentajeMatchAsignado) {
 		this.porcentajeMatchAsignado = porcentajeMatchAsignado;
 	}
+
+	// Para casos en los que hay que modificar
+	public void setOficios(ArrayList<String> newOficios) {
+		this.oficios = newOficios;
+	}
 }
