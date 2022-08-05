@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 
@@ -56,6 +57,8 @@ public class Reporte3 extends JDialog {
 				"Sector",
 				"Cantidad de Solicitudes de Empresa"
 		};
+		
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setResizable(false);
 		setBounds(100, 100, 624, 398);
 		setLocationRelativeTo(null);

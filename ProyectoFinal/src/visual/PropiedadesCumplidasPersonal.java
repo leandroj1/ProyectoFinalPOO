@@ -9,6 +9,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ficheros.UtilsFicheros;
 import logico.Personal;
 import logico.SolicitudEmpresa;
 import logico.SolicitudPersonal;
@@ -83,7 +84,7 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 		currentSolicitudEmpresa = solicitudEmpresa;
 		currentSolicitudPersonal = solicitudPersonal;
 		ImageIcon iconDefault = new ImageIcon("img/error.png");
-		
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setModal(true);
 		setResizable(false);
 		setBounds(100, 100, 627, 550);

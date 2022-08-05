@@ -26,6 +26,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.Obrero;
@@ -69,7 +70,7 @@ public class Reporte1 extends JDialog {
 		};
 		tiposGroup = new ButtonGroup();
 
-
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setResizable(false);
 		setBounds(100, 100, 361, 234);
 		setLocationRelativeTo(null);

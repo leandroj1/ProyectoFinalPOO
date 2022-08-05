@@ -17,8 +17,7 @@ public class BolsaTrabajo implements Serializable{
 		this.personal = new ArrayList<Personal>();
 		this.empresas = new ArrayList<Empresa>();
 		this.solicitudesEmpresa = new ArrayList<SolicitudEmpresa>();
-		this.solicitudesPersonal = new ArrayList<SolicitudPersonal>();
-
+		this.solicitudesPersonal = new ArrayList<SolicitudPersonal>();	
 	}
 
 	private ArrayList<Personal> personal;

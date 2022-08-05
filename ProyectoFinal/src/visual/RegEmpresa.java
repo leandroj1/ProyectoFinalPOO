@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.Ubicacion;
@@ -69,6 +70,7 @@ public class RegEmpresa extends JDialog {
 			setTitle("Modificar datos de la empresa " + auxEmpresa.getNombreComercial());
 
 		}
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setModal(true);
 		setBounds(100, 100, 733, 516);
 		setLocationRelativeTo(null);

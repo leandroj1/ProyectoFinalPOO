@@ -35,6 +35,8 @@ import logico.Utils;
 import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 
+import ficheros.UtilsFicheros;
+
 import javax.swing.JRadioButton;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
@@ -114,6 +116,7 @@ public class RegPersonal extends JDialog {
 		} else {
 			setTitle("Modificar Personal");
 		}
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setModal(true);
 		setBounds(100, 100, 744, 716);
 		setLocationRelativeTo(null);
