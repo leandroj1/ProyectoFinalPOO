@@ -30,7 +30,6 @@ public class ListarEmpresas extends JDialog {
 	private Object[] row;
 	private JButton btnVerSolicitudes;
 	private Empresa selectedEmpresa = null;
-	private JButton btnVerSolicitudesPendientes;
 	private JTextField txtRNC;
 	private JButton btnVerDetalles;
 	private JButton btnModificar;
@@ -158,7 +157,7 @@ public class ListarEmpresas extends JDialog {
 		buttonPane.setBounds(0, 494, 904, 33);
 		getContentPane().add(buttonPane); {
 			btnVerSolicitudes = new JButton("Ver solicitudes de trabajadores");
-			btnVerSolicitudes.setBounds(553, 5, 224, 23);
+			btnVerSolicitudes.setBounds(558, 5, 224, 23);
 			btnVerSolicitudes.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(selectedEmpresa != null) {
@@ -186,11 +185,6 @@ public class ListarEmpresas extends JDialog {
 			btnCancelar.setActionCommand("Cancel");
 			buttonPane.add(btnCancelar);
 		}
-		
-		btnVerSolicitudesPendientes = new JButton("Ver solicitudes pendientes");
-		btnVerSolicitudesPendientes.setEnabled(false);
-		btnVerSolicitudesPendientes.setBounds(357, 5, 186, 23);
-		buttonPane.add(btnVerSolicitudesPendientes);
 
 		btnVerDetalles = new JButton("Ver detalles");
 		btnVerDetalles.addActionListener(new ActionListener() {
@@ -206,7 +200,7 @@ public class ListarEmpresas extends JDialog {
 			}
 		});
 		btnVerDetalles.setEnabled(false);
-		btnVerDetalles.setBounds(194, 5, 143, 23);
+		btnVerDetalles.setBounds(405, 5, 143, 23);
 		buttonPane.add(btnVerDetalles);
 		
 		btnModificar = new JButton("Modificar");
@@ -222,7 +216,7 @@ public class ListarEmpresas extends JDialog {
 			}
 		});
 		btnModificar.setEnabled(false);
-		btnModificar.setBounds(95, 5, 89, 23);
+		btnModificar.setBounds(306, 5, 89, 23);
 		buttonPane.add(btnModificar);
 
 		loadRowsInTable(BolsaTrabajo.getInstance().getEmpresasByID(""), null);
@@ -256,7 +250,6 @@ public class ListarEmpresas extends JDialog {
 	// Cambiar el estado de los botones de solicitudes
 	private void setButtonsState(boolean isEnabled) {
 		btnVerSolicitudes.setEnabled(isEnabled);
-		btnVerSolicitudesPendientes.setEnabled(isEnabled);
 		btnVerDetalles.setEnabled(isEnabled);
 		btnModificar.setEnabled(isEnabled);
 		

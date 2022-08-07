@@ -4,13 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
@@ -22,10 +23,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import logico.BolsaTrabajo;
@@ -37,12 +35,13 @@ import logico.Universitario;
 import logico.Utils;
 
 import com.toedter.calendar.JDateChooser;
+import com.toedter.calendar.JTextFieldDateEditor;
+
 import javax.swing.JRadioButton;
 import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 
 import javax.swing.UIManager;
-import javax.swing.JToggleButton;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 
@@ -139,6 +138,63 @@ public class RegPersonal extends JDialog {
 
 			try {
 
+				pnTecnico = new JPanel();
+				pnTecnico.setVisible(false);
+
+				pnUniversitario = new JPanel();
+				pnUniversitario
+						.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				pnUniversitario.setBounds(10, 560, 706, 71);
+				panel.add(pnUniversitario);
+				pnUniversitario.setLayout(null);
+
+				JLabel lblUniversidad = new JLabel("Universidad:");
+				lblUniversidad.setBounds(29, 11, 136, 14);
+				pnUniversitario.add(lblUniversidad);
+
+				cbxUniversidad = new JComboBox();
+				cbxUniversidad.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>", "PUCMM", "UTESA", "O&M",
+						"UASD", "INTEC", "APEC", "UAPA", "UNPHU", "UNIBE", "UNEV", "UCDEP", "UNAPEC", "UCSD" }));
+				cbxUniversidad.setBounds(29, 36, 193, 20);
+				pnUniversitario.add(cbxUniversidad);
+
+				JLabel lblCarrera = new JLabel("Carrera:");
+				lblCarrera.setBounds(336, 11, 136, 14);
+				pnUniversitario.add(lblCarrera);
+
+				cbxCarrera = new JComboBox();
+				cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
+						"Direcci\u00F3n Empresarial", "Administraci\u00F3n Hotelera", "Arquitectura",
+						"Comunicaci\u00F3n Social", "Derecho", "Dise\u00F1o e Interiorismo", "Econom\u00EDa",
+						"Educaci\u00F3n", "Estomatolog\u00EDa", "Filosof\u00EDa",
+						"Gesti\u00F3n Financiera y Auditor\u00EDa", "Ingenier\u00EDa Civil",
+						"Ingenier\u00EDa Mec\u00E1nica", "Ingenier\u00EDa El\u00E9ctrica",
+						"Ingenier\u00EDa Industrial y de Sistemas", "Ingenier\u00EDa en Mecatr\u00F3nica",
+						"Ingenier\u00EDa de Ciencias de la Computaci\u00F3n", "Ingenier\u00EDa Telem\u00E1tica",
+						"Ingenier\u00EDa Ambiental", "Medicina", "Marketing", "Nutrici\u00F3n y Diet\u00E9tica",
+						"Psicolog\u00EDa", "Terapia F\u00EDsica", "Trabajo Social", "Hospitalidad y Turismo" }));
+				cbxCarrera.setBounds(336, 36, 273, 20);
+				pnUniversitario.add(cbxCarrera);
+				pnTecnico.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				pnTecnico.setBounds(10, 560, 706, 71);
+				panel.add(pnTecnico);
+				pnTecnico.setLayout(null);
+
+				JLabel lblreaTcnica = new JLabel("\u00C1rea T\u00E9cnica:");
+				lblreaTcnica.setBounds(29, 15, 265, 14);
+				pnTecnico.add(lblreaTcnica);
+
+				cbxAreaTecnica = new JComboBox();
+				cbxAreaTecnica.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
+						"Administraci\u00F3n de Micro, Peque\u00F1as y Medianas Empresas", "Artes Culinarias",
+						"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
+						"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
+						"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
+						"Programaci\u00F3n Web" }));
+
+				cbxAreaTecnica.setBounds(29, 40, 273, 20);
+				pnTecnico.add(cbxAreaTecnica);
+
 				pnGeneral = new JPanel();
 				pnGeneral.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				pnGeneral.setBounds(10, 11, 706, 246);
@@ -172,6 +228,14 @@ public class RegPersonal extends JDialog {
 				}
 
 				dcFechaNacimiento = new JDateChooser();
+				// Set min date to avoid people under 18 years old
+
+				dcFechaNacimiento.setMaxSelectableDate(getMinDate());
+				dcFechaNacimiento.setDate(getMinDate());
+				// Avoid writing in date chooser
+				((JTextFieldDateEditor) dcFechaNacimiento.getDateEditor()).setEditable(false);
+				dcFechaNacimiento.getCalendarButton().setEnabled(true);
+
 				dcFechaNacimiento.setBounds(29, 92, 183, 20);
 				pnGeneral.add(dcFechaNacimiento);
 				{
@@ -304,19 +368,11 @@ public class RegPersonal extends JDialog {
 				panel.add(pnUniversitario);
 				pnUniversitario.setLayout(null);
 
-				JLabel lblUniversidad = new JLabel("Universidad:");
-				lblUniversidad.setBounds(29, 11, 136, 14);
-				pnUniversitario.add(lblUniversidad);
-
 				cbxUniversidad = new JComboBox();
 				cbxUniversidad.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>", "PUCMM", "UTESA", "O&M",
 						"UASD", "INTEC", "APEC", "UAPA", "UNPHU", "UNIBE", "UNEV", "UCDEP", "UNAPEC", "UCSD" }));
 				cbxUniversidad.setBounds(29, 36, 193, 20);
 				pnUniversitario.add(cbxUniversidad);
-
-				JLabel lblCarrera = new JLabel("Carrera:");
-				lblCarrera.setBounds(336, 11, 136, 14);
-				pnUniversitario.add(lblCarrera);
 
 				cbxCarrera = new JComboBox();
 				cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
@@ -338,10 +394,6 @@ public class RegPersonal extends JDialog {
 				pnTecnico.setBounds(10, 560, 706, 71);
 				panel.add(pnTecnico);
 				pnTecnico.setLayout(null);
-
-				JLabel lblreaTcnica = new JLabel("\u00C1rea T\u00E9cnica:");
-				lblreaTcnica.setBounds(29, 15, 265, 14);
-				pnTecnico.add(lblreaTcnica);
 
 				cbxAreaTecnica = new JComboBox();
 				cbxAreaTecnica.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
@@ -629,11 +681,17 @@ public class RegPersonal extends JDialog {
 			loadPersonal(personal);
 	}
 
+	private Date getMinDate() {
+		Calendar today = Calendar.getInstance();
+		return new GregorianCalendar(today.get(Calendar.YEAR) - 18, today.get(Calendar.MONTH),
+				today.get(Calendar.DAY_OF_MONTH)).getTime();
+	}
+
 	// Implementacion pendiente
 	private void clear() {
 		txtFCedulaP.setText("");
 		txtNombreCompleto.setText("");
-		dcFechaNacimiento.setDate(new Date());
+		dcFechaNacimiento.setDate(getMinDate());
 		cbxNacionalidad.setSelectedIndex(0);
 		txtFTelefono.setText("");
 		txtFTelSec.setText("");
@@ -646,6 +704,7 @@ public class RegPersonal extends JDialog {
 		cbxAreaTecnica.setSelectedIndex(0);
 		cbxUniversidad.setSelectedIndex(0);
 		cbxCarrera.setSelectedIndex(0);
+//		idiomasGroup.setSelectedCheckbox(null);
 	}
 
 	private ArrayList<String> getIdiomasSelected() {
@@ -704,8 +763,6 @@ public class RegPersonal extends JDialog {
 			emptyFields.add("Cedula");
 		if (txtNombreCompleto.getText().isEmpty())
 			emptyFields.add("Nombre");
-		if (dcFechaNacimiento.isValid())
-			emptyFields.add("Fecha de Nacimiento");
 		if (((String) cbxNacionalidad.getSelectedItem()).isEmpty())
 			emptyFields.add("Nacionalidad");
 		if (Utils.isMaskTelefonoDefaultValue(txtFTelefono.getText()))

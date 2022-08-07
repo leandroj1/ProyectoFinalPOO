@@ -130,13 +130,31 @@ public class Principal extends JFrame {
 		JMenu mnNewMenu_4 = new JMenu("Reportes");
 		menuBar.add(mnNewMenu_4);
 		
-		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Reporte 1");
+		JMenuItem mntmNewMenuItem_8 = new JMenuItem("Rep1: Cantidad de personas empleadas por tipo");
+		mntmNewMenuItem_8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Reporte1 reporte1 = new Reporte1();
+				reporte1.setVisible(true);
+			}
+		});
 		mnNewMenu_4.add(mntmNewMenuItem_8);
 		
-		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Reporte 2");
+		JMenuItem mntmNewMenuItem_9 = new JMenuItem("Rep2: Cantidad de personas empleadas por sexo");
+		mntmNewMenuItem_9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Reporte2 reporte2 = new Reporte2();
+				reporte2.setVisible(true);
+			}
+		});
 		mnNewMenu_4.add(mntmNewMenuItem_9);
 		
-		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Reporte 3");
+		JMenuItem mntmNewMenuItem_10 = new JMenuItem("Rep3: Cantidad de Solicitudes por sector");
+		mntmNewMenuItem_10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Reporte3 reporte3 = new Reporte3();
+				reporte3.setVisible(true);
+			}
+		});
 		mnNewMenu_4.add(mntmNewMenuItem_10);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

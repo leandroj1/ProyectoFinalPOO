@@ -15,9 +15,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
@@ -268,9 +266,11 @@ public class RegEmpresa extends JDialog {
 				btnRegistrar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Ubicacion ubicacion;
+						String message = elemVacios();
 						if(auxEmpresa == null) {
-							if (elemVacios()) {
-								JOptionPane.showMessageDialog(null, "Tiene que completar todos los datos.", "Advertencia", JOptionPane.WARNING_MESSAGE);
+							if (!message.isEmpty()) {
+								JOptionPane.showMessageDialog(null, message);
+								return;								
 							}
 							else {	
 								if (Utils.isAValidEmail(txtEmailContacto.getText())) {
@@ -293,8 +293,9 @@ public class RegEmpresa extends JDialog {
 							}
 						}
 						else {
-							if(elemVacios()) {
-								JOptionPane.showMessageDialog(null, "Tiene que completar todos los datos", "Advertencia", JOptionPane.WARNING_MESSAGE);
+							if (!message.isEmpty()) {
+								JOptionPane.showMessageDialog(null, message);
+								return;								
 							}
 							else if (!(Utils.isAValidEmail(txtEmailContacto.getText()))){
 								JOptionPane.showMessageDialog(null, "El email ingresado no es v\u00E1lido, por favor ingrese otro", "Advertencia", JOptionPane.WARNING_MESSAGE);
@@ -375,51 +376,60 @@ public class RegEmpresa extends JDialog {
 		btnRegistrar.setVisible(false);		
 	}
 	
-	private boolean elemVacios() {
-		boolean vacio = false;
+	private  String elemVacios() {
+		ArrayList<String> emptyFields = new ArrayList<String>();
+
 		if (Utils.isCbxDefaultValue(cbxCargoContacto)) {
-			vacio = true;
+			emptyFields.add("Cargo de Contacto");
+		}		
+		if (Utils.isCbxDefaultValue(cbxSector)) {
+			emptyFields.add("Sector");
+		}		
+		if (Utils.isCbxDefaultValue(cbxTipo)) {
+			emptyFields.add("Tipo");
 		}
-		else if (Utils.isCbxDefaultValue(cbxSector)) {
-			vacio = true;
+		if (Utils.isMaskCedulaDefaultValue(txtFRNC.getText())) {
+			emptyFields.add("RNC");
 		}
-		else if (Utils.isCbxDefaultValue(cbxTipo)) {
-			vacio = true;
+		if (Utils.isMaskTelefonoDefaultValue(txtFTelefono.getText())) {
+			emptyFields.add("Tel\u00E9fono");
 		}
-		else if (Utils.isMaskCedulaDefaultValue(txtFRNC.getText())) {
-			vacio = true;
+		if (txtCiudadResidencia.getText().isEmpty()) {
+			emptyFields.add("Ciudad de Residencia");
 		}
-		else if (Utils.isMaskTelefonoDefaultValue(txtFTelefono.getText())) {
-			vacio = true;
+		if (txtDireccion.getText().isEmpty()) {
+			emptyFields.add("Direcc\u00F3n");
 		}
-		else if (txtCiudadResidencia.getText().isEmpty()) {
-			vacio = true;
+		if (txtEmailContacto.getText().isEmpty()) {
+			emptyFields.add("Email");
 		}
-		else if (txtDireccion.getText().isEmpty()) {
-			vacio = true;
+		if (txtNombreComercial.getText().isEmpty()) {
+			emptyFields.add("Nombre Comercial");
 		}
-		else if (txtEmailContacto.getText().isEmpty()) {
-			vacio = true;
+		if (txtNombreContacto.getText().isEmpty()) {
+			emptyFields.add("Nombre de Contacto");
 		}
-		else if (txtNombreComercial.getText().isEmpty()) {
-			vacio = true;
+		if (txtPais.getText().isEmpty()) {
+			emptyFields.add("Pa\u00EDs:");
 		}
-		else if (txtNombreContacto.getText().isEmpty()) {
-			vacio = true;
+		if (txtProvincia.getText().isEmpty()) {
+			emptyFields.add("Provincia");
 		}
-		else if (txtPais.getText().isEmpty()) {
-			vacio = true;
+		if (txtRazonSocial.getText().isEmpty()) {
+			emptyFields.add("Raz\u00F3n Social");
 		}
-		else if (txtProvincia.getText().isEmpty()) {
-			vacio = true;
+		if (txtRubro.getText().isEmpty()) {
+			emptyFields.add("Rubro");
 		}
-		else if (txtRazonSocial.getText().isEmpty()) {
-			vacio = true;
+		String message = "";
+		if (emptyFields.size() > 0) {
+			message = "Los siguientes campos estan vacios o tienen un formato incorrecto: ";
+
+			for (String emptyField : emptyFields)
+				message += "\n\t- " + emptyField;
 		}
-		else if (txtRubro.getText().isEmpty()) {
-			vacio = true;
-		}
-		return vacio;
+
+		return message;
 	}
 
 

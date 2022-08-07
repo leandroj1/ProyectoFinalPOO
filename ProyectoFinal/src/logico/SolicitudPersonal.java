@@ -183,7 +183,8 @@ public class SolicitudPersonal {
 		this.tipoPersonal = tipoPersonal;
 	}
 
-	public void setOficios(ArrayList<String> oficios) {
-		this.oficios = oficios;
+	// Para casos en los que hay que modificar
+	public void setOficios(ArrayList<String> newOficios) {
+		this.oficios = newOficios;
 	}
 }

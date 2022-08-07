@@ -141,10 +141,10 @@ public class Utils {
 	}
 
 	// Deshabilitar cada radio button
-	public static void disableEachAbstractButton(ButtonGroup group) {
+	public static void setEachAbstractButtonState(ButtonGroup group, boolean state) {
 		Enumeration<AbstractButton> enumeration = group.getElements();
 		while (enumeration.hasMoreElements()) {
-			enumeration.nextElement().setEnabled(false);
+			enumeration.nextElement().setEnabled(state);
 		}
 	}
 
