@@ -106,7 +106,7 @@ public class RegPersonal extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegPersonal dialog = new RegPersonal(null, false); // pasar null, donde se que no edito un personal le paso null.
+			RegPersonal dialog = new RegPersonal(null, false, false); // pasar null, donde se que no edito un personal le paso null.
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -117,7 +117,7 @@ public class RegPersonal extends JDialog {
 	/**
 	 * Create the dialog.
 	 */ // Pasar clientes
-	public RegPersonal(Personal personal, boolean editing) {
+	public RegPersonal(Personal personal, boolean editing, boolean isForDetails) {
 		setResizable(false);
 		setTitle("Registro de Personal");
 
@@ -183,6 +183,11 @@ public class RegPersonal extends JDialog {
 				((JTextFieldDateEditor) dcFechaNacimiento.getDateEditor()).setEditable(false);
 				dcFechaNacimiento.getCalendarButton().setEnabled(true);
 
+				// Cargar fecha de nacimiento
+				if(personal != null) {
+					dcFechaNacimiento.setDate(personal.getFechaNacimiento());
+				}
+				
 				dcFechaNacimiento.setBounds(29, 92, 183, 20);
 				pnGeneral.add(dcFechaNacimiento);
 				{
@@ -559,55 +564,62 @@ public class RegPersonal extends JDialog {
 						} else
 							BolsaTrabajo.getInstance().agregarPersonal(auxPersonal);
 
-						RegSolPersonal nuevaSolicitudEmpleado = new RegSolPersonal(auxPersonal, null, false);
-						nuevaSolicitudEmpleado.addWindowListener(new WindowListener() {
-							@Override
-							public void windowClosed(WindowEvent e) {
-								// TODO Auto-generated method stub
-								if (JOptionPane.showConfirmDialog(null, "Desea crear otro usuario?", null,
-										JOptionPane.YES_NO_OPTION) == 1)
-									dispose();
-
-								clear();
-							}
-
-							@Override
-							public void windowActivated(WindowEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void windowOpened(WindowEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void windowClosing(WindowEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void windowIconified(WindowEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void windowDeiconified(WindowEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-
-							@Override
-							public void windowDeactivated(WindowEvent e) {
-								// TODO Auto-generated method stub
-
-							}
-						});
-						nuevaSolicitudEmpleado.setVisible(true);
+						// Prevenir abrir la otra ventana si se esta editando
+						if(!editing) {
+							RegSolPersonal nuevaSolicitudEmpleado = new RegSolPersonal(auxPersonal, null, false);
+							nuevaSolicitudEmpleado.addWindowListener(new WindowListener() {
+								@Override
+								public void windowClosed(WindowEvent e) {
+									// TODO Auto-generated method stub
+									if (JOptionPane.showConfirmDialog(null, "Desea crear otro usuario?", null,
+											JOptionPane.YES_NO_OPTION) == 1)
+										dispose();
+									
+									clear();
+								}
+								
+								@Override
+								public void windowActivated(WindowEvent e) {
+									// TODO Auto-generated method stub
+									
+								}
+								
+								@Override
+								public void windowOpened(WindowEvent e) {
+									// TODO Auto-generated method stub
+									
+								}
+								
+								@Override
+								public void windowClosing(WindowEvent e) {
+									// TODO Auto-generated method stub
+									
+								}
+								
+								@Override
+								public void windowIconified(WindowEvent e) {
+									// TODO Auto-generated method stub
+									
+								}
+								
+								@Override
+								public void windowDeiconified(WindowEvent e) {
+									// TODO Auto-generated method stub
+									
+								}
+								
+								@Override
+								public void windowDeactivated(WindowEvent e) {
+									// TODO Auto-generated method stub
+									
+								}
+							});
+							nuevaSolicitudEmpleado.setVisible(true);
+						}
+						else {
+							JOptionPane.showMessageDialog(null, "Modificado correctamente.", "Confirmaci\u00f3n", JOptionPane.INFORMATION_MESSAGE);
+							dispose();
+						}
 					}
 				});
 				if (auxPersonal != null) {
@@ -615,6 +627,7 @@ public class RegPersonal extends JDialog {
 				}
 				btnRegistrar.setActionCommand("OK");
 				buttonPane.add(btnRegistrar);
+				btnRegistrar.setVisible(!isForDetails);
 				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
