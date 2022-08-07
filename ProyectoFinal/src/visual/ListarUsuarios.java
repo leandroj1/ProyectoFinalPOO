@@ -25,6 +25,8 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ListarUsuarios extends JDialog {
 
@@ -33,6 +35,8 @@ public class ListarUsuarios extends JDialog {
 	private DefaultTableModel model;
 	private JTextField txtNombreUsuario;
 	private JCheckBox ckSoloAdmin;
+	private Usuario selectedUser = null;
+	private JButton btnCambiarPass;
 
 	/**
 	 * Create the dialog.
@@ -47,10 +51,21 @@ public class ListarUsuarios extends JDialog {
 		contentPanel.setLayout(null);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 69, 435, 195);
+		scrollPane.setBounds(6, 69, 415, 195);
 		contentPanel.add(scrollPane);
 
 		table = new NonEditableTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int index = table.getSelectedRow();
+				String username = table.getValueAt(index, 0).toString();
+				selectedUser = BolsaTrabajo.getInstance().getUsuario(username);
+				if(selectedUser != null) {
+					btnCambiarPass.setEnabled(true);
+				}
+			}	
+		});
 		String[] headers = { "Nombre de usuario", "Es administrador?" };
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(headers);
@@ -68,7 +83,7 @@ public class ListarUsuarios extends JDialog {
 				loadTableContent();
 			}
 		});
-		txtNombreUsuario.setBounds(6, 34, 198, 26);
+		txtNombreUsuario.setBounds(6, 34, 222, 26);
 		contentPanel.add(txtNombreUsuario);
 		txtNombreUsuario.setColumns(10);
 
@@ -78,24 +93,28 @@ public class ListarUsuarios extends JDialog {
 				loadTableContent();
 			}
 		});
-		ckSoloAdmin.setBounds(216, 34, 128, 23);
+		ckSoloAdmin.setBounds(234, 36, 191, 23);
 		contentPanel.add(ckSoloAdmin);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Cambiar Contrase\u00f1a");
-				okButton.addActionListener(new ActionListener() {
+				btnCambiarPass = new JButton("Cambiar Contrase\u00f1a");
+				btnCambiarPass.setEnabled(false);
+				btnCambiarPass.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						Usuario currUsuario = BolsaTrabajo.getInstance().getUsuario((String) table.getModel().getValueAt(table.getSelectedRow(), 0));
-						CambiarContrasegna cambiarContrasegna = new CambiarContrasegna(currUsuario);
-						cambiarContrasegna.setVisible(true);
+						if(selectedUser != null) {
+							CambiarContrasegna cambiarContrasegna = new CambiarContrasegna(selectedUser);
+							cambiarContrasegna.setModal(true);
+							cambiarContrasegna.setVisible(true);
+							btnCambiarPass.setEnabled(false);
+						}
 					}
 				});
-				okButton.setActionCommand("OK");
-				buttonPane.add(okButton);
-				getRootPane().setDefaultButton(okButton);
+				btnCambiarPass.setActionCommand("OK");
+				buttonPane.add(btnCambiarPass);
+				getRootPane().setDefaultButton(btnCambiarPass);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");

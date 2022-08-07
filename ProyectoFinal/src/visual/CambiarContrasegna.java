@@ -30,6 +30,7 @@ public class CambiarContrasegna extends JDialog {
 	 * Create the dialog.
 	 */
 	public CambiarContrasegna(Usuario usuario) {
+		setTitle("Cambiar contrase\u00f1a de " + usuario.getNombreUsuario());
 		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setBounds(100, 100, 478, 276);
 		setLocationRelativeTo(null);
@@ -38,19 +39,19 @@ public class CambiarContrasegna extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		{
-			JLabel lblContrasegna = new JLabel("Contraseña actual:");
+			JLabel lblContrasegna = new JLabel("Contrase\u00f1a actual:");
 			lblContrasegna.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblContrasegna.setBounds(39, 40, 197, 16);
 			contentPanel.add(lblContrasegna);
 		}
 		{
-			JLabel lblNuevaContrasegna = new JLabel("Nueva contraseña:");
+			JLabel lblNuevaContrasegna = new JLabel("Nueva contrase\u00f1a:");
 			lblNuevaContrasegna.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblNuevaContrasegna.setBounds(39, 96, 197, 16);
 			contentPanel.add(lblNuevaContrasegna);
 		}
 		{
-			JLabel lblNewLabel = new JLabel("Confirmacion de contraseña:");
+			JLabel lblNewLabel = new JLabel("Confirmacion de contrase\u00f1a:");
 			lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 			lblNewLabel.setBounds(39, 152, 197, 16);
 			contentPanel.add(lblNewLabel);
@@ -78,30 +79,38 @@ public class CambiarContrasegna extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						String contrasegnaActual = String.valueOf(psContrasegnaActual.getPassword());
-						String nuevaContrasegna = String.valueOf(psNuevaContrasegna.getPassword());
-						String confirmarContrasegna = String.valueOf(psConfirmacionContrasegna.getPassword());
+						String contrasegnaActual = String.valueOf(psContrasegnaActual.getPassword()).trim();
+						String nuevaContrasegna = String.valueOf(psNuevaContrasegna.getPassword()).trim();
+						String confirmarContrasegna = String.valueOf(psConfirmacionContrasegna.getPassword()).trim();
 
+						if(nuevaContrasegna.isEmpty() || confirmarContrasegna.isEmpty() || contrasegnaActual.isEmpty()) {
+							JOptionPane.showMessageDialog(null,
+									"Ingrese los datos necesarios para cambiar la contrase\u00f1a  ", "Error",
+									JOptionPane.ERROR_MESSAGE);
+							return;
+						}
+						
 						if (!usuario.getContrasegna().equals(contrasegnaActual)) {
 							JOptionPane.showMessageDialog(null,
-									"La contrase\u00f1a no coincide con su contrase\u00f1a actual", null,
+									"La contrase\u00f1a no coincide con su contrase\u00f1a actual", "Advertencia",
 									JOptionPane.WARNING_MESSAGE);
 							return;
 						} else if (usuario.getContrasegna().equals(nuevaContrasegna)) {
 							JOptionPane.showMessageDialog(null,
-									"Su nueva contrase\u00f1a no puede ser igual a la antigua", null,
+									"Su nueva contrase\u00f1a no puede ser igual a la antigua", "Advertencia",
 									JOptionPane.WARNING_MESSAGE);
 							return;
 						} else if (!confirmarContrasegna.equals(nuevaContrasegna)) {
-							JOptionPane.showMessageDialog(null, "Las contrase\u00f1as no coinciden", null,
+							JOptionPane.showMessageDialog(null, "Las contrase\u00f1as no coinciden", "Advertencia",
 									JOptionPane.WARNING_MESSAGE);
 							return;
 						}
 						
 						usuario.setContrasegna(nuevaContrasegna);
-						JOptionPane.showConfirmDialog(null, "La contrase\u00f1a ha sido cambiada correctamente");
+						JOptionPane.showMessageDialog(null, "La contrase\u00f1a ha sido cambiada correctamente", "\u00c9xito", JOptionPane.INFORMATION_MESSAGE);
+						dispose();
 					}
-				});
+				});	
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
