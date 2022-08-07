@@ -445,6 +445,14 @@ public class RegSolPersonal extends JDialog {
 									tipoPersonal = "Universitario";
 								}
 
+								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0)
+										.getIdEmpresaContratacion() != null) {
+									JOptionPane.showMessageDialog(null,
+											"El candidato ya est\u00e1 contratado.\nIntente otra vez con otro usuario.",
+											null, JOptionPane.WARNING_MESSAGE);
+									return;
+								}
+								
 								if (editing) {
 									SolicitudPersonal solPersonalAux = BolsaTrabajo.getInstance()
 											.getSolicitudesPersonalByID(codigo).get(0);
@@ -488,21 +496,18 @@ public class RegSolPersonal extends JDialog {
 											JOptionPane.ERROR_MESSAGE);
 									return;
 								}
-
-								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0)
-										.getIdEmpresaContratacion() != null) {
-									JOptionPane.showMessageDialog(null,
-											"El candidato ya est\u00e1 contratado.\nIntente otra vez con otro usuario.",
-											null, JOptionPane.WARNING_MESSAGE);
-									return;
-								}
-
-								if (solPersonal != null)
-									JOptionPane.showMessageDialog(null, "Solicitud modificada correctamente");
-								else if (JOptionPane.showConfirmDialog(null,
-										"La solicitud se agreg\u00f3 correctamente.\n\u00bfQuiere hacer otra solicitud?",
-										"Informaci\u00f3n", JOptionPane.YES_NO_OPTION) == 1)
+								
+								if (personal != null) {
+									JOptionPane.showMessageDialog(null, "Solicitud agregada correctamente");
 									dispose();
+								} else if (solPersonal != null) {
+									JOptionPane.showMessageDialog(null, "Solicitud modificada correctamente");
+									dispose();
+								} else if (JOptionPane.showConfirmDialog(null,
+										"La solicitud se agreg\u00f3 correctamente.\n\u00bfQuiere hacer otra solicitud?",
+										"Informaci\u00f3n", JOptionPane.YES_NO_OPTION) == 1) {
+									dispose();
+								}
 
 								clean();
 								loadPersonal(personal);
