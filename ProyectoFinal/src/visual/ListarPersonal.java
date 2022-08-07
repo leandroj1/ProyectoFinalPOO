@@ -56,7 +56,8 @@ public class ListarPersonal extends JDialog {
 		setTitle("Listado de personal");
 		// TODO: agregar tipo de personal
 		final String[] headers = { "Cedula", "Nombre", "Tipo", "Edad", "Nacionalidad", "Sexo", "Cantidad Solicitudes" };
-
+		
+		/* Data de prueba, borrar antes de hacer merge */
 		ArrayList<String> idiomas = new ArrayList<String>();
 		idiomas.add("Ingl\u00E9s");
 		Date date = new Date();
