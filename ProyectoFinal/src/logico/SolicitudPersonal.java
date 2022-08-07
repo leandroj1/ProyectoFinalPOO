@@ -183,4 +183,10 @@ public class SolicitudPersonal implements Serializable{
 	public void setOficios(ArrayList<String> newOficios) {
 		this.oficios = newOficios;
 	}
+
+	public static void reloadGenId(int valueLoaded) { 
+		if(valueLoaded >= genNumber) {
+			genNumber = valueLoaded;
+		}
+	}
 }

@@ -296,4 +296,10 @@ public class SolicitudEmpresa implements Serializable{
 
 		return count;
 	}
+	
+	public static void reloadGenId(int valueLoaded) { 
+		if(valueLoaded >= genNumber) {
+			genNumber = valueLoaded;
+		}
+	}
 }

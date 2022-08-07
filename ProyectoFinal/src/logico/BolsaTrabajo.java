@@ -24,13 +24,13 @@ public class BolsaTrabajo implements Serializable{
 	private ArrayList<Empresa> empresas;
 	private ArrayList<SolicitudEmpresa> solicitudesEmpresa;
 	private ArrayList<SolicitudPersonal> solicitudesPersonal;
-	
-//Propiedades del reporte
-	public static int cantPersonalUni = 0;
-	public static int cantPersonalTecnico = 0;
-	public static int cantPersonalObrero = 0;
-	public static int cantPersonalFem = 0;
-	public static int cantPersonalMasc = 0;
+
+	//Propiedades del reporte
+	private int cantPersonalUni = 0;
+	private int cantPersonalTecnico = 0;
+	private int cantPersonalObrero = 0;
+	private int cantPersonalFem = 0;
+	private int cantPersonalMasc = 0;
 
 	private static BolsaTrabajo instance;
 
@@ -124,7 +124,7 @@ public class BolsaTrabajo implements Serializable{
 
 		solicitudEmpresa.getCedulasPersonasContratadas().removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
 	}
-	
+
 	public ArrayList<SolicitudPersonal> getActiveSolPersonalByCedula(String cedula) {
 		ArrayList<SolicitudPersonal> solPersonalList = getSolicitudesPersonalByID(cedula, "");
 		ArrayList<SolicitudPersonal> solPersonalActive = new ArrayList<SolicitudPersonal>();
@@ -192,7 +192,7 @@ public class BolsaTrabajo implements Serializable{
 		// Si es menor que el salario minimo ofrecido, se suma a favor de la empresa 
 		else if(solicitudPersonal.getSalarioEsperado() <= solicitudEmpresa.getSalarioMin())
 			match += 2 * cantToSum;
-			
+
 		if (personalObj.getEdad() >= solicitudEmpresa.getEdad())
 			match += cantToSum;
 		if (solicitudPersonal.getAgnosExperiencia() >= solicitudEmpresa.getAgnosExperiencia())
@@ -316,11 +316,11 @@ public class BolsaTrabajo implements Serializable{
 							// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
 							float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
 									cantidadRequisitos);
-							
+
 							if (resultPorcentaje >= porcentajeMatchRequerido) {
 								// Asignar porcentaje de match para no calcularlo de nuevo
 								solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
-								
+
 								candidatos.put(person, solicitud);
 							}
 						});						
@@ -331,28 +331,72 @@ public class BolsaTrabajo implements Serializable{
 
 		return candidatos;
 	}
-	
+
 	public Map<String, Integer> getDataReporte3() {
 		// Cargarlas llamando el metodo
 		ArrayList<Empresa> empresas = this.empresas;
-		
+
 		String[] keys = {"Industrial", "Agricultura", "Alimentaci\u00F3n", "Comercio", "Construcci\u00F3n", "Educaci\u00F3n", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n", "Miner\u00EDa", "Petrolero", "Telecomunicaciones", "Salud", "Financieros", "P\u00FAblico", "Silvicultura", "Textil", "Tecnol\u00F3gico", "Transporte"};
 		Map<String, Integer> data = new HashMap<String, Integer>();
 		for (String key : keys) {
 			data.put(key, Integer.valueOf(0));
 		}
-		
+
 		for (Empresa empresa : empresas) {
 			try {
 				data.replace(empresa.getSector(), Integer.valueOf(1 + data.get(empresa.getSector()).intValue()));
 			} catch (Exception e) {}
 		}
-		
+
 		return data;
 	}
-	
+
+	private static void reloadIds(BolsaTrabajo bolsaTrabajo) {
+		try {
+			// Como estan ingresados en orden, es decir, el primero es el 1 y asi sucesivamente
+			ArrayList<SolicitudEmpresa> solicitudesEmpresa = bolsaTrabajo.getSolicitudesEmpresaByID("");
+			if(solicitudesEmpresa.size() != 0) {
+				try {
+					// Como empiezan en SE..., se parsea el substring de 2 to end
+					int newGen = Integer.parseInt(solicitudesEmpresa.get(solicitudesEmpresa.size() - 1).getId().substring(2));
+					SolicitudEmpresa.reloadGenId(newGen + 1);			
+				} catch (NumberFormatException e) {}
+			}
+
+			ArrayList<SolicitudPersonal> solicitudesPersonal = bolsaTrabajo.getSolicitudesPersonalByID("");
+			if(solicitudesPersonal.size() != 0) {
+				try {
+					// Como empiezan en SP..., se parsea el substring de 2 to end
+					int newGen = Integer.parseInt(solicitudesPersonal.get(solicitudesPersonal.size() - 1).getId().substring(2));
+					SolicitudPersonal.reloadGenId(newGen + 1);
+				} catch (NumberFormatException e) {}
+			}
+		} catch (Exception e) {}
+	}
+
 	public static void setBolsaTrabajo(BolsaTrabajo bolsaTrabajo) {
 		BolsaTrabajo.instance = bolsaTrabajo;
+		reloadIds(bolsaTrabajo);
 	}
-	
+
+	// Registros historicos
+	public int getCantidadUniversitariosContratados() {
+		return cantPersonalUni;
+	}
+
+	public int getCantidadTecnicosContratados() {
+		return cantPersonalTecnico;
+	}
+
+	public int getCantidadObrerosContratados() {
+		return cantPersonalObrero;
+	}
+
+	public int getCantidadMujeresContratadas() {
+		return cantPersonalFem;
+	}
+
+	public int getCantidadHombresContratados() {
+		return cantPersonalMasc;
+	}
 }

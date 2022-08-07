@@ -41,6 +41,7 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setTitle("Bolsa de Trabajo BJL");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

@@ -1,26 +1,15 @@
 package visual;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -28,14 +17,9 @@ import javax.swing.table.DefaultTableModel;
 import customs.NonEditableTable;
 import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
-import logico.Empresa;
-import logico.Obrero;
-import logico.Utils;
 import javax.swing.UIManager;
 import java.awt.Color;
 import javax.swing.JRadioButton;
-import java.awt.Font;
-import java.awt.Component;
 import java.awt.Rectangle;
 
 public class Reporte1 extends JDialog {
@@ -178,14 +162,15 @@ public class Reporte1 extends JDialog {
 		tipo = tipo.replace('é', 'e');
 		row = new Object[1];
 		model.setRowCount(0);
+		BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
 		if(tipo.equalsIgnoreCase("Universitario")) {
-			row[0] = BolsaTrabajo.cantPersonalUni;
+			row[0] = bolsaTrabajo.getCantidadUniversitariosContratados();
 		}
 		else if(tipo.equalsIgnoreCase("Obrero")) {
-			row[0] = BolsaTrabajo.cantPersonalObrero;
+			row[0] = bolsaTrabajo.getCantidadObrerosContratados();
 		}
 		else if(tipo.equalsIgnoreCase("Tecnico")) {
-			row[0] = BolsaTrabajo.cantPersonalTecnico;
+			row[0] = bolsaTrabajo.getCantidadTecnicosContratados();
 		}
 		model.addRow(row);
 	}

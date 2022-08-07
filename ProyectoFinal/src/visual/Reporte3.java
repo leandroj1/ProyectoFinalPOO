@@ -108,8 +108,8 @@ public class Reporte3 extends JDialog {
 			tablaReporte.getColumnModel().getColumn(1).setCellRenderer(centerRenderer);
 			loadRowsInTable();
 		}
-
 	}
+
 	private void loadRowsInTable() {
 		Map<String, Integer> data = BolsaTrabajo.getInstance().getDataReporte3();
 		row = new Object[model.getColumnCount()];

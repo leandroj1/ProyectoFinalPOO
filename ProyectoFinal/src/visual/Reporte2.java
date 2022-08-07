@@ -141,11 +141,12 @@ public class Reporte2 extends JDialog {
 	private void loadRowsInTable(String sexo) {
 		row = new Object[1];
 		model.setRowCount(0);
+		BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
 		if(sexo.equalsIgnoreCase("Femenino")) {
-			row[0] = BolsaTrabajo.cantPersonalFem;
+			row[0] = bolsaTrabajo.getCantidadMujeresContratadas();
 		}
 		else if(sexo.equalsIgnoreCase("Masculino")) {
-			row[0] = BolsaTrabajo.cantPersonalMasc;
+			row[0] = bolsaTrabajo.getCantidadHombresContratados();
 		}
 
 		model.addRow(row);
