@@ -26,8 +26,10 @@ public class SolicitudPersonal {
 	private EstadoSolicitudPersonal estado;
 	private float porcentajeMatchAsignado;
 
-	public SolicitudPersonal(String id, String cedulaPersonal, String descripcion,
-			float salarioEsperado, int agnosExperiencia,String tipoPersonal, String areaTecnica, String carrera, String universidad, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,String modalidadDeTrabajo) {
+	public SolicitudPersonal(String id, String cedulaPersonal, String descripcion, float salarioEsperado,
+			int agnosExperiencia, String tipoPersonal, String areaTecnica, String carrera, String universidad,
+			ArrayList<String> oficios, boolean disponibilidadSalirCiudad, boolean disponibilidadCambioResidencia,
+			String modalidadDeTrabajo) {
 
 		super();
 		this.id = id;
@@ -39,7 +41,7 @@ public class SolicitudPersonal {
 		this.areaTecnica = areaTecnica;
 		this.carrera = carrera;
 		this.universidad = universidad;
-		this.oficios = new ArrayList<String>();
+		this.oficios = oficios;
 		this.estado = EstadoSolicitudPersonal.ACTIVA;
 		this.fecha = new Date();
 		this.disponibilidadSalirCiudad = disponibilidadSalirCiudad;
@@ -148,15 +150,15 @@ public class SolicitudPersonal {
 	}
 
 	public void removerOficio(String oficio) {
-		if(oficio != null) {
-			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));	
+		if (oficio != null) {
+			oficios.removeIf(oficioActual -> oficio.equalsIgnoreCase(oficioActual));
 		}
 	}
 
 	public void agregarOficio(String oficio) {
-		if(oficio != null) {
-			if(oficio != "" && !(oficios.contains(oficio))) {
-				oficios.add(oficio);	
+		if (oficio != null) {
+			if (oficio != "" && !(oficios.contains(oficio))) {
+				oficios.add(oficio);
 			}
 		}
 	}
@@ -175,5 +177,13 @@ public class SolicitudPersonal {
 
 	public void setPorcentajeMatchAsignado(float porcentajeMatchAsignado) {
 		this.porcentajeMatchAsignado = porcentajeMatchAsignado;
+	}
+
+	public void setTipoPersonal(String tipoPersonal) {
+		this.tipoPersonal = tipoPersonal;
+	}
+
+	public void setOficios(ArrayList<String> oficios) {
+		this.oficios = oficios;
 	}
 }

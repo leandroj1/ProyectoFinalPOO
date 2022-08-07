@@ -118,7 +118,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_4 = new JMenuItem("Registro de Solicitud de Personal");
 		mntmNewMenuItem_4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegSolPersonal solPersonal = new RegSolPersonal(null);
+				RegSolPersonal solPersonal = new RegSolPersonal(null, null, false);
 				solPersonal.setVisible(true);
 			}
 		});

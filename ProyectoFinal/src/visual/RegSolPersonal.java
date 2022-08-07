@@ -74,9 +74,11 @@ public class RegSolPersonal extends JDialog {
 	private ButtonGroup dispSalirCiudadGroup;
 	private ButtonGroup dispCambiarResGroup;
 	private ButtonGroup tipoPersonalGroup;
-	private JPanel pnUniversitario;
-	private JPanel pnTecnico;
-	private JPanel pnObrero;
+	private static JPanel pnUniversitario;
+	private static JPanel pnTecnico;
+	private static JPanel pnObrero;
+	private static JPanel pnGeneral;
+	private static JPanel pnTipoPersonal;
 	private JButton btnCancelar;
 	private JSpinner spnSalarioEsp;
 	private JSpinner spnAgnosExp;
@@ -87,7 +89,7 @@ public class RegSolPersonal extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegSolPersonal dialog = new RegSolPersonal(null);
+			RegSolPersonal dialog = new RegSolPersonal(null, null, false);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -98,7 +100,7 @@ public class RegSolPersonal extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public RegSolPersonal(Personal personal) {
+	public RegSolPersonal(Personal personal, SolicitudPersonal solPersonal, boolean editing) {
 		setResizable(false);
 		setTitle("Solicitud de Personal");
 		setModal(true);
@@ -113,21 +115,21 @@ public class RegSolPersonal extends JDialog {
 			contentPanel.add(panel, BorderLayout.CENTER);
 			panel.setLayout(null);
 			{
-				JPanel panel_1 = new JPanel();
-				panel_1.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "", TitledBorder.LEADING,
-						TitledBorder.TOP, null, new Color(0, 0, 0)));
-				panel_1.setBounds(10, 11, 579, 378);
-				panel.add(panel_1);
-				panel_1.setLayout(null);
+				pnGeneral = new JPanel();
+				pnGeneral.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "",
+						TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+				pnGeneral.setBounds(10, 11, 579, 378);
+				panel.add(pnGeneral);
+				pnGeneral.setLayout(null);
 				{
 					lblCode = new JLabel("C\u00F3digo:");
 					lblCode.setBounds(81, 11, 152, 20);
-					panel_1.add(lblCode);
+					pnGeneral.add(lblCode);
 				}
 				{
 					txtCode = new JTextField();
 					txtCode.setBounds(301, 8, 195, 20);
-					panel_1.add(txtCode);
+					pnGeneral.add(txtCode);
 					txtCode.setText(SolicitudPersonal.genID());
 					txtCode.setEditable(false);
 					txtCode.setColumns(10);
@@ -135,92 +137,92 @@ public class RegSolPersonal extends JDialog {
 				{
 					JLabel lblCdulaDelPersonal = new JLabel("C\u00E9dula del Personal:");
 					lblCdulaDelPersonal.setBounds(81, 50, 152, 20);
-					panel_1.add(lblCdulaDelPersonal);
+					pnGeneral.add(lblCdulaDelPersonal);
 				}
 				txtFCedulaP = new JFormattedTextField(Utils.getMaskCedula());
 				txtFCedulaP.setBounds(301, 51, 195, 20);
-				panel_1.add(txtFCedulaP);
+				pnGeneral.add(txtFCedulaP);
 				txtFCedulaP.setToolTipText("");
 				txtFCedulaP.setForeground(Color.BLACK);
 				{
 					JLabel lblNewLabel = new JLabel("Salario Esperado:");
 					lblNewLabel.setBounds(81, 92, 152, 20);
-					panel_1.add(lblNewLabel);
+					pnGeneral.add(lblNewLabel);
 
 					spnSalarioEsp = new JSpinner();
 					spnSalarioEsp.setModel(new SpinnerNumberModel(new Float(0), new Float(0), null, new Float(1000)));
 					spnSalarioEsp.setBounds(301, 94, 195, 20);
-					panel_1.add(spnSalarioEsp);
+					pnGeneral.add(spnSalarioEsp);
 
 					JLabel label = new JLabel("A\u00F1os de Experiencia:");
 					label.setBounds(81, 134, 152, 20);
-					panel_1.add(label);
+					pnGeneral.add(label);
 
 					spnAgnosExp = new JSpinner();
 					spnAgnosExp.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 					spnAgnosExp.setBounds(301, 137, 195, 20);
-					panel_1.add(spnAgnosExp);
+					pnGeneral.add(spnAgnosExp);
 
 					JLabel label3 = new JLabel("\u00BFPosee disponibilidad para salir de la ciudad?");
 					label3.setBounds(46, 291, 330, 20);
-					panel_1.add(label3);
+					pnGeneral.add(label3);
 
 					JLabel label2 = new JLabel("\u00BFPosee disponibilidad para cambiar de residencia?");
 					label2.setBounds(46, 328, 330, 20);
-					panel_1.add(label2);
+					pnGeneral.add(label2);
 
 					dispCambiarResGroup = new ButtonGroup();
 					dispSalirCiudadGroup = new ButtonGroup();
 
 					rbSDispSalirCiudad = new JRadioButton("S\u00ED");
 					rbSDispSalirCiudad.setBounds(409, 294, 56, 14);
-					panel_1.add(rbSDispSalirCiudad);
+					pnGeneral.add(rbSDispSalirCiudad);
 					dispSalirCiudadGroup.add(rbSDispSalirCiudad);
 
 					rbSDispCambiarRes = new JRadioButton("S\u00ED");
 					rbSDispCambiarRes.setBounds(409, 331, 56, 14);
-					panel_1.add(rbSDispCambiarRes);
+					pnGeneral.add(rbSDispCambiarRes);
 					dispCambiarResGroup.add(rbSDispCambiarRes);
 
 					rbNDispSalirCiudad = new JRadioButton("No");
 					rbNDispSalirCiudad.setBounds(477, 294, 51, 14);
-					panel_1.add(rbNDispSalirCiudad);
+					pnGeneral.add(rbNDispSalirCiudad);
 					dispSalirCiudadGroup.add(rbNDispSalirCiudad);
 
 					rbNDispCambiarRes = new JRadioButton("No");
 					rbNDispCambiarRes.setBounds(477, 331, 51, 14);
-					panel_1.add(rbNDispCambiarRes);
+					pnGeneral.add(rbNDispCambiarRes);
 					dispCambiarResGroup.add(rbNDispCambiarRes);
 
 					{
 						JLabel lblTipoDeTrabajo = new JLabel("Modalidad de Trabajo:");
 						lblTipoDeTrabajo.setBounds(81, 176, 152, 20);
-						panel_1.add(lblTipoDeTrabajo);
+						pnGeneral.add(lblTipoDeTrabajo);
 					}
 					{
 						cbxModalidad = new JComboBox();
 						cbxModalidad.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>", "Remoto",
 								"Tiempo Completo", "Medio Tiempo", "Freelancer" }));
 						cbxModalidad.setBounds(301, 180, 195, 20);
-						panel_1.add(cbxModalidad);
+						pnGeneral.add(cbxModalidad);
 					}
 					{
 						JLabel label5 = new JLabel("Descripci\u00F3n:");
 						label5.setBounds(81, 218, 152, 20);
-						panel_1.add(label5);
+						pnGeneral.add(label5);
 					}
 				}
 
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setBounds(301, 218, 195, 48);
-				panel_1.add(scrollPane);
+				pnGeneral.add(scrollPane);
 
 				txtPDescripcion = new JTextPane();
 				scrollPane.setViewportView(txtPDescripcion);
 				txtPDescripcion.setDragEnabled(false);
 				txtPDescripcion.setBorder(new LineBorder(new Color(192, 192, 192)));
 				{
-					JPanel pnTipoPersonal = new JPanel();
+					pnTipoPersonal = new JPanel();
 					pnTipoPersonal.setLayout(null);
 					pnTipoPersonal.setBorder(new TitledBorder(null, "Tipo de Personal", TitledBorder.LEADING,
 							TitledBorder.TOP, null, null));
@@ -438,10 +440,42 @@ public class RegSolPersonal extends JDialog {
 									tipoPersonal = "Universitario";
 								}
 
-								BolsaTrabajo.getInstance().agregarSolicitudEmpleado(cedula,
-										new SolicitudPersonal(codigo, cedula, descripcion, salarioEsperado,
-												agnosExperiencia, tipoPersonal, areaTecnica, carrera, universidad,
-												dispSalirCiudad, dispCambiarResidencia, modalidadTrabajo));
+								if (editing) {
+									SolicitudPersonal solPersonalAux = BolsaTrabajo.getInstance()
+											.getSolicitudesPersonalByID(codigo).get(0);
+
+									if (solPersonal == null) {
+										JOptionPane.showMessageDialog(null,
+												"La solicitud que intenta modificar no existe", null, JOptionPane.ERROR_MESSAGE);
+										return;
+									} else {
+										solPersonalAux.setAgnosExperiencia(agnosExperiencia);
+										solPersonalAux.setTipoPersonal(tipoPersonal);
+										solPersonalAux.setCarrera(null);
+										solPersonalAux.setUniversidad(null);
+										solPersonalAux.setAreaTecnica(null);
+										solPersonalAux.setOficios(new ArrayList<String>());
+										solPersonalAux.setDisponibilidadCambioResidencia(dispCambiarResidencia);
+										solPersonalAux.setDisponibilidadSalirCiudad(dispSalirCiudad);
+										solPersonalAux.setSalarioEsperado(salarioEsperado);
+										solPersonalAux.setDescripcion(descripcion);
+										solPersonalAux.setModalidadDeTrabajo(modalidadTrabajo);
+
+										if (tipoPersonal.equalsIgnoreCase("Universitario")) {
+											solPersonalAux.setCarrera(carrera);
+											solPersonalAux.setUniversidad(universidad);
+
+										} else if (tipoPersonal.equalsIgnoreCase("tecnico"))
+											solPersonalAux.setAreaTecnica(areaTecnica);
+										else if (tipoPersonal.equalsIgnoreCase("obrero"))
+											solPersonalAux.setOficios(oficios);
+									}
+								} else {
+									BolsaTrabajo.getInstance().agregarSolicitudEmpleado(cedula,
+											new SolicitudPersonal(codigo, cedula, descripcion, salarioEsperado,
+													agnosExperiencia, tipoPersonal, areaTecnica, carrera, universidad,
+													oficios, dispSalirCiudad, dispCambiarResidencia, modalidadTrabajo));
+								}
 
 								if (BolsaTrabajo.getInstance().getSolicitudesPersonalByID(codigo).size() != 1) {
 									JOptionPane.showMessageDialog(null, "La solicitud a fallado en agregarse.", null,
@@ -484,6 +518,54 @@ public class RegSolPersonal extends JDialog {
 
 		if (personal != null)
 			loadPersonal(personal);
+		else if (solPersonal != null)
+			loadSolPersonal(solPersonal, editing);
+	}
+
+	private void loadSolPersonal(SolicitudPersonal solPersonal, boolean editing) {
+		btnCancelar.setEnabled(true);
+		txtFCedulaP.setText(solPersonal.getCedulaPersonal());
+		txtCode.setText(solPersonal.getId());
+		txtPDescripcion.setText(solPersonal.getDescripcion());
+		txtPDescripcion.setEnabled(editing);
+		spnSalarioEsp.setValue(solPersonal.getSalarioEsperado());
+		spnAgnosExp.setValue(solPersonal.getAgnosExperiencia());
+		for (int index = 0; cbxUniversidad.getItemCount() > index; index++)
+			if (solPersonal.getModalidadDeTrabajo().equalsIgnoreCase((String) cbxModalidad.getItemAt(index)))
+				cbxModalidad.setSelectedIndex(index);
+		dispCambiarResGroup.clearSelection();
+		dispSalirCiudadGroup.clearSelection();
+		if (solPersonal.isDisponibilidadCambioResidencia())
+			dispCambiarResGroup.setSelected(rbSDispCambiarRes.getModel(), true);
+		else
+			dispCambiarResGroup.setSelected(rbNDispCambiarRes.getModel(), true);
+
+		if (solPersonal.isDisponibilidadSalirCiudad())
+			dispSalirCiudadGroup.setSelected(rbSDispSalirCiudad.getModel(), true);
+		else
+			dispSalirCiudadGroup.setSelected(rbNDispSalirCiudad.getModel(), true);
+
+		if (solPersonal.getTipoPersonal().equalsIgnoreCase("universitario")) {
+			rbUniversitario.doClick();
+
+			for (int index = 0; cbxUniversidad.getItemCount() > index; index++)
+				if (solPersonal.getUniversidad().equalsIgnoreCase((String) cbxUniversidad.getItemAt(index)))
+					cbxUniversidad.setSelectedIndex(index);
+
+			for (int index = 0; cbxCarrera.getItemCount() > index; index++)
+				if (solPersonal.getCarrera().equalsIgnoreCase((String) cbxCarrera.getItemAt(index)))
+					cbxCarrera.setSelectedIndex(index);
+		} else if (solPersonal.getTipoPersonal().equalsIgnoreCase("obrero")) {
+			rbObrero.doClick();
+			ArrayList<String> oficios = solPersonal.getOficios();
+			Utils.activarCheckboxEnPanel(pnObrero, oficios);
+		} else if (solPersonal.getTipoPersonal().equalsIgnoreCase("tecnico")) {
+
+			rbTecnico.doClick();
+			for (int index = 0; cbxAreaTecnica.getItemCount() > index; index++)
+				if (solPersonal.getAreaTecnica().equalsIgnoreCase((String) cbxAreaTecnica.getItemAt(index)))
+					cbxAreaTecnica.setSelectedIndex(index);
+		}
 	}
 
 	private String comprobarCampos() {
@@ -573,27 +655,7 @@ public class RegSolPersonal extends JDialog {
 		} else if (personal.toString().equalsIgnoreCase("obrero")) {
 			rbObrero.doClick();
 			ArrayList<String> oficios = ((Obrero) personal).getOficios();
-
-			if (oficios.contains(ckAgricultor.getLabel()))
-				ckAgricultor.setState(true);
-			if (oficios.contains(ckAlbagnil.getLabel()))
-				ckAlbagnil.setState(true);
-			if (oficios.contains(ckBarbero.getLabel()))
-				ckBarbero.setState(true);
-			if (oficios.contains(ckCerrajero.getLabel()))
-				ckCerrajero.setState(true);
-			if (oficios.contains(ckExterminador.getLabel()))
-				ckExterminador.setState(true);
-			if (oficios.contains(ckMecanico.getLabel()))
-				ckMecanico.setState(true);
-			if (oficios.contains(ckFontanero.getLabel()))
-				ckFontanero.setState(true);
-			if (oficios.contains(ckPolicia.getLabel()))
-				ckPolicia.setState(true);
-			if (oficios.contains(ckSastre.getLabel()))
-				ckSastre.setState(true);
-			if (oficios.contains(ckSoldador.getLabel()))
-				ckSoldador.setState(true);
+			Utils.activarCheckboxEnPanel(pnObrero, oficios);
 		} else if (personal.toString().equalsIgnoreCase("tecnico")) {
 
 			rbTecnico.doClick();
@@ -601,7 +663,6 @@ public class RegSolPersonal extends JDialog {
 				if (((Tecnico) personal).getAreaTecnica().equalsIgnoreCase((String) cbxAreaTecnica.getItemAt(index)))
 					cbxAreaTecnica.setSelectedIndex(index);
 		}
-
 	}
 
 	// Implementacion pendiente
@@ -628,6 +689,14 @@ public class RegSolPersonal extends JDialog {
 		spnAgnosExp.setValue(0);
 		cbxModalidad.setSelectedIndex(0);
 		dispCambiarResGroup.clearSelection();
-		dispCambiarResGroup.clearSelection();
+		dispSalirCiudadGroup.clearSelection();
+	}
+
+	public static void desactivar() {
+		Utils.desactivarPanel(pnGeneral);
+		Utils.desactivarPanel(pnTipoPersonal);
+		Utils.desactivarPanel(pnObrero);
+		Utils.desactivarPanel(pnTecnico);
+		Utils.desactivarPanel(pnUniversitario);
 	}
 }

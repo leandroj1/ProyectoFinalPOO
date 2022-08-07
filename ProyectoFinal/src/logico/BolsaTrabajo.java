@@ -308,4 +308,8 @@ public class BolsaTrabajo {
 
 		return candidatos;
 	}
+
+	public void anularSolicitudPersonal(SolicitudPersonal solicitud) {
+		solicitud.setEstado(EstadoSolicitudPersonal.ANULADA);
+	}
 }

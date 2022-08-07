@@ -2,6 +2,7 @@ package visual;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -89,6 +91,13 @@ public class RegPersonal extends JDialog {
 
 	private CheckboxGroup idiomasGroup;
 	private ButtonGroup oficiosGroup;
+	private static JPanel pnGeneral;
+	private static JPanel pnIdiomas;
+	private static JPanel pnUniversitario;
+	private static JPanel pnTecnico;
+	private static JPanel pnObrero;
+	private static JPanel pnUbicacion;
+	private static JPanel pnTipoPersonal;
 
 	/**
 	 * Launch the application.
@@ -109,6 +118,7 @@ public class RegPersonal extends JDialog {
 	public RegPersonal(Personal personal) {
 		setResizable(false);
 		setTitle("Registro de Personal");
+
 		auxPersonal = personal;
 		if (auxPersonal == null) {
 			setTitle("Registrar Personal");
@@ -129,77 +139,77 @@ public class RegPersonal extends JDialog {
 
 			try {
 
-				JPanel panel_1 = new JPanel();
-				panel_1.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				panel_1.setBounds(10, 11, 706, 246);
-				panel.add(panel_1);
-				panel_1.setLayout(null);
+				pnGeneral = new JPanel();
+				pnGeneral.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				pnGeneral.setBounds(10, 11, 706, 246);
+				panel.add(pnGeneral);
+				pnGeneral.setLayout(null);
 				{
 					JLabel lblCdulaDelPersonal = new JLabel("C\u00E9dula del Personal:");
 					lblCdulaDelPersonal.setBounds(29, 11, 136, 14);
-					panel_1.add(lblCdulaDelPersonal);
+					pnGeneral.add(lblCdulaDelPersonal);
 				}
 				txtFCedulaP = new JFormattedTextField(Utils.getMaskCedula());
 				txtFCedulaP.setBounds(29, 36, 183, 20);
-				panel_1.add(txtFCedulaP);
+				pnGeneral.add(txtFCedulaP);
 				txtFCedulaP.setToolTipText("");
 				txtFCedulaP.setForeground(Color.BLACK);
 				{
 					JLabel lblNewLabel = new JLabel("Nombre Completo:");
 					lblNewLabel.setBounds(363, 11, 136, 14);
-					panel_1.add(lblNewLabel);
+					pnGeneral.add(lblNewLabel);
 				}
 				{
 					txtNombreCompleto = new JTextField();
 					txtNombreCompleto.setBounds(363, 36, 273, 20);
-					panel_1.add(txtNombreCompleto);
+					pnGeneral.add(txtNombreCompleto);
 					txtNombreCompleto.setColumns(10);
 				}
 				{
 					JLabel lblFechaNac = new JLabel("Fecha de Nacimiento:");
 					lblFechaNac.setBounds(29, 67, 147, 14);
-					panel_1.add(lblFechaNac);
+					pnGeneral.add(lblFechaNac);
 				}
 
 				dcFechaNacimiento = new JDateChooser();
 				dcFechaNacimiento.setBounds(29, 92, 183, 20);
-				panel_1.add(dcFechaNacimiento);
+				pnGeneral.add(dcFechaNacimiento);
 				{
 					JLabel lblTelfono = new JLabel("Tel\u00E9fono Principal:");
 					lblTelfono.setBounds(29, 130, 156, 14);
-					panel_1.add(lblTelfono);
+					pnGeneral.add(lblTelfono);
 				}
 				txtFTelefono = new JFormattedTextField(Utils.getMaskTelefono());
 				txtFTelefono.setBounds(29, 155, 183, 20);
-				panel_1.add(txtFTelefono);
+				pnGeneral.add(txtFTelefono);
 				txtFTelefono.setToolTipText("");
 				txtFTelefono.setForeground(Color.BLACK);
 
 				JLabel lblTelfonoSecundario = new JLabel("Tel\u00E9fono Secundario:");
 				lblTelfonoSecundario.setBounds(29, 190, 156, 14);
-				panel_1.add(lblTelfonoSecundario);
+				pnGeneral.add(lblTelfonoSecundario);
 
 				txtFTelSec = new JFormattedTextField(Utils.getMaskTelefono());
 				txtFTelSec.setToolTipText("");
 				txtFTelSec.setForeground(Color.BLACK);
 				txtFTelSec.setBounds(29, 215, 183, 20);
-				panel_1.add(txtFTelSec);
+				pnGeneral.add(txtFTelSec);
 
 				JLabel lblNacionalidad = new JLabel("Nacionalidad:");
 				lblNacionalidad.setBounds(363, 67, 195, 14);
-				panel_1.add(lblNacionalidad);
+				pnGeneral.add(lblNacionalidad);
 
 				JLabel lblSexo = new JLabel("Sexo:");
 				lblSexo.setBounds(363, 130, 48, 14);
-				panel_1.add(lblSexo);
+				pnGeneral.add(lblSexo);
 
 				rdbtnFemenino = new JRadioButton("Femenino");
 				rdbtnFemenino.setBounds(363, 152, 108, 23);
-				panel_1.add(rdbtnFemenino);
+				pnGeneral.add(rdbtnFemenino);
 
 				rdbtnMasculino = new JRadioButton("Masculino");
 				rdbtnMasculino.setBounds(495, 152, 117, 23);
-				panel_1.add(rdbtnMasculino);
+				pnGeneral.add(rdbtnMasculino);
 
 				generoGroup = new ButtonGroup();
 				generoGroup.add(rdbtnFemenino);
@@ -210,13 +220,13 @@ public class RegPersonal extends JDialog {
 						"Argentino/a", "Brasile\u00F1o/a", "Canadiense", "Chino/a", "Colombiano/a", "Cubano/a",
 						"Espa\u00F1ol/a", "Estadounidense", "Haitiano/a", "Mexicano/a", "Ruso/a", "Venezolano/a" }));
 				cbxNacionalidad.setBounds(363, 92, 273, 20);
-				panel_1.add(cbxNacionalidad);
+				pnGeneral.add(cbxNacionalidad);
 
 				chckbxCasado = new JCheckBox("Casado");
 				chckbxCasado.setHorizontalTextPosition(SwingConstants.RIGHT);
 				chckbxCasado.setBounds(363, 190, 128, 23);
-				panel_1.add(chckbxCasado);
-				JPanel pnObrero = new JPanel();
+				pnGeneral.add(chckbxCasado);
+				pnObrero = new JPanel();
 				pnObrero.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				pnObrero.setVisible(false);
 				pnObrero.setBounds(10, 560, 706, 71);
@@ -267,7 +277,7 @@ public class RegPersonal extends JDialog {
 				ckAgricultor.setBounds(536, 39, 95, 22);
 				pnObrero.add(ckAgricultor);
 
-				JPanel pnTipoPersonal = new JPanel();
+				pnTipoPersonal = new JPanel();
 				pnTipoPersonal.setBorder(
 						new TitledBorder(null, "Tipo de Personal", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				pnTipoPersonal.setBounds(10, 481, 706, 71);
@@ -287,7 +297,7 @@ public class RegPersonal extends JDialog {
 				rbObrero.setBounds(505, 30, 109, 23);
 				pnTipoPersonal.add(rbObrero);
 
-				JPanel pnUniversitario = new JPanel();
+				pnUniversitario = new JPanel();
 				pnUniversitario
 						.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				pnUniversitario.setBounds(10, 560, 706, 71);
@@ -322,7 +332,7 @@ public class RegPersonal extends JDialog {
 				cbxCarrera.setBounds(336, 36, 273, 20);
 				pnUniversitario.add(cbxCarrera);
 
-				JPanel pnTecnico = new JPanel();
+				pnTecnico = new JPanel();
 				pnTecnico.setVisible(false);
 				pnTecnico.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 				pnTecnico.setBounds(10, 560, 706, 71);
@@ -339,12 +349,12 @@ public class RegPersonal extends JDialog {
 						"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
 						"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
 						"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
-						"Programaci\u00F3n Web"}));
+						"Programaci\u00F3n Web" }));
 
 				cbxAreaTecnica.setBounds(29, 40, 273, 20);
 				pnTecnico.add(cbxAreaTecnica);
 
-				JPanel pnUbicacion = new JPanel();
+				pnUbicacion = new JPanel();
 				pnUbicacion.setBorder(new TitledBorder(null, "Datos de la Ubicaci\u00F3n", TitledBorder.LEADING,
 						TitledBorder.TOP, null, null));
 				pnUbicacion.setBounds(10, 268, 706, 102);
@@ -389,44 +399,44 @@ public class RegPersonal extends JDialog {
 				txtProvincia.setBounds(465, 28, 210, 20);
 				pnUbicacion.add(txtProvincia);
 
-				JPanel panel_2 = new JPanel();
-				panel_2.setLayout(null);
-				panel_2.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Idiomas",
+				pnIdiomas = new JPanel();
+				pnIdiomas.setLayout(null);
+				pnIdiomas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Idiomas",
 						TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-				panel_2.setBounds(10, 375, 706, 102);
-				panel.add(panel_2);
+				pnIdiomas.setBounds(10, 375, 706, 102);
+				panel.add(pnIdiomas);
 
 				ckEspagnol = new Checkbox("Espa\u00F1ol");
 				ckEspagnol.setBounds(33, 25, 95, 22);
-				panel_2.add(ckEspagnol);
+				pnIdiomas.add(ckEspagnol);
 
 				ckIngles = new Checkbox("Ingl\u00E9s");
 				ckIngles.setBounds(33, 59, 95, 22);
-				panel_2.add(ckIngles);
+				pnIdiomas.add(ckIngles);
 
 				ckHindi = new Checkbox("Hindi");
 				ckHindi.setBounds(267, 24, 95, 22);
-				panel_2.add(ckHindi);
+				pnIdiomas.add(ckHindi);
 
 				ckRuso = new Checkbox("Ruso");
 				ckRuso.setBounds(267, 59, 95, 22);
-				panel_2.add(ckRuso);
+				pnIdiomas.add(ckRuso);
 
 				ckFrances = new Checkbox("Franc\u00E9s");
 				ckFrances.setBounds(150, 25, 95, 22);
-				panel_2.add(ckFrances);
+				pnIdiomas.add(ckFrances);
 
 				ckMandarin = new Checkbox("Mandar\u00EDn");
 				ckMandarin.setBounds(150, 59, 95, 22);
-				panel_2.add(ckMandarin);
+				pnIdiomas.add(ckMandarin);
 
 				ckPortugues = new Checkbox("Portugu\u00E9s");
 				ckPortugues.setBounds(384, 24, 95, 22);
-				panel_2.add(ckPortugues);
+				pnIdiomas.add(ckPortugues);
 
 				ckAleman = new Checkbox("Alem\u00E1n");
 				ckAleman.setBounds(384, 59, 95, 22);
-				panel_2.add(ckAleman);
+				pnIdiomas.add(ckAleman);
 
 				rbUniversitario.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -487,12 +497,13 @@ public class RegPersonal extends JDialog {
 						String cedula = txtFCedulaP.getText();
 						String nombre = txtNombreCompleto.getText();
 						Date fechaNacimiento = dcFechaNacimiento.getDate();
-						
-						if(Utils.yearsBetween(fechaNacimiento) < 18) {
-							JOptionPane.showMessageDialog(null, "Ingrese una edad mayor o igual a 18.", null, JOptionPane.ERROR_MESSAGE);
+
+						if (Utils.yearsBetween(fechaNacimiento) < 18) {
+							JOptionPane.showMessageDialog(null, "Ingrese una edad mayor o igual a 18.", null,
+									JOptionPane.ERROR_MESSAGE);
 							return;
 						}
-						
+
 						String nacionalidad = (String) cbxNacionalidad.getSelectedItem();
 						String telefonoPrincipal = txtFTelefono.getText();
 						String telefonoSecundario = txtFTelSec.getText();
@@ -520,18 +531,37 @@ public class RegPersonal extends JDialog {
 						}
 
 						if (auxPersonal == null) {
-							JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario", null, JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "No se ha podido registrar el usuario", null,
+									JOptionPane.ERROR_MESSAGE);
 							return;
 						}
 
-						BolsaTrabajo.getInstance().agregarPersonal(auxPersonal);
+						if (personal != null) {
+							Personal personalToEdit = BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0);
 
-						RegSolPersonal nuevaSolicitudEmpleado = new RegSolPersonal(auxPersonal);
+							personalToEdit.setEsCasado(auxPersonal.isEsCasado());
+							personalToEdit.setTelefonoPrincipal(auxPersonal.getTelefonoPrincipal());
+							personalToEdit.setTelefonoSecundario(auxPersonal.getTelefonoSecundario());
+							personalToEdit.setUbicacion(auxPersonal.getUbicacion());
+
+							if (personalToEdit instanceof Universitario) {
+								((Universitario) personalToEdit)
+										.setUniversidad((String) cbxUniversidad.getSelectedItem());
+								((Universitario) personalToEdit).setCarrera((String) cbxCarrera.getSelectedItem());
+							} else if (personalToEdit instanceof Obrero)
+								((Obrero) personalToEdit).setOficios(getOficiosSelected());
+							else if (personalToEdit instanceof Tecnico)
+								((Tecnico) personalToEdit).setAreaTecnica((String) cbxAreaTecnica.getSelectedItem());
+						} else
+							BolsaTrabajo.getInstance().agregarPersonal(auxPersonal);
+
+						RegSolPersonal nuevaSolicitudEmpleado = new RegSolPersonal(auxPersonal, null, false);
 						nuevaSolicitudEmpleado.addWindowListener(new WindowListener() {
 							@Override
 							public void windowClosed(WindowEvent e) {
 								// TODO Auto-generated method stub
-								if (JOptionPane.showConfirmDialog(null, "Desea crear otro usuario?", null, JOptionPane.YES_NO_OPTION) == 1)
+								if (JOptionPane.showConfirmDialog(null, "Desea crear otro usuario?", null,
+										JOptionPane.YES_NO_OPTION) == 1)
 									dispose();
 
 								clear();
@@ -594,6 +624,9 @@ public class RegPersonal extends JDialog {
 				buttonPane.add(btnCancelar);
 			}
 		}
+
+		if (personal != null)
+			loadPersonal(personal);
 	}
 
 	// Implementacion pendiente
@@ -715,5 +748,51 @@ public class RegPersonal extends JDialog {
 		}
 
 		return message;
+	}
+
+	public static void desactivado() {
+		Utils.desactivarPanel(pnGeneral);
+		Utils.desactivarPanel(pnIdiomas);
+		Utils.desactivarPanel(pnObrero);
+		Utils.desactivarPanel(pnTecnico);
+		Utils.desactivarPanel(pnTipoPersonal);
+		Utils.desactivarPanel(pnUniversitario);
+		Utils.desactivarPanel(pnUbicacion);
+	}
+
+	public void loadPersonal(Personal personalAux) {
+		txtFCedulaP.setText(personalAux.getCedula());
+		txtNombreCompleto.setText(personalAux.getNombre());
+		dcFechaNacimiento.setDate(personalAux.getFechaNacimiento());
+		cbxNacionalidad.setSelectedIndex(Utils.getCbxSelectedIndex(cbxNacionalidad, personalAux.getNacionalidad()));
+		txtFTelefono.setText(personalAux.getTelefonoPrincipal());
+		txtFTelSec.setText(personalAux.getTelefonoSecundario());
+
+		if (personalAux.getGenero().equals("masculino"))
+			generoGroup.setSelected(rdbtnMasculino.getModel(), true);
+		else
+			generoGroup.setSelected(rdbtnFemenino.getModel(), true);
+
+		chckbxCasado.setSelected(personalAux.isEsCasado());
+		txtPais.setText(personalAux.getUbicacion().getPais());
+		txtProvincia.setText(personalAux.getUbicacion().getProvincia());
+		txtCiudadRes.setText(personalAux.getUbicacion().getCiudad());
+		txtDireccion.setText(personalAux.getUbicacion().getDireccion());
+		Utils.activarCheckboxEnPanel(pnIdiomas, personalAux.getIdiomas());
+
+		if (personalAux instanceof Tecnico) {
+			rbTecnico.doClick();
+			cbxAreaTecnica.setSelectedIndex(
+					Utils.getCbxSelectedIndex(cbxAreaTecnica, ((Tecnico) personalAux).getAreaTecnica()));
+		} else if (personalAux instanceof Universitario) {
+			rbUniversitario.doClick();
+			cbxUniversidad.setSelectedIndex(
+					Utils.getCbxSelectedIndex(cbxAreaTecnica, ((Universitario) personalAux).getUniversidad()));
+			cbxCarrera.setSelectedIndex(
+					Utils.getCbxSelectedIndex(cbxAreaTecnica, ((Universitario) personalAux).getCarrera()));
+		} else if (personalAux instanceof Obrero) {
+			rbObrero.doClick();
+			Utils.activarCheckboxEnPanel(pnObrero, ((Obrero) personalAux).getOficios());
+		}
 	}
 }
