@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import logico.BolsaTrabajo;
+import logico.Usuario;
+
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JMenu;
@@ -24,7 +28,7 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Principal frame = new Principal();
+					Principal frame = new Principal(BolsaTrabajo.getInstance().getUsuarios("admin").get(0));
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -36,7 +40,7 @@ public class Principal extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public Principal() {
+	public Principal(Usuario usuario) {
 		setTitle("Bolsa de Trabajo BJL");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -156,6 +160,22 @@ public class Principal extends JFrame {
 			}
 		});
 		mnNewMenu_4.add(mntmNewMenuItem_10);
+		
+		JMenu mnAdmin = new JMenu("Administracion");
+		mnAdmin.setVisible(usuario.esAdmin());
+		menuBar.add(mnAdmin);
+		
+		JMenuItem mntmNewMenuItem_11 = new JMenuItem("Crear Usuario");
+		mntmNewMenuItem_11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				AgregarUsuario agregarUsuario = new AgregarUsuario(null);
+				agregarUsuario.setVisible(true);
+			}
+		});
+		mnAdmin.add(mntmNewMenuItem_11);
+		
+		JMenuItem mntmListarUsuarios = new JMenuItem("Listar Usuarios");
+		mnAdmin.add(mntmListarUsuarios);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

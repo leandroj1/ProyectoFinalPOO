@@ -15,14 +15,17 @@ public class BolsaTrabajo {
 		this.empresas = new ArrayList<Empresa>();
 		this.solicitudesEmpresa = new ArrayList<SolicitudEmpresa>();
 		this.solicitudesPersonal = new ArrayList<SolicitudPersonal>();
-
+		this.usuarios = new ArrayList<Usuario>();
+		agregarUsuario(new Usuario("admin", "admin", true));
+		agregarUsuario(new Usuario("normal", "normal", false));
 	}
 
 	private ArrayList<Personal> personal;
 	private ArrayList<Empresa> empresas;
 	private ArrayList<SolicitudEmpresa> solicitudesEmpresa;
 	private ArrayList<SolicitudPersonal> solicitudesPersonal;
-	
+	private ArrayList<Usuario> usuarios;
+
 //Propiedades del reporte
 	public static int cantPersonalUni = 0;
 	public static int cantPersonalTecnico = 0;
@@ -33,7 +36,8 @@ public class BolsaTrabajo {
 	private static BolsaTrabajo instance;
 
 	public static BolsaTrabajo getInstance() {
-		if (instance == null) instance = new BolsaTrabajo();
+		if (instance == null)
+			instance = new BolsaTrabajo();
 		return instance;
 	}
 
@@ -48,15 +52,17 @@ public class BolsaTrabajo {
 	}
 
 	public ArrayList<Personal> getPersonalByID(String cedula) {
-		if(cedula == null) {
+		if (cedula == null) {
 			return this.personal;
 		}
 
-		return new ArrayList<Personal>(personal.stream().filter(candidato -> candidato.getCedula().contains(cedula)).collect(Collectors.toList()));
+		return new ArrayList<Personal>(personal.stream().filter(candidato -> candidato.getCedula().contains(cedula))
+				.collect(Collectors.toList()));
 	}
 
 	public ArrayList<Empresa> getEmpresasByID(String RNC) {
-		return new ArrayList<Empresa>(empresas.stream().filter(empresa -> empresa.getRNC().contains(RNC)).collect(Collectors.toList()));
+		return new ArrayList<Empresa>(
+				empresas.stream().filter(empresa -> empresa.getRNC().contains(RNC)).collect(Collectors.toList()));
 	}
 
 	public void agregarSolicitudEmpresa(String RNC, SolicitudEmpresa solicitud) {
@@ -78,11 +84,13 @@ public class BolsaTrabajo {
 	}
 
 	public ArrayList<SolicitudEmpresa> getSolicitudesEmpresaByID(String filterID) {
-		return new ArrayList<SolicitudEmpresa>(solicitudesEmpresa.stream().filter(solicitud -> solicitud.getId().contains(filterID)).collect(Collectors.toList()));
+		return new ArrayList<SolicitudEmpresa>(solicitudesEmpresa.stream()
+				.filter(solicitud -> solicitud.getId().contains(filterID)).collect(Collectors.toList()));
 	}
 
 	public ArrayList<SolicitudPersonal> getSolicitudesPersonalByID(String filterID) {
-		return new ArrayList<SolicitudPersonal>(solicitudesPersonal.stream().filter(solicitud -> solicitud.getId().contains(filterID)).collect(Collectors.toList()));
+		return new ArrayList<SolicitudPersonal>(solicitudesPersonal.stream()
+				.filter(solicitud -> solicitud.getId().contains(filterID)).collect(Collectors.toList()));
 	}
 
 	public ArrayList<SolicitudEmpresa> getSolicitudesEmpresaByID(String RNC, String solicitudFilter) {
@@ -104,7 +112,7 @@ public class BolsaTrabajo {
 
 		ArrayList<String> cedulasForAnulacion = solicitud.getCedulasPersonasContratadas();
 		this.personal.forEach(persona -> {
-			if(cedulasForAnulacion.contains(persona.getCedula())) {
+			if (cedulasForAnulacion.contains(persona.getCedula())) {
 				this.desemplearPersonal(persona, solicitud);
 			}
 		});
@@ -115,14 +123,15 @@ public class BolsaTrabajo {
 		personal.setIdSolicitudPersonalContratacion(null);
 
 		personal.getSolicitudes().forEach(solicitudPersonal -> {
-			if(solicitudPersonal.getEstado() == EstadoSolicitudPersonal.PENDIENTE){
+			if (solicitudPersonal.getEstado() == EstadoSolicitudPersonal.PENDIENTE) {
 				solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
 			}
 		});
 
-		solicitudEmpresa.getCedulasPersonasContratadas().removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
+		solicitudEmpresa.getCedulasPersonasContratadas()
+				.removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
 	}
-	
+
 	public ArrayList<SolicitudPersonal> getActiveSolPersonalByCedula(String cedula) {
 		ArrayList<SolicitudPersonal> solPersonalList = getSolicitudesPersonalByID(cedula, "");
 		ArrayList<SolicitudPersonal> solPersonalActive = new ArrayList<SolicitudPersonal>();
@@ -132,36 +141,33 @@ public class BolsaTrabajo {
 		return solPersonalActive;
 	}
 
-
 	public void contratarPersonal(Personal persona, SolicitudEmpresa solicitudEmpresa, String idSolicitudPersonal) {
-		if(persona != null) {
+		if (persona != null) {
 			persona.setIdEmpresaContratacion(solicitudEmpresa.getRNCEmpresa());
 			persona.getSolicitudes().forEach(solicitud -> {
 				// En caso de que se contrate por una solicitud que hizo
-				if(idSolicitudPersonal != null){
-					if(idSolicitudPersonal.equalsIgnoreCase(solicitud.getId())){
+				if (idSolicitudPersonal != null) {
+					if (idSolicitudPersonal.equalsIgnoreCase(solicitud.getId())) {
 						solicitud.setEstado(EstadoSolicitudPersonal.SATISFECHA);
-						persona.setIdSolicitudPersonalContratacion(idSolicitudPersonal);	
-						if(solicitud.getTipoPersonal().equalsIgnoreCase("Universitario")) {
+						persona.setIdSolicitudPersonalContratacion(idSolicitudPersonal);
+						if (solicitud.getTipoPersonal().equalsIgnoreCase("Universitario")) {
 							cantPersonalUni++;
-						}
-						else if(solicitud.getTipoPersonal().equalsIgnoreCase("Obrero")) {
+						} else if (solicitud.getTipoPersonal().equalsIgnoreCase("Obrero")) {
 							cantPersonalObrero++;
-						}
-						else if(solicitud.getTipoPersonal().equalsIgnoreCase("Tecnico")) {
+						} else if (solicitud.getTipoPersonal().equalsIgnoreCase("Tecnico")) {
 							cantPersonalTecnico++;
-						}	
+						}
 						return;
 					}
 				}
 
-				if(solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA || solicitud.getEstado() == EstadoSolicitudPersonal.SATISFECHA)
+				if (solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA
+						|| solicitud.getEstado() == EstadoSolicitudPersonal.SATISFECHA)
 					solicitud.setEstado(EstadoSolicitudPersonal.PENDIENTE);
 			});
-			if(persona.getGenero().equalsIgnoreCase("Femenino")) {
+			if (persona.getGenero().equalsIgnoreCase("Femenino")) {
 				cantPersonalFem++;
-			}
-			else if(persona.getGenero().equalsIgnoreCase("Masculino")) {
+			} else if (persona.getGenero().equalsIgnoreCase("Masculino")) {
 				cantPersonalMasc++;
 			}
 			// Agregar la cedula del personal a las personas contratadas
@@ -187,37 +193,36 @@ public class BolsaTrabajo {
 		if (solicitudPersonal.getSalarioEsperado() >= solicitudEmpresa.getSalarioMin()
 				&& solicitudPersonal.getSalarioEsperado() <= solicitudEmpresa.getSalarioMax())
 			match += 2 * cantToSum;
-		// Si es menor que el salario minimo ofrecido, se suma a favor de la empresa 
-		else if(solicitudPersonal.getSalarioEsperado() <= solicitudEmpresa.getSalarioMin())
+		// Si es menor que el salario minimo ofrecido, se suma a favor de la empresa
+		else if (solicitudPersonal.getSalarioEsperado() <= solicitudEmpresa.getSalarioMin())
 			match += 2 * cantToSum;
-			
+
 		if (personalObj.getEdad() >= solicitudEmpresa.getEdad())
 			match += cantToSum;
 		if (solicitudPersonal.getAgnosExperiencia() >= solicitudEmpresa.getAgnosExperiencia())
 			match += cantToSum;
 
-		// Si es falso, no se requiere la disponibilidad, lo mismo para [isDisponibilidadSalirCiudad]
-		if(!solicitudEmpresa.isDisponibilidadCambioResidencia()) {
+		// Si es falso, no se requiere la disponibilidad, lo mismo para
+		// [isDisponibilidadSalirCiudad]
+		if (!solicitudEmpresa.isDisponibilidadCambioResidencia()) {
 			match += cantToSum;
-		}
-		else {
-			if (solicitudEmpresa.isDisponibilidadCambioResidencia() == solicitudPersonal.isDisponibilidadCambioResidencia())
+		} else {
+			if (solicitudEmpresa.isDisponibilidadCambioResidencia() == solicitudPersonal
+					.isDisponibilidadCambioResidencia())
 				match += cantToSum;
 		}
-		if(!solicitudEmpresa.isDisponibilidadSalirCiudad()) {
+		if (!solicitudEmpresa.isDisponibilidadSalirCiudad()) {
 			match += cantToSum;
-		}
-		else {
+		} else {
 			if (solicitudEmpresa.isDisponibilidadSalirCiudad() == solicitudPersonal.isDisponibilidadSalirCiudad())
 				match += cantToSum;
 		}
 
 		// Si no prefiere una nacionalidad
-		if(solicitudEmpresa.getNacionalidad().equalsIgnoreCase("Sin preferencia")) {
+		if (solicitudEmpresa.getNacionalidad().equalsIgnoreCase("Sin preferencia")) {
 			match += cantToSum;
-		}
-		else {
-			if(solicitudEmpresa.getNacionalidad().equalsIgnoreCase(personalObj.getNacionalidad())) {
+		} else {
+			if (solicitudEmpresa.getNacionalidad().equalsIgnoreCase(personalObj.getNacionalidad())) {
 				match += cantToSum;
 			}
 		}
@@ -237,14 +242,13 @@ public class BolsaTrabajo {
 		float acumuladoIdiomas = 0.0f;
 		ArrayList<String> idiomasRequeridos = solicitudEmpresa.getIdiomas();
 		// Si la empresa no requiere ningun idioma, se suma a favor del personal
-		if(idiomasRequeridos.size() == 0) {
+		if (idiomasRequeridos.size() == 0) {
 			acumuladoIdiomas = cantToSum;
-		}
-		else {
+		} else {
 			for (String idiomaPersonal : personalObj.getIdiomas()) {
 				if (idiomasRequeridos.contains(idiomaPersonal))
 					acumuladoIdiomas += (cantToSum / idiomasRequeridos.size());
-			}			
+			}
 		}
 		match += acumuladoIdiomas;
 
@@ -301,51 +305,78 @@ public class BolsaTrabajo {
 		return acumulado * 100.0f;
 	}
 
-	public Map<Personal, SolicitudPersonal> getCandidatosByPorcentajeMatch(SolicitudEmpresa solicitudEmpresa, ArrayList<Personal> personalBusqueda, boolean getContratadasToo) {
+	public Map<Personal, SolicitudPersonal> getCandidatosByPorcentajeMatch(SolicitudEmpresa solicitudEmpresa,
+			ArrayList<Personal> personalBusqueda, boolean getContratadasToo) {
 		Map<Personal, SolicitudPersonal> candidatos = new HashMap<Personal, SolicitudPersonal>();
-		if(solicitudEmpresa != null) {
+		if (solicitudEmpresa != null) {
 			float porcentajeMatchRequerido = solicitudEmpresa.getPorcentajeMatchRequerido();
 			if (porcentajeMatchRequerido >= 0.0f && porcentajeMatchRequerido <= 100.0f) {
 				int cantidadRequisitos = solicitudEmpresa.getCantidadRequisitos();
 
 				personalBusqueda.forEach(person -> {
-					if((person.getIdEmpresaContratacion() == null && person.getIdSolicitudPersonalContratacion() == null) || getContratadasToo) {
+					if ((person.getIdEmpresaContratacion() == null
+							&& person.getIdSolicitudPersonalContratacion() == null) || getContratadasToo) {
 						person.getSolicitudes().forEach(solicitud -> {
 							// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
 							float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
 									cantidadRequisitos);
-							
+
 							if (resultPorcentaje >= porcentajeMatchRequerido) {
 								// Asignar porcentaje de match para no calcularlo de nuevo
 								solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
-								
+
 								candidatos.put(person, solicitud);
 							}
-						});						
+						});
 					}
 				});
-			}			
+			}
 		}
 
 		return candidatos;
 	}
-	
+
 	public Map<String, Integer> getDataReporte3() {
 		// Cargarlas llamando el metodo
 		ArrayList<Empresa> empresas = this.empresas;
-		
-		String[] keys = {"Industrial", "Agricultura", "Alimentaci\u00F3n", "Comercio", "Construcci\u00F3n", "Educaci\u00F3n", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n", "Miner\u00EDa", "Petrolero", "Telecomunicaciones", "Salud", "Financieros", "P\u00FAblico", "Silvicultura", "Textil", "Tecnol\u00F3gico", "Transporte"};
+
+		String[] keys = { "Industrial", "Agricultura", "Alimentaci\u00F3n", "Comercio", "Construcci\u00F3n",
+				"Educaci\u00F3n", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n", "Miner\u00EDa", "Petrolero",
+				"Telecomunicaciones", "Salud", "Financieros", "P\u00FAblico", "Silvicultura", "Textil",
+				"Tecnol\u00F3gico", "Transporte" };
 		Map<String, Integer> data = new HashMap<String, Integer>();
 		for (String key : keys) {
 			data.put(key, Integer.valueOf(0));
 		}
-		
+
 		for (Empresa empresa : empresas) {
 			try {
 				data.replace(empresa.getSector(), Integer.valueOf(1 + data.get(empresa.getSector()).intValue()));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+			}
 		}
-		
+
 		return data;
+	}
+
+	public ArrayList<Usuario> getUsuarios(String nombreUsuario) {
+		return new ArrayList<Usuario>(usuarios.stream()
+				.filter(usuario -> usuario.getNombreUsuario().contains(nombreUsuario)).collect(Collectors.toList()));
+	}
+	
+	public Usuario getUsuario(String nombreUsuario) {
+		return usuarios.stream()
+				.filter(usuario -> usuario.getNombreUsuario().equals(nombreUsuario)).findFirst().orElse(null);
+	}
+
+	public void agregarUsuario(Usuario usuario) {
+		if (usuario != null && getUsuarios(usuario.getNombreUsuario()).size() == 0)
+			usuarios.add(usuario);
+	}
+
+	public boolean authUsuario(String nombreUsuario, String contrasegna) {
+		ArrayList<Usuario> usuarios = getUsuarios(nombreUsuario);
+
+		return usuarios.size() == 1 && usuarios.get(0).authContrasegna(contrasegna);
 	}
 }
