@@ -13,12 +13,15 @@ import ficheros.UtilsFicheros;
 import logico.Personal;
 import logico.SolicitudEmpresa;
 import logico.SolicitudPersonal;
+import logico.Ubicacion;
 import logico.Utils;
 
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridLayout;
 
 public class PropiedadesCumplidasPersonal extends JDialog {
@@ -61,6 +64,8 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 	private JLabel iconAreaTecnica;
 	private JLabel lblNewLabel;
 	private JLabel lblPorcentajeMatch;
+	private JButton btnVerDescripcin;
+	private JButton btnVerUbicacion;
 
 	/**
 	 * Create the dialog.
@@ -74,7 +79,7 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setModal(true);
 		setResizable(false);
-		setBounds(100, 100, 627, 550);
+		setBounds(100, 100, 627, 600);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -250,6 +255,34 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 						dispose();
 					}
 				});
+				{
+					btnVerUbicacion = new JButton("Ver detalles de ubicaci\u00F3n");
+					btnVerUbicacion.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							Ubicacion ubicacion = personal.getUbicacion();
+							StringBuffer buffer = new StringBuffer();
+							buffer.append("Pa\u00eds: " + ubicacion.getPais());
+							buffer.append("\nProvincia: " + ubicacion.getProvincia());
+							buffer.append("\nCiudad: " + ubicacion.getCiudad());
+
+							JOptionPane.showMessageDialog(null, buffer.toString(), "Detalles de ubicaci\u00F3n", JOptionPane.INFORMATION_MESSAGE);
+						}
+					});
+					btnVerUbicacion.setActionCommand("Cancel");
+					buttonPane.add(btnVerUbicacion);
+				}
+				{
+					btnVerDescripcin = new JButton("Ver descripci\u00F3n");
+					btnVerDescripcin.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							VerDescripcion verDescripcion = new VerDescripcion(solicitudPersonal.getDescripcion());
+							verDescripcion.setModal(true);
+							verDescripcion.setVisible(true);
+						}
+					});
+					btnVerDescripcin.setActionCommand("Cancel");
+					buttonPane.add(btnVerDescripcin);
+				}
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
