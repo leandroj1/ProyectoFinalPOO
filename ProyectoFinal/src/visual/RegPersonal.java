@@ -106,7 +106,7 @@ public class RegPersonal extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegPersonal dialog = new RegPersonal(null, false, false); // pasar null, donde se que no edito un personal le paso null.
+			RegPersonal dialog = new RegPersonal(null, false); // pasar null, donde se que no edito un personal le paso null.
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -117,7 +117,7 @@ public class RegPersonal extends JDialog {
 	/**
 	 * Create the dialog.
 	 */ // Pasar clientes
-	public RegPersonal(Personal personal, boolean editing, boolean isForDetails) {
+	public RegPersonal(Personal personal, boolean editing) {
 		setResizable(false);
 		setTitle("Registro de Personal");
 
@@ -182,11 +182,6 @@ public class RegPersonal extends JDialog {
 				// Avoid writing in date chooser
 				((JTextFieldDateEditor) dcFechaNacimiento.getDateEditor()).setEditable(false);
 				dcFechaNacimiento.getCalendarButton().setEnabled(true);
-
-				// Cargar fecha de nacimiento
-				if(personal != null) {
-					dcFechaNacimiento.setDate(personal.getFechaNacimiento());
-				}
 				
 				dcFechaNacimiento.setBounds(29, 92, 183, 20);
 				pnGeneral.add(dcFechaNacimiento);
@@ -627,7 +622,7 @@ public class RegPersonal extends JDialog {
 				}
 				btnRegistrar.setActionCommand("OK");
 				buttonPane.add(btnRegistrar);
-				btnRegistrar.setVisible(!isForDetails);
+				btnRegistrar.setVisible(!(!editing && personal != null));
 				getRootPane().setDefaultButton(btnRegistrar);
 			}
 			{
@@ -677,7 +672,6 @@ public class RegPersonal extends JDialog {
 		cbxAreaTecnica.setSelectedIndex(0);
 		cbxUniversidad.setSelectedIndex(0);
 		cbxCarrera.setSelectedIndex(0);
-		idiomasGroup.setSelectedCheckbox(null);
 	}
 
 	private ArrayList<String> getIdiomasSelected() {

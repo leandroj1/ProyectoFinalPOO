@@ -82,7 +82,7 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_2 = new JMenuItem("Registrar Personal");
 		mntmNewMenuItem_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				RegPersonal regPersonal = new RegPersonal(null, false, false);
+				RegPersonal regPersonal = new RegPersonal(null, false);
 				regPersonal.setVisible(true);
 			}
 		});

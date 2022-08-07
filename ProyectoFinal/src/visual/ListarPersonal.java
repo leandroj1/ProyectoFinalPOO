@@ -198,7 +198,7 @@ public class ListarPersonal extends JDialog {
 		btnVerDetalles.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedPersonal != null) {
-					RegPersonal personal = new RegPersonal(selectedPersonal, false, true);
+					RegPersonal personal = new RegPersonal(selectedPersonal, false);
 					personal.setTitle("Personal");
 					RegPersonal.desactivado();
 					personal.setVisible(true);
@@ -215,7 +215,7 @@ public class ListarPersonal extends JDialog {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedPersonal != null) {
-					RegPersonal personal = new RegPersonal(selectedPersonal, true, false);
+					RegPersonal personal = new RegPersonal(selectedPersonal, true);
 					personal.setVisible(true);
 					loadRowsInTable(BolsaTrabajo.getInstance().getPersonalByID(""), null);
 					setButtonsState(false);

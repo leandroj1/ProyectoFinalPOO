@@ -51,7 +51,7 @@ public class ListadoSolicitudesPersonal extends JDialog {
 	public ListadoSolicitudesPersonal(Personal personal) {
 		final String[] headers = { "ID", "Fecha", "Cedula Personal", "Tipo de personal", "Estado" };
 
-		if (selectedPersonal == null) {
+		if (personal == null) {
 			setTitle("Listado de solicitudes");
 		} else {
 			selectedPersonal = personal;
@@ -86,16 +86,15 @@ public class ListadoSolicitudesPersonal extends JDialog {
 							int index = tablaSolicitudes.getSelectedRow();
 							if (index >= 0) {
 								String codigoString = tablaSolicitudes.getValueAt(index, 0).toString();
-								ArrayList<SolicitudPersonal> result = getDataSolicitudes(selectedPersonal,
-										codigoString);
-								if (result.size() != 0) {
-									selectedSolicitud = result.get(0);
-									setButtonsState(true);
-									if (selectedSolicitud.getEstado() == EstadoSolicitudPersonal.ANULADA
-											|| selectedSolicitud.getEstado() == EstadoSolicitudPersonal.SATISFECHA) {
-										btnAnular.setEnabled(false);
-										btnModificarCondiciones.setEnabled(false);
-									}
+
+								selectedSolicitud = BolsaTrabajo.getInstance().getSolicitudesPersonalByID(codigoString)
+										.get(0);
+								setButtonsState(true);
+
+								if (selectedSolicitud.getEstado() == EstadoSolicitudPersonal.ANULADA
+										|| selectedSolicitud.getEstado() == EstadoSolicitudPersonal.SATISFECHA) {
+									btnAnular.setEnabled(false);
+									btnModificarCondiciones.setEnabled(false);
 								}
 							}
 						}
@@ -239,11 +238,12 @@ public class ListadoSolicitudesPersonal extends JDialog {
 
 	// Abrir la ventana de registrar solicitud para modificar o ver detalles
 	private void openRegSolicitudPersonal(boolean isForModify) {
-		if (selectedSolicitud != null && ((isForModify && selectedSolicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA) || !isForModify)) {
+		if (selectedSolicitud != null
+				&& ((isForModify && selectedSolicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA) || !isForModify)) {
 			RegSolPersonal detalles = new RegSolPersonal(null, selectedSolicitud, isForModify);
 			if (!isForModify)
 				RegSolPersonal.desactivar();
-			
+
 			detalles.setModal(true);
 			detalles.setVisible(true);
 

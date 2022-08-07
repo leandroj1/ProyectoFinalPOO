@@ -78,6 +78,7 @@ public class RegSolPersonal extends JDialog {
 	private JSpinner spnSalarioEsp;
 	private JSpinner spnAgnosExp;
 	private JTextPane txtPDescripcion;
+	private JButton btnSolicitar;
 
 	/**
 	 * Launch the application.
@@ -400,7 +401,7 @@ public class RegSolPersonal extends JDialog {
 					buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 					getContentPane().add(buttonPane, BorderLayout.SOUTH);
 					{
-						JButton btnSolicitar = new JButton("Solicitar");
+						btnSolicitar = new JButton("Solicitar");
 						btnSolicitar.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
 								String message = comprobarCampos();
@@ -502,7 +503,7 @@ public class RegSolPersonal extends JDialog {
 									dispose();
 
 								clean();
-								loadPersonal(personal, false);
+								loadPersonal(personal);
 							}
 						});
 						btnSolicitar.setActionCommand("OK");
@@ -524,7 +525,7 @@ public class RegSolPersonal extends JDialog {
 		}
 
 		if (personal != null)
-			loadPersonal(personal, editing);
+			loadPersonal(personal);
 		else if (solPersonal != null)
 			loadSolPersonal(solPersonal, editing);
 	}
@@ -573,12 +574,15 @@ public class RegSolPersonal extends JDialog {
 				if (solPersonal.getAreaTecnica().equalsIgnoreCase((String) cbxAreaTecnica.getItemAt(index)))
 					cbxAreaTecnica.setSelectedIndex(index);
 		}
-		
+
 		if (editing) {
 			Utils.desactivarPanel(pnObrero);
 			Utils.desactivarPanel(pnTecnico);
 			Utils.desactivarPanel(pnUniversitario);
 			Utils.desactivarPanel(pnTipoPersonal);
+			btnSolicitar.setText("Actualizar");
+		} else {
+			btnSolicitar.setVisible(false);
 		}
 	}
 
@@ -662,7 +666,7 @@ public class RegSolPersonal extends JDialog {
 		}
 	}
 
-	private void loadPersonal(Personal personal, boolean firstRequest) {
+	private void loadPersonal(Personal personal) {
 		// Como la solicitud inicial se hace con un tipo especifico, no se
 		// pueden cambiar los datos de tipo (e.g. carrera, etc)
 
@@ -671,7 +675,7 @@ public class RegSolPersonal extends JDialog {
 			txtFCedulaP.setText(personal.getCedula());
 			txtFCedulaP.setEditable(false);
 
-			if (firstRequest) {
+			if (personal.getSolicitudes().size() == 0) {
 				if (personal.toString().equalsIgnoreCase("universitario")) {
 					rbUniversitario.doClick();
 
