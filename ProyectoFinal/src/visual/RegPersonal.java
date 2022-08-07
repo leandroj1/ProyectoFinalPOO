@@ -100,7 +100,6 @@ public class RegPersonal extends JDialog {
 	private static JPanel pnObrero;
 	private static JPanel pnUbicacion;
 	private static JPanel pnTipoPersonal;
-	private JButton btnNewButton;
 
 	/**
 	 * Create the dialog.
@@ -296,53 +295,6 @@ public class RegPersonal extends JDialog {
 				txtProvincia.setBounds(465, 28, 210, 20);
 				pnUbicacion.add(txtProvincia);
 
-				pnIdiomas = new JPanel();
-				pnIdiomas.setLayout(null);
-				pnIdiomas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Idiomas",
-						TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-				pnIdiomas.setBounds(10, 375, 706, 102);
-				panel.add(pnIdiomas);
-
-				ckEspagnol = new Checkbox("Espa\u00F1ol");
-				ckEspagnol.setBounds(33, 25, 95, 22);
-				pnIdiomas.add(ckEspagnol);
-				ckEspagnol.setCheckboxGroup(idiomasGroup);
-
-				ckIngles = new Checkbox("Ingl\u00E9s");
-				ckIngles.setBounds(33, 59, 95, 22);
-				pnIdiomas.add(ckIngles);
-				ckIngles.setCheckboxGroup(idiomasGroup);
-
-				ckHindi = new Checkbox("Hindi");
-				ckHindi.setBounds(267, 24, 95, 22);
-				pnIdiomas.add(ckHindi);
-				ckHindi.setCheckboxGroup(idiomasGroup);
-
-				ckRuso = new Checkbox("Ruso");
-				ckRuso.setBounds(267, 59, 95, 22);
-				pnIdiomas.add(ckRuso);
-				ckRuso.setCheckboxGroup(idiomasGroup);
-
-				ckFrances = new Checkbox("Franc\u00E9s");
-				ckFrances.setBounds(150, 25, 95, 22);
-				pnIdiomas.add(ckFrances);
-				ckFrances.setCheckboxGroup(idiomasGroup);
-
-				ckMandarin = new Checkbox("Mandar\u00EDn");
-				ckMandarin.setBounds(150, 59, 95, 22);
-				pnIdiomas.add(ckMandarin);
-				ckMandarin.setCheckboxGroup(idiomasGroup);
-
-				ckPortugues = new Checkbox("Portugu\u00E9s");
-				ckPortugues.setBounds(384, 24, 95, 22);
-				pnIdiomas.add(ckPortugues);
-				ckPortugues.setCheckboxGroup(idiomasGroup);
-
-				ckAleman = new Checkbox("Alem\u00E1n");
-				ckAleman.setBounds(384, 59, 95, 22);
-				pnIdiomas.add(ckAleman);
-				ckAleman.setCheckboxGroup(idiomasGroup);
-
 				pnUniversitario = new JPanel();
 				pnUniversitario
 						.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -449,6 +401,53 @@ public class RegPersonal extends JDialog {
 				ckAgricultor = new Checkbox("Agricultor");
 				ckAgricultor.setBounds(536, 39, 95, 22);
 				pnObrero.add(ckAgricultor);
+				
+								pnIdiomas = new JPanel();
+								pnIdiomas.setLayout(null);
+								pnIdiomas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Idiomas",
+										TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+								pnIdiomas.setBounds(10, 375, 706, 102);
+								panel.add(pnIdiomas);
+								
+												ckEspagnol = new Checkbox("Espa\u00F1ol");
+												ckEspagnol.setBounds(33, 25, 95, 22);
+												pnIdiomas.add(ckEspagnol);
+												ckEspagnol.setCheckboxGroup(idiomasGroup);
+												
+																ckIngles = new Checkbox("Ingl\u00E9s");
+																ckIngles.setBounds(33, 59, 95, 22);
+																pnIdiomas.add(ckIngles);
+																ckIngles.setCheckboxGroup(idiomasGroup);
+																
+																				ckHindi = new Checkbox("Hindi");
+																				ckHindi.setBounds(267, 24, 95, 22);
+																				pnIdiomas.add(ckHindi);
+																				ckHindi.setCheckboxGroup(idiomasGroup);
+																				
+																								ckRuso = new Checkbox("Ruso");
+																								ckRuso.setBounds(267, 59, 95, 22);
+																								pnIdiomas.add(ckRuso);
+																								ckRuso.setCheckboxGroup(idiomasGroup);
+																								
+																												ckFrances = new Checkbox("Franc\u00E9s");
+																												ckFrances.setBounds(150, 25, 95, 22);
+																												pnIdiomas.add(ckFrances);
+																												ckFrances.setCheckboxGroup(idiomasGroup);
+																												
+																																ckMandarin = new Checkbox("Mandar\u00EDn");
+																																ckMandarin.setBounds(150, 59, 95, 22);
+																																pnIdiomas.add(ckMandarin);
+																																ckMandarin.setCheckboxGroup(idiomasGroup);
+																																
+																																				ckPortugues = new Checkbox("Portugu\u00E9s");
+																																				ckPortugues.setBounds(384, 24, 95, 22);
+																																				pnIdiomas.add(ckPortugues);
+																																				ckPortugues.setCheckboxGroup(idiomasGroup);
+																																				
+																																								ckAleman = new Checkbox("Alem\u00E1n");
+																																								ckAleman.setBounds(384, 59, 95, 22);
+																																								pnIdiomas.add(ckAleman);
+																																								ckAleman.setCheckboxGroup(idiomasGroup);
 
 				rbUniversitario.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -499,7 +498,7 @@ public class RegPersonal extends JDialog {
 						Date fechaNacimiento = dcFechaNacimiento.getDate();
 						
 						if (!BolsaTrabajo.getInstance().getPersonalByID(cedula).isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Un personal con la misma cedula ha sido creado", null,
+							JOptionPane.showMessageDialog(null, "Ya existe una persona con esa cédula registrada.", null,
 									JOptionPane.ERROR_MESSAGE);
 							return;
 						}
@@ -577,14 +576,6 @@ public class RegPersonal extends JDialog {
 				if (auxPersonal != null) {
 					btnRegistrar.setText("Actualizar");
 				}
-				
-				btnNewButton = new JButton("clear");
-				btnNewButton.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						clear();
-					}
-				});
-				buttonPane.add(btnNewButton);
 				btnRegistrar.setActionCommand("OK");
 				buttonPane.add(btnRegistrar);
 				btnRegistrar.setVisible(!(!editing && personal != null));
