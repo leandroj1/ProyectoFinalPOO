@@ -9,6 +9,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
+import ficheros.UtilsFicheros;
 import logico.*;
 
 import javax.swing.JScrollPane;
@@ -61,7 +62,7 @@ public class ListarEmpresas extends JDialog {
 				"Rubro",
 				"Ubicaci\u00F3n"
 		};
-
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setResizable(false);
 		setBounds(100, 100, 921, 570);
 		setLocationRelativeTo(null);

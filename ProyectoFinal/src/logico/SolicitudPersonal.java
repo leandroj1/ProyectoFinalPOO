@@ -1,11 +1,13 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
 import enums.EstadoSolicitudPersonal;
 
-public class SolicitudPersonal {
+public class SolicitudPersonal implements Serializable{
+	private static final long serialVersionUID = -4647548503025298181L;
 	private String id;
 	private Date fecha;
 	private String cedulaPersonal;
@@ -180,5 +182,11 @@ public class SolicitudPersonal {
 	// Para casos en los que hay que modificar
 	public void setOficios(ArrayList<String> newOficios) {
 		this.oficios = newOficios;
+	}
+
+	public static void reloadGenId(int valueLoaded) { 
+		if(valueLoaded >= genNumber) {
+			genNumber = valueLoaded;
+		}
 	}
 }

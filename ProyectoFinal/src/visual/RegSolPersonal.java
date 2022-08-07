@@ -22,6 +22,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
 
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Obrero;
 import logico.Personal;
@@ -95,6 +96,7 @@ public class RegSolPersonal extends JDialog {
 	public RegSolPersonal(Personal personal) {
 		setResizable(false);
 		setTitle("Solicitud de Personal");
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setModal(true);
 		setBounds(100, 100, 599, 648);
 		setLocationRelativeTo(null);
