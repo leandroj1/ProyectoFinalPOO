@@ -496,12 +496,6 @@ public class RegPersonal extends JDialog {
 						String cedula = txtFCedulaP.getText();
 						String nombre = txtNombreCompleto.getText();
 						Date fechaNacimiento = dcFechaNacimiento.getDate();
-						
-						if (!BolsaTrabajo.getInstance().getPersonalByID(cedula).isEmpty()) {
-							JOptionPane.showMessageDialog(null, "Ya existe una persona con esa cédula registrada.", null,
-									JOptionPane.ERROR_MESSAGE);
-							return;
-						}
 
 						if (Utils.yearsBetween(fechaNacimiento) < 18) {
 							JOptionPane.showMessageDialog(null, "Ingrese una edad mayor o igual a 18.", null,
@@ -542,6 +536,11 @@ public class RegPersonal extends JDialog {
 						}
 
 						if (personal != null) {
+							if (!BolsaTrabajo.getInstance().getPersonalByID(cedula).isEmpty()) {
+								JOptionPane.showMessageDialog(null, "Ya existe una persona con esa cédula registrada.", null,
+										JOptionPane.ERROR_MESSAGE);
+								return;
+							}
 							Personal personalToEdit = BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0);
 
 							personalToEdit.setEsCasado(auxPersonal.isEsCasado());
@@ -565,7 +564,7 @@ public class RegPersonal extends JDialog {
 							RegSolPersonal nuevaSolicitudEmpleado = new RegSolPersonal(auxPersonal, null, false);
 							nuevaSolicitudEmpleado.setVisible(true);
 						} else {
-							JOptionPane.showMessageDialog(null, "Modificado correctamente.", "Confirmaci\u00f3n",
+							JOptionPane.showMessageDialog(null, "Modificación exitosa.", "Confirmaci\u00f3n",
 									JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 						}
