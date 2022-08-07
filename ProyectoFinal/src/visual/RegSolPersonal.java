@@ -495,7 +495,7 @@ public class RegSolPersonal extends JDialog {
 									return;
 								}
 
-								if (JOptionPane.showConfirmDialog(null, "La solicitud se agreg\u00f3 correctamente.\n�Quiere hacer otra solicitud?", "Informaci\u00f3n",
+								if (JOptionPane.showConfirmDialog(null, "La solicitud se agreg\u00f3 correctamente.\n\u00bfQuiere hacer otra solicitud?", "Informaci\u00f3n",
 										JOptionPane.YES_NO_OPTION) == 1)
 									dispose();
 

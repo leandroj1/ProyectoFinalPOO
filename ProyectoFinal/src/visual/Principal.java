@@ -91,7 +91,9 @@ public class Principal extends JFrame {
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("Listar Personal");
 		mntmNewMenuItem_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
+				ListarPersonal listarPersonal = new ListarPersonal();
+				listarPersonal.setModal(true);
+				listarPersonal.setVisible(true);
 			}
 		});
 		mnNewMenu_1.add(mntmNewMenuItem_3);
@@ -130,6 +132,13 @@ public class Principal extends JFrame {
 		mnNewMenu_2.add(mntmNewMenuItem_4);
 		
 		JMenuItem mntmNewMenuItem_5 = new JMenuItem("Listado de Solicitudes de Personal");
+		mntmNewMenuItem_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ListadoSolicitudesPersonal listadoSolicitudesPersonal = new ListadoSolicitudesPersonal(null);
+				listadoSolicitudesPersonal.setModal(true);
+				listadoSolicitudesPersonal.setVisible(true);
+			}
+		});
 		mnNewMenu_2.add(mntmNewMenuItem_5);
 		
 		JMenu mnNewMenu_4 = new JMenu("Reportes");

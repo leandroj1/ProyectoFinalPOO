@@ -10,6 +10,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
+import ficheros.UtilsFicheros;
 import logico.*;
 
 import javax.swing.JScrollPane;
@@ -37,23 +38,11 @@ public class ListarPersonal extends JDialog {
 	private JButton btnModificar;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ListarPersonal dialog = new ListarPersonal();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ListarPersonal() {
 		setTitle("Listado de personal");
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		// TODO: agregar tipo de personal
 		final String[] headers = { "Cedula", "Nombre", "Tipo", "Edad", "Nacionalidad", "Sexo", "Cantidad Solicitudes" };
 		
@@ -134,7 +123,7 @@ public class ListarPersonal extends JDialog {
 			txtCedula.setColumns(10);
 
 			JButton btnFilter = new JButton("Filtrar datos");
-			btnFilter.setBounds(505, 19, 138, 23);
+			btnFilter.setBounds(505, 19, 185, 23);
 			panelFilter.add(btnFilter);
 
 			JButton btnReset = new JButton("Limpiar Filtro");
@@ -146,7 +135,7 @@ public class ListarPersonal extends JDialog {
 				}
 			});
 			btnReset.setEnabled(false);
-			btnReset.setBounds(693, 19, 162, 23);
+			btnReset.setBounds(700, 19, 169, 23);
 			panelFilter.add(btnReset);
 
 			btnFilter.addActionListener(new ActionListener() {
@@ -187,13 +176,15 @@ public class ListarPersonal extends JDialog {
 			buttonPane.add(btnCancelar);
 		}
 
-		btnVerSolicitudesPendientes = new JButton("Ver solicitudes pendientes");
+		btnVerSolicitudesPendientes = new JButton("Ver solicitudes");
 		btnVerSolicitudesPendientes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (selectedPersonal != null) {
 					ListadoSolicitudesPersonal listadoPersonal = new ListadoSolicitudesPersonal(selectedPersonal);
-					listadoPersonal.setTitle("Personal");
+					listadoPersonal.setTitle("Listado de solicitudes de " + selectedPersonal.getNombre());
+					listadoPersonal.setModal(true);
 					listadoPersonal.setVisible(true);
+					
 					setButtonsState(false);
 					selectedPersonal = null;
 				}

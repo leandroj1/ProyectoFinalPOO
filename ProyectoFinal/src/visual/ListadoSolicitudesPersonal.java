@@ -10,6 +10,7 @@ import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
 import enums.EstadoSolicitudPersonal;
+import ficheros.UtilsFicheros;
 import enums.EstadoSolicitudPersonal;
 import logico.BolsaTrabajo;
 import logico.Personal;
@@ -45,19 +46,6 @@ public class ListadoSolicitudesPersonal extends JDialog {
 	private SolicitudPersonal selectedSolicitud = null;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ListadoSolicitudesPersonal dialog = new ListadoSolicitudesPersonal(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ListadoSolicitudesPersonal(Personal personal) {
@@ -72,6 +60,7 @@ public class ListadoSolicitudesPersonal extends JDialog {
 		}
 
 		setResizable(false);
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setBounds(100, 100, 1107, 570);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(null);
@@ -139,7 +128,7 @@ public class ListadoSolicitudesPersonal extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					// Si es mayor que 12, no es un ID valido
 					String id = txtIDSolicitud.getText().toUpperCase();
-					if (!id.startsWith("SE") || id.length() > 12) {
+					if (!id.startsWith("SP") || id.length() > 12) {
 						JOptionPane.showMessageDialog(null,
 								"Ingrese un ID v\u00e1lido para poder filtrar las solicitudes.", "Error",
 								JOptionPane.ERROR_MESSAGE);
@@ -214,7 +203,7 @@ public class ListadoSolicitudesPersonal extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				if (selectedSolicitud != null) {
 					int option = JOptionPane.showConfirmDialog(null,
-							"�Desea anular la solicitud de c\u00f3digo " + selectedSolicitud.getId()
+							"\u00BFDesea anular la solicitud de c\u00f3digo " + selectedSolicitud.getId()
 									+ "? Se desemplearan los candidatos asociados.",
 							"Confirmaci\u00f3n", JOptionPane.WARNING_MESSAGE);
 
