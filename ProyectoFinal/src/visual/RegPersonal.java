@@ -739,12 +739,12 @@ public class RegPersonal extends JDialog {
 
 	public static void desactivado() {
 		Utils.desactivarPanel(pnGeneral);
-		Utils.desactivarPanel(pnIdiomas);
 		Utils.desactivarPanel(pnUbicacion);
 		Utils.desactivarPanel(pnTipoPersonal);
 		Utils.desactivarPanel(pnUniversitario);
 		Utils.desactivarPanel(pnObrero);
 		Utils.desactivarPanel(pnTecnico);
+		Utils.desactivarPanel(pnIdiomas);
 	}
 
 	public void loadPersonal(Personal personalAux) {

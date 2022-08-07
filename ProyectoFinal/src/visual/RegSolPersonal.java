@@ -527,10 +527,10 @@ public class RegSolPersonal extends JDialog {
 	private void loadSolPersonal(SolicitudPersonal solPersonal, boolean editing) {
 		btnCancelar.setEnabled(true);
 		txtFCedulaP.setText(solPersonal.getCedulaPersonal());
-		txtFCedulaP.setEnabled(!editing);
+		txtFCedulaP.setEditable(!editing);
 		txtCode.setText(solPersonal.getId());
 		txtPDescripcion.setText(solPersonal.getDescripcion());
-		txtPDescripcion.setEnabled(editing);
+		txtPDescripcion.setEditable(editing);
 		spnSalarioEsp.setValue(solPersonal.getSalarioEsperado());
 		spnAgnosExp.setValue(solPersonal.getAgnosExperiencia());
 		for (int index = 0; cbxUniversidad.getItemCount() > index; index++)
@@ -587,7 +587,7 @@ public class RegSolPersonal extends JDialog {
 			emptyFields.add("C\u00e9dula");
 		if (Utils.getSpinnerFloatValue(spnSalarioEsp) <= 0)
 			emptyFields.add("Salario Esperado");
-		if (((String) cbxModalidad.getSelectedItem()).isEmpty())
+		if (cbxModalidad.getSelectedIndex() <= 0)
 			emptyFields.add("Modalidad de trabajo");
 		if (txtPDescripcion.getText().trim().isEmpty())
 			emptyFields.add("Descripci\u00f3n");

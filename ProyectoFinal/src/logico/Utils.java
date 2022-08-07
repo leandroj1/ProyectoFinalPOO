@@ -14,11 +14,13 @@ import java.util.regex.Pattern;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
-
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.text.MaskFormatter;
 
@@ -150,9 +152,23 @@ public class Utils {
 
 	public static void desactivarPanel(JPanel panel) {
 		for (Component component : panel.getComponents()) {
-			if ((!(component instanceof JPanel) && !(component instanceof JLabel))
-					|| component instanceof JDateChooser || component instanceof JTextPane) {
-				component.setEnabled(false);
+			if (component instanceof JTextField) {
+				((JTextField) component).setEditable(false);
+			} else if (component instanceof JDateChooser) {
+				((JDateChooser) component).setEnabled(false);
+			} else if (component instanceof JSpinner) {
+				((JSpinner) component).setEnabled(false);
+				makeSpinnerMoreReadable((JSpinner) component);
+			} else if (component instanceof JTextPane) {
+				((JTextPane) component).setEditable(false);
+			} else if (component instanceof Checkbox) {
+				((Checkbox) component).setEnabled(false);
+			} else if (component instanceof JCheckBox) {
+				((JCheckBox) component).setEnabled(false);
+			} else if (component instanceof JRadioButton) {
+				((JRadioButton) component).setEnabled(false);
+			} else if (component instanceof JComboBox) {
+				((JComboBox) component).setEnabled(false);
 			}
 		}
 	}
@@ -169,7 +185,8 @@ public class Utils {
 	public static void activarCheckboxEnPanel(JPanel panel, ArrayList<String> itemsList) {
 		for (Component component : panel.getComponents()) {
 			if (component instanceof Checkbox && itemsList.contains((((Checkbox) component).getLabel()))) {
-				((Checkbox) component).setState(true);;
+				((Checkbox) component).setState(true);
+				;
 			}
 		}
 	}
