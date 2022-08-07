@@ -589,8 +589,6 @@ public class RegSolPersonal extends JDialog {
 			emptyFields.add("C\u00e9dula");
 		if (Utils.getSpinnerFloatValue(spnSalarioEsp) <= 0)
 			emptyFields.add("Salario Esperado");
-		if (Utils.getSpinnerIntValue(spnAgnosExp) <= 0)
-			emptyFields.add("A�os de experiencia");
 		if (((String) cbxModalidad.getSelectedItem()).isEmpty())
 			emptyFields.add("Modalidad de trabajo");
 		if (txtPDescripcion.getText().trim().isEmpty())
