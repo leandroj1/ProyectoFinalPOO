@@ -182,7 +182,7 @@ public class ManejoDeCandidatos extends JDialog {
 								cargarDatosSolicitud(solicitudLoaded);
 
 								if(solicitudLoaded.getEstado() == EstadoSolicitudEmpresa.SATISFECHA) {
-									rdbtnContratacion.setSelected(true);
+//									rdbtnContratacion.setSelected(true);
 									cambiarAccionVentana(false);
 								}
 
@@ -523,6 +523,11 @@ public class ManejoDeCandidatos extends JDialog {
 			txtRNCEmpresa.setText(empresa.getRNC());
 			txtNombreComercial.setText(empresa.getNombreComercial());
 			txtTipodeEmpresa.setText(empresa.getTipo());
+		}
+		
+		// Cambiar a desemplear si la solicitud esta satisfecha
+		if(this.solicitudLoaded.getCedulasPersonasContratadas().size() == this.solicitudLoaded.getCantidadPlazasNecesarias()) {
+			rdbtnDesemplear.doClick();
 		}
 	}
 
