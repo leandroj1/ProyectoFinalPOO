@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import customs.NonEditableTable;
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Usuario;
 
@@ -33,22 +35,10 @@ public class ListarUsuarios extends JDialog {
 	private JCheckBox ckSoloAdmin;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ListarUsuarios dialog = new ListarUsuarios();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ListarUsuarios() {
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setBounds(100, 100, 447, 337);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -60,14 +50,14 @@ public class ListarUsuarios extends JDialog {
 		scrollPane.setBounds(6, 69, 435, 195);
 		contentPanel.add(scrollPane);
 
-		table = new JTable();
-		String[] headers = { "Nombre Usuario", "Es admin" };
+		table = new NonEditableTable();
+		String[] headers = { "Nombre de usuario", "Es administrador?" };
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(headers);
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 
-		JLabel lblNombreUsuario = new JLabel("Nombre de Usuario:");
+		JLabel lblNombreUsuario = new JLabel("Nombre de usuario:");
 		lblNombreUsuario.setBounds(6, 6, 133, 16);
 		contentPanel.add(lblNombreUsuario);
 
@@ -82,7 +72,7 @@ public class ListarUsuarios extends JDialog {
 		contentPanel.add(txtNombreUsuario);
 		txtNombreUsuario.setColumns(10);
 
-		ckSoloAdmin = new JCheckBox("Solo admin");
+		ckSoloAdmin = new JCheckBox("Solo administradores");
 		ckSoloAdmin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
 				loadTableContent();
@@ -95,11 +85,12 @@ public class ListarUsuarios extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Cambiar Contraseña");
+				JButton okButton = new JButton("Cambiar Contrase\u00f1a");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						Usuario currUsuario = BolsaTrabajo.getInstance().getUsuario((String) table.getModel().getValueAt(table.getSelectedRow(), 0));
 						CambiarContrasegna cambiarContrasegna = new CambiarContrasegna(currUsuario);
+						cambiarContrasegna.setVisible(true);
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -127,7 +118,7 @@ public class ListarUsuarios extends JDialog {
 		for (Usuario usuario : BolsaTrabajo.getInstance().getUsuarios(txtNombreUsuario.getText())) {
 			if ((ckSoloAdmin.isSelected() && usuario.esAdmin()) || !ckSoloAdmin.isSelected()) {
 				row[0] = usuario.getNombreUsuario();
-				row[1] = usuario.esAdmin();
+				row[1] = usuario.esAdmin() ? "S\u00ed" : "No";
 				model.addRow(row);				
 			}
 		}

@@ -1,6 +1,10 @@
 package logico;
 
-public class Usuario {
+import java.io.Serializable;
+
+public class Usuario implements Serializable {
+	private static final long serialVersionUID = 2092253970161310810L;
+
 	public Usuario(String nombreUsuario, String contrasegna, boolean esAdmin) {
 		super();
 		this.nombreUsuario = nombreUsuario;

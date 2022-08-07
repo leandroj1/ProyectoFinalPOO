@@ -63,19 +63,6 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 	private JLabel lblPorcentajeMatch;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			PropiedadesCumplidasPersonal dialog = new PropiedadesCumplidasPersonal(null, null, null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public PropiedadesCumplidasPersonal(Personal personal, SolicitudPersonal solicitudPersonal, SolicitudEmpresa solicitudEmpresa) {

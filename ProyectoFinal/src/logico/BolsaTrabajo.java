@@ -28,7 +28,8 @@ public class BolsaTrabajo implements Serializable {
 	private ArrayList<SolicitudEmpresa> solicitudesEmpresa;
 	private ArrayList<SolicitudPersonal> solicitudesPersonal;
 	private ArrayList<Usuario> usuarios;
-
+	private Usuario loggedUsuario;
+	
 	// Propiedades del reporte
 	private int cantPersonalUni = 0;
 	private int cantPersonalTecnico = 0;
@@ -437,5 +438,13 @@ public class BolsaTrabajo implements Serializable {
 
 	public int getCantidadHombresContratados() {
 		return cantPersonalMasc;
+	}
+
+	public Usuario getLoggedUsuario() {
+		return loggedUsuario;
+	}
+
+	public void setLoggedUsuario(Usuario loggedUsuario) {
+		this.loggedUsuario = loggedUsuario;
 	}
 }

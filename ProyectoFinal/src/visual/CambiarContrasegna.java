@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Usuario;
 
@@ -26,22 +27,10 @@ public class CambiarContrasegna extends JDialog {
 	private JPasswordField psConfirmacionContrasegna;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			CambiarContrasegna dialog = new CambiarContrasegna(BolsaTrabajo.getInstance().getUsuario("admin"));
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public CambiarContrasegna(Usuario usuario) {
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setBounds(100, 100, 478, 276);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

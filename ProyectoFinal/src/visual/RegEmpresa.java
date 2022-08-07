@@ -47,19 +47,6 @@ public class RegEmpresa extends JDialog {
 	private Empresa auxEmpresa = null;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			RegEmpresa dialog = new RegEmpresa(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public RegEmpresa(Empresa empresa) {	

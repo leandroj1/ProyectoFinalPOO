@@ -92,19 +92,6 @@ public class RegPersonal extends JDialog {
 	private ButtonGroup oficiosGroup;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			RegPersonal dialog = new RegPersonal(null); // pasar null, donde se que no edito un personal le paso null.
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */ // Pasar clientes
 	public RegPersonal(Personal personal) {

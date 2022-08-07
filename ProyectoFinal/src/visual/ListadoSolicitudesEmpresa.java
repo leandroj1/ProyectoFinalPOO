@@ -43,19 +43,6 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 	private SolicitudEmpresa selectedSolicitud = null;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ListadoSolicitudesEmpresa dialog = new ListadoSolicitudesEmpresa(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ListadoSolicitudesEmpresa(Empresa empresa) {

@@ -78,19 +78,6 @@ public class RegSolPersonal extends JDialog {
 	private JTextPane txtPDescripcion;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			RegSolPersonal dialog = new RegSolPersonal(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public RegSolPersonal(Personal personal) {

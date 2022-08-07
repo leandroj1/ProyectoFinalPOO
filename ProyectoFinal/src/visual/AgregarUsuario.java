@@ -8,6 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Usuario;
 
@@ -27,22 +28,15 @@ public class AgregarUsuario extends JDialog {
 	private JPasswordField psConfirmarContrasegna;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			AgregarUsuario dialog = new AgregarUsuario(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public AgregarUsuario(Usuario usuario) {
+		if(usuario != null)
+			setTitle("Modificar datos de " + usuario.getNombreUsuario());
+		else
+			setTitle("Agregar usuario");
+
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setBounds(100, 100, 421, 272);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -54,7 +48,7 @@ public class AgregarUsuario extends JDialog {
 		lblNombreUsuario.setBounds(32, 31, 159, 16);
 		contentPanel.add(lblNombreUsuario);
 
-		JLabel lblContrasegna = new JLabel("Contraseña:");
+		JLabel lblContrasegna = new JLabel("Contrase\u00f1a:");
 		lblContrasegna.setBounds(32, 74, 159, 16);
 		contentPanel.add(lblContrasegna);
 
@@ -68,7 +62,7 @@ public class AgregarUsuario extends JDialog {
 		txtNombreUsuario.setBounds(211, 26, 178, 26);
 		contentPanel.add(txtNombreUsuario);
 
-		JLabel lblConfirmarContrasea = new JLabel("Confirmar contraseña:");
+		JLabel lblConfirmarContrasea = new JLabel("Confirmar contrase\u00f1a:");
 		lblConfirmarContrasea.setBounds(32, 115, 159, 16);
 		contentPanel.add(lblConfirmarContrasea);
 
@@ -102,7 +96,7 @@ public class AgregarUsuario extends JDialog {
 							JOptionPane.showMessageDialog(null, "Las contrase\u00f1as no coinciden");
 							return;
 						}
-						
+
 						Usuario usuario = new Usuario(nombreUsuario, contrasegna, esAdmin);
 						BolsaTrabajo.getInstance().agregarUsuario(usuario);
 

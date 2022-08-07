@@ -5,10 +5,13 @@ import java.awt.FlowLayout;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
+import logico.Usuario;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -28,9 +31,20 @@ public class Login extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			Login dialog = new Login();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
+			UtilsFicheros.loadBolsaTrabajoSaved();
+			
+			// Si esta null, es que nunca se ha ingresado al sistema
+			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
+			if(bolsaTrabajo.getLoggedUsuario() == null) {
+				bolsaTrabajo.setLoggedUsuario(bolsaTrabajo.getUsuario("admin"));
+				Principal principal = new Principal();
+				principal.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				principal.setVisible(true);
+			}else {
+				Login dialog = new Login();
+				dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+				dialog.setVisible(true);				
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -40,6 +54,8 @@ public class Login extends JDialog {
 	 * Create the dialog.
 	 */
 	public Login() {
+		setTitle("Login");
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setBounds(100, 100, 349, 195);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
@@ -56,7 +72,7 @@ public class Login extends JDialog {
 		contentPanel.add(txtNombreUsuario);
 		txtNombreUsuario.setColumns(10);
 
-		JLabel lblContrasegna = new JLabel("Contraseña:");
+		JLabel lblContrasegna = new JLabel("Contrase\u00f1a:");
 		lblContrasegna.setBounds(20, 73, 130, 16);
 		contentPanel.add(lblContrasegna);
 		
@@ -69,16 +85,17 @@ public class Login extends JDialog {
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
-				JButton okButton = new JButton("Login");
+				JButton okButton = new JButton("Ingresar");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						String nombreUsuario = txtNombreUsuario.getText();
 						String contrasegna = String.valueOf(psContrasegna.getPassword());
 
 						if (BolsaTrabajo.getInstance().authUsuario(nombreUsuario, contrasegna)) {
-							Principal principal = new Principal(
-									BolsaTrabajo.getInstance().getUsuarios(nombreUsuario).get(0));
+							Usuario user = BolsaTrabajo.getInstance().getUsuarios(nombreUsuario).get(0);
+							Principal principal = new Principal();
 							setVisible(false);
+							BolsaTrabajo.getInstance().setLoggedUsuario(user);
 							principal.setVisible(true);
 						} else
 							JOptionPane.showMessageDialog(null, "El usuario o la contrase\u00f1a son incorrectos", null,
@@ -90,7 +107,7 @@ public class Login extends JDialog {
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
+				JButton cancelButton = new JButton("Cancelar");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						dispose();
