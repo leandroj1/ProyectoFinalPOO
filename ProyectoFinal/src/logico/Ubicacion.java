@@ -1,6 +1,10 @@
 package logico;
 
-public class Ubicacion {
+import java.io.Serializable;
+
+public class Ubicacion implements Serializable{
+	private static final long serialVersionUID = -8960382266940180292L;
+
 	public Ubicacion(String pais, String provincia, String ciudad, String direccion) {
 		super();
 		this.pais = pais;

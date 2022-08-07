@@ -32,6 +32,9 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
+
+import ficheros.UtilsFicheros;
+
 import javax.swing.event.ChangeEvent;
 
 public class RegSolEmpresa extends JDialog {
@@ -125,7 +128,7 @@ public class RegSolEmpresa extends JDialog {
 			this.selectedEmpresa = getDatosEmpresa(this.solicitudLoaded.getRNCEmpresa());
 			setTitle((this.isForModify ? "Modificar " : "Ver detalles de ") + "la solicitud " + solicitud.getId());
 		}
-
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setResizable(false);
 		setModal(true);
 		setBounds(100, 100, 748, 699);
