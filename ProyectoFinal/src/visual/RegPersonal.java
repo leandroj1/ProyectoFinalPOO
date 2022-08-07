@@ -106,7 +106,8 @@ public class RegPersonal extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegPersonal dialog = new RegPersonal(null, false); // pasar null, donde se que no edito un personal le paso null.
+			RegPersonal dialog = new RegPersonal(null, false); // pasar null, donde se que no edito un personal le paso
+																// null.
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -182,7 +183,7 @@ public class RegPersonal extends JDialog {
 				// Avoid writing in date chooser
 				((JTextFieldDateEditor) dcFechaNacimiento.getDateEditor()).setEditable(false);
 				dcFechaNacimiento.getCalendarButton().setEnabled(true);
-				
+
 				dcFechaNacimiento.setBounds(29, 92, 183, 20);
 				pnGeneral.add(dcFechaNacimiento);
 				{
@@ -560,59 +561,12 @@ public class RegPersonal extends JDialog {
 							BolsaTrabajo.getInstance().agregarPersonal(auxPersonal);
 
 						// Prevenir abrir la otra ventana si se esta editando
-						if(!editing) {
+						if (!editing) {
 							RegSolPersonal nuevaSolicitudEmpleado = new RegSolPersonal(auxPersonal, null, false);
-							nuevaSolicitudEmpleado.addWindowListener(new WindowListener() {
-								@Override
-								public void windowClosed(WindowEvent e) {
-									// TODO Auto-generated method stub
-									if (JOptionPane.showConfirmDialog(null, "Desea crear otro usuario?", null,
-											JOptionPane.YES_NO_OPTION) == 1)
-										dispose();
-									
-									clear();
-								}
-								
-								@Override
-								public void windowActivated(WindowEvent e) {
-									// TODO Auto-generated method stub
-									
-								}
-								
-								@Override
-								public void windowOpened(WindowEvent e) {
-									// TODO Auto-generated method stub
-									
-								}
-								
-								@Override
-								public void windowClosing(WindowEvent e) {
-									// TODO Auto-generated method stub
-									
-								}
-								
-								@Override
-								public void windowIconified(WindowEvent e) {
-									// TODO Auto-generated method stub
-									
-								}
-								
-								@Override
-								public void windowDeiconified(WindowEvent e) {
-									// TODO Auto-generated method stub
-									
-								}
-								
-								@Override
-								public void windowDeactivated(WindowEvent e) {
-									// TODO Auto-generated method stub
-									
-								}
-							});
 							nuevaSolicitudEmpleado.setVisible(true);
-						}
-						else {
-							JOptionPane.showMessageDialog(null, "Modificado correctamente.", "Confirmaci\u00f3n", JOptionPane.INFORMATION_MESSAGE);
+						} else {
+							JOptionPane.showMessageDialog(null, "Modificado correctamente.", "Confirmaci\u00f3n",
+									JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 						}
 					}
@@ -639,7 +593,7 @@ public class RegPersonal extends JDialog {
 
 		if (personal != null)
 			loadPersonal(personal);
-		
+
 		if (editing) {
 			dcFechaNacimiento.setEnabled(false);
 			Utils.desactivarPanel(pnTipoPersonal);
