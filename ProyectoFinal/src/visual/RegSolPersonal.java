@@ -81,19 +81,6 @@ public class RegSolPersonal extends JDialog {
 	private JButton btnSolicitar;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			RegSolPersonal dialog = new RegSolPersonal(null, null, false);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public RegSolPersonal(Personal personal, SolicitudPersonal solPersonal, boolean editing) {
