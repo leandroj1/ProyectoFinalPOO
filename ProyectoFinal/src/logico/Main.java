@@ -8,5 +8,6 @@ public class Main {
 		// TODO Auto-generated method stub
 		BolsaTrabajo.getInstance();
 		Login login = new Login();
+		login.setVisible(true);
 	}
 }
