@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import logico.BolsaTrabajo;
 import logico.Usuario;
+import ficheros.UtilsFicheros;
 
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -28,6 +29,7 @@ public class Principal extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
+					UtilsFicheros.loadBolsaTrabajoSaved();
 					Principal frame = new Principal(BolsaTrabajo.getInstance().getUsuarios("admin").get(0));
 					frame.setVisible(true);
 				} catch (Exception e) {
@@ -41,6 +43,7 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal(Usuario usuario) {
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setTitle("Bolsa de Trabajo BJL");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);

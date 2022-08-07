@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 import customs.NonEditableTable;
 import enums.EstadoSolicitudEmpresa;
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.SolicitudEmpresa;
@@ -75,7 +76,7 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 			selectedEmpresa = empresa;
 			setTitle("Listado de solicitudes de " + empresa.getNombreComercial() + " (" + empresa.getRNC() + ")");
 		}
-
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setResizable(false);
 		setBounds(100, 100, 1107, 570);
 		setLocationRelativeTo(null);

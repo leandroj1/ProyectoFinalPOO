@@ -18,6 +18,7 @@ import javax.swing.text.MaskFormatter;
 
 import customs.CheckBoxsEditableTable;
 import enums.EstadoSolicitudEmpresa;
+import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
 import logico.Empresa;
 import logico.Personal;
@@ -117,7 +118,7 @@ public class ManejoDeCandidatos extends JDialog {
 			setTitle("Manejo de candidatos de " + solicitudLoaded.getId());			
 		}
 		titledBorder = new TitledBorder(null, "Candidatos al empleo", TitledBorder.LEADING, TitledBorder.TOP, null, null);
-
+		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		setBounds(100, 100, 953, 675);
 		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());

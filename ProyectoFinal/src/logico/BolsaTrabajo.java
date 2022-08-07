@@ -1,5 +1,6 @@
 package logico;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +9,9 @@ import java.util.stream.Collectors;
 import enums.EstadoSolicitudEmpresa;
 import enums.EstadoSolicitudPersonal;
 
-public class BolsaTrabajo {
+public class BolsaTrabajo implements Serializable {
+	private static final long serialVersionUID = 618691540262182348L;
+
 	private BolsaTrabajo() {
 		super();
 		this.personal = new ArrayList<Personal>();
@@ -26,12 +29,12 @@ public class BolsaTrabajo {
 	private ArrayList<SolicitudPersonal> solicitudesPersonal;
 	private ArrayList<Usuario> usuarios;
 
-//Propiedades del reporte
-	public static int cantPersonalUni = 0;
-	public static int cantPersonalTecnico = 0;
-	public static int cantPersonalObrero = 0;
-	public static int cantPersonalFem = 0;
-	public static int cantPersonalMasc = 0;
+	// Propiedades del reporte
+	private int cantPersonalUni = 0;
+	private int cantPersonalTecnico = 0;
+	private int cantPersonalObrero = 0;
+	private int cantPersonalFem = 0;
+	private int cantPersonalMasc = 0;
 
 	private static BolsaTrabajo instance;
 
@@ -344,6 +347,7 @@ public class BolsaTrabajo {
 				"Educaci\u00F3n", "Hoteler\u00EDa", "Medios de comunicaci\u00F3n", "Miner\u00EDa", "Petrolero",
 				"Telecomunicaciones", "Salud", "Financieros", "P\u00FAblico", "Silvicultura", "Textil",
 				"Tecnol\u00F3gico", "Transporte" };
+
 		Map<String, Integer> data = new HashMap<String, Integer>();
 		for (String key : keys) {
 			data.put(key, Integer.valueOf(0));
@@ -363,10 +367,10 @@ public class BolsaTrabajo {
 		return new ArrayList<Usuario>(usuarios.stream()
 				.filter(usuario -> usuario.getNombreUsuario().contains(nombreUsuario)).collect(Collectors.toList()));
 	}
-	
+
 	public Usuario getUsuario(String nombreUsuario) {
-		return usuarios.stream()
-				.filter(usuario -> usuario.getNombreUsuario().equals(nombreUsuario)).findFirst().orElse(null);
+		return usuarios.stream().filter(usuario -> usuario.getNombreUsuario().equals(nombreUsuario)).findFirst()
+				.orElse(null);
 	}
 
 	public void agregarUsuario(Usuario usuario) {
@@ -378,5 +382,60 @@ public class BolsaTrabajo {
 		ArrayList<Usuario> usuarios = getUsuarios(nombreUsuario);
 
 		return usuarios.size() == 1 && usuarios.get(0).authContrasegna(contrasegna);
+	}
+
+	private static void reloadIds(BolsaTrabajo bolsaTrabajo) {
+		try {
+			// Como estan ingresados en orden, es decir, el primero es el 1 y asi
+			// sucesivamente
+			ArrayList<SolicitudEmpresa> solicitudesEmpresa = bolsaTrabajo.getSolicitudesEmpresaByID("");
+			if (solicitudesEmpresa.size() != 0) {
+				try {
+					// Como empiezan en SE..., se parsea el substring de 2 to end
+					int newGen = Integer
+							.parseInt(solicitudesEmpresa.get(solicitudesEmpresa.size() - 1).getId().substring(2));
+					SolicitudEmpresa.reloadGenId(newGen + 1);
+				} catch (NumberFormatException e) {
+				}
+			}
+
+			ArrayList<SolicitudPersonal> solicitudesPersonal = bolsaTrabajo.getSolicitudesPersonalByID("");
+			if (solicitudesPersonal.size() != 0) {
+				try {
+					// Como empiezan en SP..., se parsea el substring de 2 to end
+					int newGen = Integer
+							.parseInt(solicitudesPersonal.get(solicitudesPersonal.size() - 1).getId().substring(2));
+					SolicitudPersonal.reloadGenId(newGen + 1);
+				} catch (NumberFormatException e) {
+				}
+			}
+		} catch (Exception e) {
+		}
+	}
+
+	public static void setBolsaTrabajo(BolsaTrabajo bolsaTrabajo) {
+		BolsaTrabajo.instance = bolsaTrabajo;
+		reloadIds(bolsaTrabajo);
+	}
+
+	// Registros historicos
+	public int getCantidadUniversitariosContratados() {
+		return cantPersonalUni;
+	}
+
+	public int getCantidadTecnicosContratados() {
+		return cantPersonalTecnico;
+	}
+
+	public int getCantidadObrerosContratados() {
+		return cantPersonalObrero;
+	}
+
+	public int getCantidadMujeresContratadas() {
+		return cantPersonalFem;
+	}
+
+	public int getCantidadHombresContratados() {
+		return cantPersonalMasc;
 	}
 }
