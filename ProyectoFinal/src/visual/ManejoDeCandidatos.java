@@ -87,19 +87,6 @@ public class ManejoDeCandidatos extends JDialog {
 	private Map<Personal, SolicitudPersonal> dataCandidatos = null;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		try {
-			ManejoDeCandidatos dialog = new ManejoDeCandidatos(null);
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the dialog.
 	 */
 	public ManejoDeCandidatos(SolicitudEmpresa solicitud) {
