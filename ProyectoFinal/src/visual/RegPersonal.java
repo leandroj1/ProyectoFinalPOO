@@ -91,6 +91,7 @@ public class RegPersonal extends JDialog {
 	private JComboBox cbxAreaTecnica;
 
 	private CheckboxGroup idiomasGroup;
+	private ButtonGroup tipoTrabajadorGroup;
 	private ButtonGroup oficiosGroup;
 	private static JPanel pnGeneral;
 	private static JPanel pnIdiomas;
@@ -105,7 +106,7 @@ public class RegPersonal extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			RegPersonal dialog = new RegPersonal(null); // pasar null, donde se que no edito un personal le paso null.
+			RegPersonal dialog = new RegPersonal(null, false); // pasar null, donde se que no edito un personal le paso null.
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -116,7 +117,7 @@ public class RegPersonal extends JDialog {
 	/**
 	 * Create the dialog.
 	 */ // Pasar clientes
-	public RegPersonal(Personal personal) {
+	public RegPersonal(Personal personal, boolean editing) {
 		setResizable(false);
 		setTitle("Registro de Personal");
 
@@ -140,63 +141,6 @@ public class RegPersonal extends JDialog {
 			panel.setLayout(null);
 
 			try {
-
-				pnTecnico = new JPanel();
-				pnTecnico.setVisible(false);
-
-				pnUniversitario = new JPanel();
-				pnUniversitario
-						.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnUniversitario.setBounds(10, 560, 706, 71);
-				panel.add(pnUniversitario);
-				pnUniversitario.setLayout(null);
-
-				JLabel lblUniversidad = new JLabel("Universidad:");
-				lblUniversidad.setBounds(29, 11, 136, 14);
-				pnUniversitario.add(lblUniversidad);
-
-				cbxUniversidad = new JComboBox();
-				cbxUniversidad.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>", "PUCMM", "UTESA", "O&M",
-						"UASD", "INTEC", "APEC", "UAPA", "UNPHU", "UNIBE", "UNEV", "UCDEP", "UNAPEC", "UCSD" }));
-				cbxUniversidad.setBounds(29, 36, 193, 20);
-				pnUniversitario.add(cbxUniversidad);
-
-				JLabel lblCarrera = new JLabel("Carrera:");
-				lblCarrera.setBounds(336, 11, 136, 14);
-				pnUniversitario.add(lblCarrera);
-
-				cbxCarrera = new JComboBox();
-				cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
-						"Direcci\u00F3n Empresarial", "Administraci\u00F3n Hotelera", "Arquitectura",
-						"Comunicaci\u00F3n Social", "Derecho", "Dise\u00F1o e Interiorismo", "Econom\u00EDa",
-						"Educaci\u00F3n", "Estomatolog\u00EDa", "Filosof\u00EDa",
-						"Gesti\u00F3n Financiera y Auditor\u00EDa", "Ingenier\u00EDa Civil",
-						"Ingenier\u00EDa Mec\u00E1nica", "Ingenier\u00EDa El\u00E9ctrica",
-						"Ingenier\u00EDa Industrial y de Sistemas", "Ingenier\u00EDa en Mecatr\u00F3nica",
-						"Ingenier\u00EDa de Ciencias de la Computaci\u00F3n", "Ingenier\u00EDa Telem\u00E1tica",
-						"Ingenier\u00EDa Ambiental", "Medicina", "Marketing", "Nutrici\u00F3n y Diet\u00E9tica",
-						"Psicolog\u00EDa", "Terapia F\u00EDsica", "Trabajo Social", "Hospitalidad y Turismo" }));
-				cbxCarrera.setBounds(336, 36, 273, 20);
-				pnUniversitario.add(cbxCarrera);
-				pnTecnico.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnTecnico.setBounds(10, 560, 706, 71);
-				panel.add(pnTecnico);
-				pnTecnico.setLayout(null);
-
-				JLabel lblreaTcnica = new JLabel("\u00C1rea T\u00E9cnica:");
-				lblreaTcnica.setBounds(29, 15, 265, 14);
-				pnTecnico.add(lblreaTcnica);
-
-				cbxAreaTecnica = new JComboBox();
-				cbxAreaTecnica.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
-						"Administraci\u00F3n de Micro, Peque\u00F1as y Medianas Empresas", "Artes Culinarias",
-						"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
-						"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
-						"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
-						"Programaci\u00F3n Web" }));
-
-				cbxAreaTecnica.setBounds(29, 40, 273, 20);
-				pnTecnico.add(cbxAreaTecnica);
 
 				pnGeneral = new JPanel();
 				pnGeneral.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -293,56 +237,6 @@ public class RegPersonal extends JDialog {
 				chckbxCasado.setHorizontalTextPosition(SwingConstants.RIGHT);
 				chckbxCasado.setBounds(363, 190, 128, 23);
 				pnGeneral.add(chckbxCasado);
-				pnObrero = new JPanel();
-				pnObrero.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnObrero.setVisible(false);
-				pnObrero.setBounds(10, 560, 706, 71);
-				panel.add(pnObrero);
-				pnObrero.setLayout(null);
-
-				JLabel label = new JLabel("Oficios:");
-				label.setBounds(32, 19, 52, 14);
-				pnObrero.add(label);
-
-				ckFontanero = new Checkbox("Fontanero");
-				ckFontanero.setBounds(97, 11, 95, 22);
-				pnObrero.add(ckFontanero);
-
-				ckSastre = new Checkbox("Sastre");
-				ckSastre.setBounds(97, 39, 95, 22);
-				pnObrero.add(ckSastre);
-
-				ckBarbero = new Checkbox("Barbero");
-				ckBarbero.setBounds(209, 11, 95, 22);
-				pnObrero.add(ckBarbero);
-
-				ckSoldador = new Checkbox("Soldador");
-				ckSoldador.setBounds(209, 39, 95, 22);
-				pnObrero.add(ckSoldador);
-
-				ckCerrajero = new Checkbox("Cerrajero");
-				ckCerrajero.setBounds(319, 10, 95, 22);
-				pnObrero.add(ckCerrajero);
-
-				ckMecanico = new Checkbox("Mec\u00E1nico");
-				ckMecanico.setBounds(319, 39, 95, 22);
-				pnObrero.add(ckMecanico);
-
-				ckPolicia = new Checkbox("Polic\u00EDa");
-				ckPolicia.setBounds(428, 11, 95, 22);
-				pnObrero.add(ckPolicia);
-
-				ckAlbagnil = new Checkbox("Alba\u00F1il");
-				ckAlbagnil.setBounds(428, 40, 95, 22);
-				pnObrero.add(ckAlbagnil);
-
-				ckExterminador = new Checkbox("Exterminador");
-				ckExterminador.setBounds(536, 10, 116, 22);
-				pnObrero.add(ckExterminador);
-
-				ckAgricultor = new Checkbox("Agricultor");
-				ckAgricultor.setBounds(536, 39, 95, 22);
-				pnObrero.add(ckAgricultor);
 
 				pnTipoPersonal = new JPanel();
 				pnTipoPersonal.setBorder(
@@ -351,63 +245,23 @@ public class RegPersonal extends JDialog {
 				panel.add(pnTipoPersonal);
 				pnTipoPersonal.setLayout(null);
 
+				tipoTrabajadorGroup = new ButtonGroup();
+
 				rbUniversitario = new JRadioButton("Universitario");
 				rbUniversitario.setSelected(true);
 				rbUniversitario.setBounds(29, 30, 138, 23);
+				tipoTrabajadorGroup.add(rbUniversitario);
 				pnTipoPersonal.add(rbUniversitario);
 
 				rbTecnico = new JRadioButton("T\u00E9cnico");
 				rbTecnico.setBounds(267, 30, 109, 23);
 				pnTipoPersonal.add(rbTecnico);
+				tipoTrabajadorGroup.add(rbTecnico);
 
 				rbObrero = new JRadioButton("Obrero");
 				rbObrero.setBounds(505, 30, 109, 23);
 				pnTipoPersonal.add(rbObrero);
-
-				pnUniversitario = new JPanel();
-				pnUniversitario
-						.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnUniversitario.setBounds(10, 560, 706, 71);
-				panel.add(pnUniversitario);
-				pnUniversitario.setLayout(null);
-
-				cbxUniversidad = new JComboBox();
-				cbxUniversidad.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>", "PUCMM", "UTESA", "O&M",
-						"UASD", "INTEC", "APEC", "UAPA", "UNPHU", "UNIBE", "UNEV", "UCDEP", "UNAPEC", "UCSD" }));
-				cbxUniversidad.setBounds(29, 36, 193, 20);
-				pnUniversitario.add(cbxUniversidad);
-
-				cbxCarrera = new JComboBox();
-				cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
-						"Direcci\u00F3n Empresarial", "Administraci\u00F3n Hotelera", "Arquitectura",
-						"Comunicaci\u00F3n Social", "Derecho", "Dise\u00F1o e Interiorismo", "Econom\u00EDa",
-						"Educaci\u00F3n", "Estomatolog\u00EDa", "Filosof\u00EDa",
-						"Gesti\u00F3n Financiera y Auditor\u00EDa", "Ingenier\u00EDa Civil",
-						"Ingenier\u00EDa Mec\u00E1nica", "Ingenier\u00EDa El\u00E9ctrica",
-						"Ingenier\u00EDa Industrial y de Sistemas", "Ingenier\u00EDa en Mecatr\u00F3nica",
-						"Ingenier\u00EDa de Ciencias de la Computaci\u00F3n", "Ingenier\u00EDa Telem\u00E1tica",
-						"Ingenier\u00EDa Ambiental", "Medicina", "Marketing", "Nutrici\u00F3n y Diet\u00E9tica",
-						"Psicolog\u00EDa", "Terapia F\u00EDsica", "Trabajo Social", "Hospitalidad y Turismo" }));
-				cbxCarrera.setBounds(336, 36, 273, 20);
-				pnUniversitario.add(cbxCarrera);
-
-				pnTecnico = new JPanel();
-				pnTecnico.setVisible(false);
-				pnTecnico.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-				pnTecnico.setBounds(10, 560, 706, 71);
-				panel.add(pnTecnico);
-				pnTecnico.setLayout(null);
-
-				cbxAreaTecnica = new JComboBox();
-				cbxAreaTecnica.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
-						"Administraci\u00F3n de Micro, Peque\u00F1as y Medianas Empresas", "Artes Culinarias",
-						"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
-						"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
-						"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
-						"Programaci\u00F3n Web" }));
-
-				cbxAreaTecnica.setBounds(29, 40, 273, 20);
-				pnTecnico.add(cbxAreaTecnica);
+				tipoTrabajadorGroup.add(rbObrero);
 
 				pnUbicacion = new JPanel();
 				pnUbicacion.setBorder(new TitledBorder(null, "Datos de la Ubicaci\u00F3n", TitledBorder.LEADING,
@@ -493,39 +347,134 @@ public class RegPersonal extends JDialog {
 				ckAleman.setBounds(384, 59, 95, 22);
 				pnIdiomas.add(ckAleman);
 
+				pnUniversitario = new JPanel();
+				pnUniversitario
+						.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				pnUniversitario.setBounds(10, 560, 706, 71);
+				panel.add(pnUniversitario);
+				pnUniversitario.setLayout(null);
+
+				JLabel lblUniversidad = new JLabel("Universidad:");
+				lblUniversidad.setBounds(29, 11, 136, 14);
+				pnUniversitario.add(lblUniversidad);
+
+				cbxUniversidad = new JComboBox();
+				cbxUniversidad.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>", "PUCMM", "UTESA", "O&M",
+						"UASD", "INTEC", "APEC", "UAPA", "UNPHU", "UNIBE", "UNEV", "UCDEP", "UNAPEC", "UCSD" }));
+				cbxUniversidad.setBounds(29, 36, 193, 20);
+				pnUniversitario.add(cbxUniversidad);
+
+				JLabel lblCarrera = new JLabel("Carrera:");
+				lblCarrera.setBounds(336, 11, 136, 14);
+				pnUniversitario.add(lblCarrera);
+
+				cbxCarrera = new JComboBox();
+				cbxCarrera.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
+						"Direcci\u00F3n Empresarial", "Administraci\u00F3n Hotelera", "Arquitectura",
+						"Comunicaci\u00F3n Social", "Derecho", "Dise\u00F1o e Interiorismo", "Econom\u00EDa",
+						"Educaci\u00F3n", "Estomatolog\u00EDa", "Filosof\u00EDa",
+						"Gesti\u00F3n Financiera y Auditor\u00EDa", "Ingenier\u00EDa Civil",
+						"Ingenier\u00EDa Mec\u00E1nica", "Ingenier\u00EDa El\u00E9ctrica",
+						"Ingenier\u00EDa Industrial y de Sistemas", "Ingenier\u00EDa en Mecatr\u00F3nica",
+						"Ingenier\u00EDa de Ciencias de la Computaci\u00F3n", "Ingenier\u00EDa Telem\u00E1tica",
+						"Ingenier\u00EDa Ambiental", "Medicina", "Marketing", "Nutrici\u00F3n y Diet\u00E9tica",
+						"Psicolog\u00EDa", "Terapia F\u00EDsica", "Trabajo Social", "Hospitalidad y Turismo" }));
+				cbxCarrera.setBounds(336, 36, 273, 20);
+				pnUniversitario.add(cbxCarrera);
+
+				pnTecnico = new JPanel();
+				pnTecnico.setVisible(false);
+				pnTecnico.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				pnTecnico.setBounds(10, 560, 706, 71);
+				panel.add(pnTecnico);
+				pnTecnico.setLayout(null);
+
+				JLabel lblreaTcnica = new JLabel("\u00C1rea T\u00E9cnica:");
+				lblreaTcnica.setBounds(29, 15, 265, 14);
+				pnTecnico.add(lblreaTcnica);
+
+				cbxAreaTecnica = new JComboBox();
+				cbxAreaTecnica.setModel(new DefaultComboBoxModel(new String[] { "<Seleccione>",
+						"Administraci\u00F3n de Micro, Peque\u00F1as y Medianas Empresas", "Artes Culinarias",
+						"Automatizaci\u00F3n", "Dise\u00F1o Gr\u00E1fico", "Enfermer\u00EDa",
+						"Gesti\u00F3n Social y Comunitaria", "Mercadeo", "Microfinanzas",
+						"Publicidad y Medios Digitales", "Redes de Datos", "Log\u00EDstica Integral",
+						"Programaci\u00F3n Web" }));
+
+				cbxAreaTecnica.setBounds(29, 40, 273, 20);
+				pnTecnico.add(cbxAreaTecnica);
+				pnObrero = new JPanel();
+				pnObrero.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+				pnObrero.setVisible(false);
+				pnObrero.setBounds(10, 560, 706, 71);
+				panel.add(pnObrero);
+				pnObrero.setLayout(null);
+
+				JLabel label = new JLabel("Oficios:");
+				label.setBounds(32, 19, 52, 14);
+				pnObrero.add(label);
+
+				ckFontanero = new Checkbox("Fontanero");
+				ckFontanero.setBounds(97, 11, 95, 22);
+				pnObrero.add(ckFontanero);
+
+				ckSastre = new Checkbox("Sastre");
+				ckSastre.setBounds(97, 39, 95, 22);
+				pnObrero.add(ckSastre);
+
+				ckBarbero = new Checkbox("Barbero");
+				ckBarbero.setBounds(209, 11, 95, 22);
+				pnObrero.add(ckBarbero);
+
+				ckSoldador = new Checkbox("Soldador");
+				ckSoldador.setBounds(209, 39, 95, 22);
+				pnObrero.add(ckSoldador);
+
+				ckCerrajero = new Checkbox("Cerrajero");
+				ckCerrajero.setBounds(319, 10, 95, 22);
+				pnObrero.add(ckCerrajero);
+
+				ckMecanico = new Checkbox("Mec\u00E1nico");
+				ckMecanico.setBounds(319, 39, 95, 22);
+				pnObrero.add(ckMecanico);
+
+				ckPolicia = new Checkbox("Polic\u00EDa");
+				ckPolicia.setBounds(428, 11, 95, 22);
+				pnObrero.add(ckPolicia);
+
+				ckAlbagnil = new Checkbox("Alba\u00F1il");
+				ckAlbagnil.setBounds(428, 40, 95, 22);
+				pnObrero.add(ckAlbagnil);
+
+				ckExterminador = new Checkbox("Exterminador");
+				ckExterminador.setBounds(536, 10, 116, 22);
+				pnObrero.add(ckExterminador);
+
+				ckAgricultor = new Checkbox("Agricultor");
+				ckAgricultor.setBounds(536, 39, 95, 22);
+				pnObrero.add(ckAgricultor);
+
 				rbUniversitario.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (rbUniversitario.isSelected()) {
-							rbObrero.setSelected(false);
-							rbTecnico.setSelected(false);
-							pnObrero.setVisible(false);
-							pnTecnico.setVisible(false);
-							pnUniversitario.setVisible(true);
-						}
+						pnObrero.setVisible(!rbUniversitario.isSelected());
+						pnTecnico.setVisible(!rbUniversitario.isSelected());
+						pnUniversitario.setVisible(rbUniversitario.isSelected());
 					}
 				});
 
 				rbTecnico.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (rbTecnico.isSelected()) {
-							rbObrero.setSelected(false);
-							rbUniversitario.setSelected(false);
-							pnObrero.setVisible(false);
-							pnTecnico.setVisible(true);
-							pnUniversitario.setVisible(false);
-						}
+						pnObrero.setVisible(!rbTecnico.isSelected());
+						pnTecnico.setVisible(rbTecnico.isSelected());
+						pnUniversitario.setVisible(!rbTecnico.isSelected());
 					}
 				});
 
 				rbObrero.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if (rbObrero.isSelected()) {
-							rbTecnico.setSelected(false);
-							rbUniversitario.setSelected(false);
-							pnTecnico.setVisible(false);
-							pnObrero.setVisible(true);
-							pnUniversitario.setVisible(false);
-						}
+						pnObrero.setVisible(rbObrero.isSelected());
+						pnTecnico.setVisible(!rbObrero.isSelected());
+						pnUniversitario.setVisible(!rbObrero.isSelected());
 					}
 				});
 
@@ -682,6 +631,14 @@ public class RegPersonal extends JDialog {
 
 		if (personal != null)
 			loadPersonal(personal);
+		
+		if (editing) {
+			dcFechaNacimiento.setEnabled(false);
+			Utils.desactivarPanel(pnTipoPersonal);
+			Utils.desactivarPanel(pnUniversitario);
+			Utils.desactivarPanel(pnObrero);
+			Utils.desactivarPanel(pnTecnico);
+		}
 	}
 
 	private Date getMinDate() {
@@ -707,7 +664,7 @@ public class RegPersonal extends JDialog {
 		cbxAreaTecnica.setSelectedIndex(0);
 		cbxUniversidad.setSelectedIndex(0);
 		cbxCarrera.setSelectedIndex(0);
-//		idiomasGroup.setSelectedCheckbox(null);
+		idiomasGroup.setSelectedCheckbox(null);
 	}
 
 	private ArrayList<String> getIdiomasSelected() {
@@ -813,11 +770,11 @@ public class RegPersonal extends JDialog {
 	public static void desactivado() {
 		Utils.desactivarPanel(pnGeneral);
 		Utils.desactivarPanel(pnIdiomas);
-		Utils.desactivarPanel(pnObrero);
-		Utils.desactivarPanel(pnTecnico);
+		Utils.desactivarPanel(pnUbicacion);
 		Utils.desactivarPanel(pnTipoPersonal);
 		Utils.desactivarPanel(pnUniversitario);
-		Utils.desactivarPanel(pnUbicacion);
+		Utils.desactivarPanel(pnObrero);
+		Utils.desactivarPanel(pnTecnico);
 	}
 
 	public void loadPersonal(Personal personalAux) {
@@ -847,9 +804,9 @@ public class RegPersonal extends JDialog {
 		} else if (personalAux instanceof Universitario) {
 			rbUniversitario.doClick();
 			cbxUniversidad.setSelectedIndex(
-					Utils.getCbxSelectedIndex(cbxAreaTecnica, ((Universitario) personalAux).getUniversidad()));
+					Utils.getCbxSelectedIndex(cbxUniversidad, ((Universitario) personalAux).getUniversidad()));
 			cbxCarrera.setSelectedIndex(
-					Utils.getCbxSelectedIndex(cbxAreaTecnica, ((Universitario) personalAux).getCarrera()));
+					Utils.getCbxSelectedIndex(cbxCarrera, ((Universitario) personalAux).getCarrera()));
 		} else if (personalAux instanceof Obrero) {
 			rbObrero.doClick();
 			Utils.activarCheckboxEnPanel(pnObrero, ((Obrero) personalAux).getOficios());

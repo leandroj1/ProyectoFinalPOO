@@ -239,7 +239,7 @@ public class ListadoSolicitudesPersonal extends JDialog {
 
 	// Abrir la ventana de registrar solicitud para modificar o ver detalles
 	private void openRegSolicitudPersonal(boolean isForModify) {
-		if (selectedSolicitud != null) {
+		if (selectedSolicitud != null && ((isForModify && selectedSolicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA) || !isForModify)) {
 			RegSolPersonal detalles = new RegSolPersonal(null, selectedSolicitud, isForModify);
 			if (!isForModify)
 				RegSolPersonal.desactivar();
