@@ -29,7 +29,7 @@ public class BolsaTrabajo implements Serializable {
 	private ArrayList<SolicitudPersonal> solicitudesPersonal;
 	private ArrayList<Usuario> usuarios;
 	private Usuario loggedUsuario;
-	
+
 	// Propiedades del reporte
 	private int cantPersonalUni = 0;
 	private int cantPersonalTecnico = 0;
@@ -117,12 +117,12 @@ public class BolsaTrabajo implements Serializable {
 		ArrayList<String> cedulasForAnulacion = solicitud.getCedulasPersonasContratadas();
 		this.personal.forEach(persona -> {
 			if (cedulasForAnulacion.contains(persona.getCedula())) {
-				this.desemplearPersonal(persona, solicitud);
+				this.desemplearPersonal(persona, solicitud, null);
 			}
 		});
 	}
 
-	public void desemplearPersonal(Personal personal, SolicitudEmpresa solicitudEmpresa) {
+	public void desemplearPersonal(Personal personal, SolicitudEmpresa solicitudEmpresa, String idSolicitudDesemplear) {
 		personal.setIdEmpresaContratacion(null);
 		personal.setIdSolicitudPersonalContratacion(null);
 
@@ -130,10 +130,16 @@ public class BolsaTrabajo implements Serializable {
 			if (solicitudPersonal.getEstado() == EstadoSolicitudPersonal.PENDIENTE) {
 				solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
 			}
+
+			if (idSolicitudDesemplear != null) {
+				if(solicitudPersonal.getId().equalsIgnoreCase(idSolicitudDesemplear)) {
+					solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
+				}
+			}
 		});
 
 		solicitudEmpresa.getCedulasPersonasContratadas()
-				.removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
+		.removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
 	}
 
 	public ArrayList<SolicitudPersonal> getActiveSolPersonalByCedula(String cedula) {
@@ -165,8 +171,7 @@ public class BolsaTrabajo implements Serializable {
 					}
 				}
 
-				if (solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA
-						|| solicitud.getEstado() == EstadoSolicitudPersonal.SATISFECHA)
+				if (solicitud.getEstado() == EstadoSolicitudPersonal.ACTIVA)
 					solicitud.setEstado(EstadoSolicitudPersonal.PENDIENTE);
 			});
 			if (persona.getGenero().equalsIgnoreCase("Femenino")) {
@@ -264,7 +269,7 @@ public class BolsaTrabajo implements Serializable {
 	private float getPorcentajeMatchFrom(Personal personalObj, SolicitudPersonal solicitudPersonal,
 			SolicitudEmpresa solicitudEmpresa, int cantidadRequisitos) {
 		float acumulado = 0.0f, cantToSum = 1.0f / cantidadRequisitos;
-		if (personalObj.toString().equalsIgnoreCase(solicitudEmpresa.getTipoPersonalSolicitado())) {
+		if (solicitudPersonal.getTipoPersonal().equalsIgnoreCase(solicitudEmpresa.getTipoPersonalSolicitado())) {
 			// Por ser del mismo tipo
 			acumulado += cantToSum;
 
@@ -321,15 +326,27 @@ public class BolsaTrabajo implements Serializable {
 					if ((person.getIdEmpresaContratacion() == null
 							&& person.getIdSolicitudPersonalContratacion() == null) || getContratadasToo) {
 						person.getSolicitudes().forEach(solicitud -> {
-							// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
-							float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
-									cantidadRequisitos);
+							// Solo considerar la solicitud si esta activa
+							if(solicitud.getEstado() != EstadoSolicitudPersonal.ANULADA) {
+								// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
+								float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
+										cantidadRequisitos);
 
-							if (resultPorcentaje >= porcentajeMatchRequerido) {
-								// Asignar porcentaje de match para no calcularlo de nuevo
-								solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
+								if (resultPorcentaje >= porcentajeMatchRequerido) {
+									// Asignar porcentaje de match para no calcularlo de nuevo
+									solicitud.setPorcentajeMatchAsignado(resultPorcentaje);
 
-								candidatos.put(person, solicitud);
+									// Validar si existe antes
+									try {
+										if(candidatos.containsKey(person)) {
+											if(solicitud.getPorcentajeMatchAsignado() > candidatos.get(person).getPorcentajeMatchAsignado())
+												candidatos.put(person, solicitud);
+										}
+										else {
+											candidatos.put(person, solicitud);											
+										}
+									} catch (Exception e) {}
+								}
 							}
 						});
 					}

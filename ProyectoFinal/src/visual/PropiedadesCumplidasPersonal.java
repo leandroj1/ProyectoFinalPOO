@@ -348,10 +348,10 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 		lblIdiomas.setText(messageIdiomas);
 
 		if(currentSolicitudEmpresa.getTipoPersonalSolicitado().equalsIgnoreCase("obrero")) {
-			ArrayList<String> oficiosDiferentes = getElementosDiferentes(currentSolicitudEmpresa.getIdiomas(), currentPersonal.getIdiomas());
+			ArrayList<String> oficiosDiferentes = getElementosDiferentes(currentSolicitudEmpresa.getOficios(), currentSolicitudPersonal.getOficios());
 			ArrayList<String> oficiosMostrar;
 			String messageOficios = "";
-			if(idiomasDiferentes.size() == 0) {
+			if(oficiosDiferentes.size() == 0) {
 				oficiosMostrar = currentSolicitudPersonal.getOficios();
 				iconOficios.setIcon(icons[0]);
 			}

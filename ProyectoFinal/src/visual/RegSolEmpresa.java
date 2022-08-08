@@ -422,68 +422,6 @@ public class RegSolEmpresa extends JDialog {
 						cbxAreaTecnica.setBounds(22, 36, 273, 20);
 						pnTecnico.add(cbxAreaTecnica);
 					}
-
-					pnObrero = new JPanel();
-					pnObrero.setVisible(false);
-					pnObrero.setLayout(null);
-					pnObrero.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-					pnObrero.setBounds(10, 420, 691, 71);
-					pnRequisitos.add(pnObrero);
-					{
-						JLabel label = new JLabel("Oficios:");
-						label.setBounds(20, 19, 52, 14);
-						pnObrero.add(label);
-					}
-					{
-						ckFontanero = new Checkbox("Fontanero");
-						ckFontanero.setBounds(85, 11, 72, 22);
-						pnObrero.add(ckFontanero);
-					}
-					{
-						ckSastre = new Checkbox("Sastre");
-						ckSastre.setBounds(85, 39, 72, 22);
-						pnObrero.add(ckSastre);
-					}
-					{
-						ckBarbero = new Checkbox("Barbero");
-						ckBarbero.setBounds(197, 11, 95, 22);
-						pnObrero.add(ckBarbero);
-					}
-					{
-						ckSoldador = new Checkbox("Soldador");
-						ckSoldador.setBounds(197, 39, 95, 22);
-						pnObrero.add(ckSoldador);
-					}
-					{
-						ckCerrajero = new Checkbox("Cerrajero");
-						ckCerrajero.setBounds(307, 10, 72, 22);
-						pnObrero.add(ckCerrajero);
-					}
-					{
-						ckMecanico = new Checkbox("Mec\u00E1nico");
-						ckMecanico.setBounds(307, 39, 72, 22);
-						pnObrero.add(ckMecanico);
-					}
-					{
-						ckPolicia = new Checkbox("Polic\u00EDa");
-						ckPolicia.setBounds(416, 11, 66, 22);
-						pnObrero.add(ckPolicia);
-					}
-					{
-						ckAlbagnil = new Checkbox("Alba\u00F1il");
-						ckAlbagnil.setBounds(416, 40, 66, 22);
-						pnObrero.add(ckAlbagnil);
-					}
-					{
-						ckAgricultor = new Checkbox("Agricultor");
-						ckAgricultor.setBounds(514, 40, 95, 22);
-						pnObrero.add(ckAgricultor);
-					}
-					{
-						ckExterminador = new Checkbox("Exterminador");
-						ckExterminador.setBounds(514, 11, 95, 22);
-						pnObrero.add(ckExterminador);
-					}
 					{
 						JLabel label = new JLabel("Nacionalidad:");
 						label.setBounds(19, 305, 195, 14);
@@ -532,6 +470,68 @@ public class RegSolEmpresa extends JDialog {
 					rdbtnNoAplica.setBounds(633, 299, 64, 23);
 					pnRequisitos.add(rdbtnNoAplica);
 					sexoButtonGroup.add(rdbtnNoAplica);
+					
+										pnObrero = new JPanel();
+										pnObrero.setVisible(false);
+										pnObrero.setLayout(null);
+										pnObrero.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+										pnObrero.setBounds(10, 420, 691, 71);
+										pnRequisitos.add(pnObrero);
+										{
+											JLabel label_1 = new JLabel("Oficios:");
+											label_1.setBounds(20, 19, 52, 14);
+											pnObrero.add(label_1);
+										}
+										{
+											ckFontanero = new Checkbox("Fontanero");
+											ckFontanero.setBounds(85, 11, 72, 22);
+											pnObrero.add(ckFontanero);
+										}
+										{
+											ckSastre = new Checkbox("Sastre");
+											ckSastre.setBounds(85, 39, 72, 22);
+											pnObrero.add(ckSastre);
+										}
+										{
+											ckBarbero = new Checkbox("Barbero");
+											ckBarbero.setBounds(197, 11, 95, 22);
+											pnObrero.add(ckBarbero);
+										}
+										{
+											ckSoldador = new Checkbox("Soldador");
+											ckSoldador.setBounds(197, 39, 95, 22);
+											pnObrero.add(ckSoldador);
+										}
+										{
+											ckCerrajero = new Checkbox("Cerrajero");
+											ckCerrajero.setBounds(307, 10, 72, 22);
+											pnObrero.add(ckCerrajero);
+										}
+										{
+											ckMecanico = new Checkbox("Mec\u00E1nico");
+											ckMecanico.setBounds(307, 39, 72, 22);
+											pnObrero.add(ckMecanico);
+										}
+										{
+											ckPolicia = new Checkbox("Polic\u00EDa");
+											ckPolicia.setBounds(416, 11, 66, 22);
+											pnObrero.add(ckPolicia);
+										}
+										{
+											ckAlbagnil = new Checkbox("Alba\u00F1il");
+											ckAlbagnil.setBounds(416, 40, 66, 22);
+											pnObrero.add(ckAlbagnil);
+										}
+										{
+											ckAgricultor = new Checkbox("Agricultor");
+											ckAgricultor.setBounds(514, 40, 95, 22);
+											pnObrero.add(ckAgricultor);
+										}
+										{
+											ckExterminador = new Checkbox("Exterminador");
+											ckExterminador.setBounds(514, 11, 95, 22);
+											pnObrero.add(ckExterminador);
+										}
 
 					rbUniversitario.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
