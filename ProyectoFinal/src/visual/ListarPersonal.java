@@ -45,23 +45,6 @@ public class ListarPersonal extends JDialog {
 		this.addWindowListener(UtilsFicheros.getWindowAdapterToSave());
 		// TODO: agregar tipo de personal
 		final String[] headers = { "Cedula", "Nombre", "Tipo", "Edad", "Nacionalidad", "Sexo", "Cantidad Solicitudes" };
-		
-		/* Data de prueba, borrar antes de hacer merge */
-		ArrayList<String> idiomas = new ArrayList<String>();
-		idiomas.add("Ingl\u00E9s");
-		Date date = new Date();
-		BolsaTrabajo.getInstance()
-				.agregarPersonal(new Tecnico("111-1111111-1", "Jean", date, false, "(849)-351-5830", "(849)-350-5830",
-						"Dominicano/a", idiomas, "Mercadeo",
-						new Ubicacion("Republica Dominicana", "Santiago", "Santiago", "Calle Brigida"), "Masculino"));
-		BolsaTrabajo.getInstance()
-				.agregarPersonal(new Tecnico("111-1111111-2", "Jean", date, false, "(849)-351-5830", "(849)-350-5830",
-						"Dominicano/a", idiomas, "Mercadeo",
-						new Ubicacion("Republica Dominicana", "Santiago", "Santiago", "Calle Brigida"), "Masculino"));
-
-		BolsaTrabajo.getInstance().agregarSolicitudEmpleado("111-1111111-1",
-				new SolicitudPersonal("SP0000000001", "111-1111111-1", "ALGO", 10000, 5, "Tecnico", "Mercadeo",
-						null, null, new ArrayList<String>(), true, true, "Tiempo Completo"));
 
 		setResizable(false);
 		setBounds(100, 100, 921, 570);
