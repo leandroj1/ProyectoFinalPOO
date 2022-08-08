@@ -142,4 +142,8 @@ public abstract class Personal implements Serializable{
 	public String getGenero() {
 		return sexo;
 	}
+
+	public void setIdiomas(ArrayList<String> idiomas) {
+		this.idiomas = idiomas;
+	}
 }

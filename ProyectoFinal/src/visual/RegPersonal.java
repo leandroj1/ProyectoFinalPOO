@@ -542,6 +542,7 @@ public class RegPersonal extends JDialog {
 							personalToEdit.setTelefonoPrincipal(auxPersonal.getTelefonoPrincipal());
 							personalToEdit.setTelefonoSecundario(auxPersonal.getTelefonoSecundario());
 							personalToEdit.setUbicacion(auxPersonal.getUbicacion());
+							personalToEdit.setIdiomas(auxPersonal.getIdiomas());
 
 							if (personalToEdit instanceof Universitario) {
 								((Universitario) personalToEdit)
@@ -566,7 +567,7 @@ public class RegPersonal extends JDialog {
 							RegSolPersonal nuevaSolicitudEmpleado = new RegSolPersonal(auxPersonal, null, false);
 							nuevaSolicitudEmpleado.setVisible(true);
 						} else {
-							JOptionPane.showMessageDialog(null, "Modificación exitosa.", "Confirmaci\u00f3n",
+							JOptionPane.showMessageDialog(null, "Modificaci\u00f3n exitosa.", "Confirmaci\u00f3n",
 									JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 						}
@@ -753,15 +754,19 @@ public class RegPersonal extends JDialog {
 	public void loadPersonal(Personal personalAux) {
 		txtFCedulaP.setText(personalAux.getCedula());
 		txtNombreCompleto.setText(personalAux.getNombre());
+		txtNombreCompleto.setEditable(false);
 		dcFechaNacimiento.setDate(personalAux.getFechaNacimiento());
 		cbxNacionalidad.setSelectedIndex(Utils.getCbxSelectedIndex(cbxNacionalidad, personalAux.getNacionalidad()));
+		cbxNacionalidad.setEnabled(false);
 		txtFTelefono.setText(personalAux.getTelefonoPrincipal());
 		txtFTelSec.setText(personalAux.getTelefonoSecundario());
 
-		if (personalAux.getGenero().equals("masculino"))
+		if (personalAux.getGenero().equalsIgnoreCase("masculino"))
 			generoGroup.setSelected(rdbtnMasculino.getModel(), true);
 		else
 			generoGroup.setSelected(rdbtnFemenino.getModel(), true);
+		rdbtnMasculino.setEnabled(false);
+		rdbtnFemenino.setEnabled(false);
 
 		chckbxCasado.setSelected(personalAux.isEsCasado());
 		txtPais.setText(personalAux.getUbicacion().getPais());
