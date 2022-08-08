@@ -32,6 +32,11 @@ public class Obrero extends Personal implements Serializable{
 			}
 		}
 	}
+	
+	public void setOficios(ArrayList<String> oficios) {
+		if(oficios != null && oficios.size() >= 0)
+			this.oficios = oficios;
+	}
 
 	@Override
 	public String toString() {

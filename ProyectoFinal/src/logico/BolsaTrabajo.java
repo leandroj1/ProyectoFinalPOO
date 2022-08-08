@@ -81,7 +81,7 @@ public class BolsaTrabajo implements Serializable {
 	public void agregarSolicitudEmpleado(String cedula, SolicitudPersonal solicitud) {
 		ArrayList<Personal> personalAux = getPersonalByID(cedula);
 
-		if (personalAux.size() == 1 && personalAux.get(0).getIdEmpresaContratacion() == null) {
+		if (personalAux.size() == 1 && getSolicitudesPersonalByID(solicitud.getId()).isEmpty() && personalAux.get(0).getIdEmpresaContratacion() == null) {
 			personalAux.get(0).agregarSolicitud(solicitud);
 			solicitudesPersonal.add(solicitud);
 		}
@@ -338,6 +338,10 @@ public class BolsaTrabajo implements Serializable {
 		}
 
 		return candidatos;
+	}
+
+	public void anularSolicitudPersonal(SolicitudPersonal solicitud) {
+		solicitud.setEstado(EstadoSolicitudPersonal.ANULADA);
 	}
 
 	public Map<String, Integer> getDataReporte3() {
