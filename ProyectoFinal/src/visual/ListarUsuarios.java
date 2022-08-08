@@ -66,7 +66,7 @@ public class ListarUsuarios extends JDialog {
 				}
 			}	
 		});
-		String[] headers = { "Nombre de usuario", "Es administrador?" };
+		String[] headers = { "Nombre de usuario", "\u00BFEs administrador?" };
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(headers);
 		table.setModel(model);
@@ -117,14 +117,14 @@ public class ListarUsuarios extends JDialog {
 				getRootPane().setDefaultButton(btnCambiarPass);
 			}
 			{
-				JButton cancelButton = new JButton("Cancel");
-				cancelButton.addActionListener(new ActionListener() {
+				JButton btnCancelar = new JButton("Cancelar");
+				btnCancelar.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						dispose();
 					}
 				});
-				cancelButton.setActionCommand("Cancel");
-				buttonPane.add(cancelButton);
+				btnCancelar.setActionCommand("Cancel");
+				buttonPane.add(btnCancelar);
 			}
 		}
 

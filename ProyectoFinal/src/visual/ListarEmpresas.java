@@ -150,8 +150,8 @@ public class ListarEmpresas extends JDialog {
 				public void actionPerformed(ActionEvent e) {
 					if(selectedEmpresa != null) {
 						ListadoSolicitudesEmpresa listadoSolicitudesEmpresa = new ListadoSolicitudesEmpresa(selectedEmpresa);
+						listadoSolicitudesEmpresa.setModal(true);
 						listadoSolicitudesEmpresa.setVisible(true);
-
 						// Para evitar errores
 						setButtonsState(false);
 						selectedEmpresa = null;

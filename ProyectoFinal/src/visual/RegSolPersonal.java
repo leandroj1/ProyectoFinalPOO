@@ -597,9 +597,9 @@ public class RegSolPersonal extends JDialog {
 			emptyFields.add("Disponibilidad para salir de la ciudad");
 
 		if (rbObrero.isSelected() && getOficiosSelected().isEmpty())
-			emptyFields.add("Ningun oficio seleccionado");
+			emptyFields.add("Ning\u00fan oficio seleccionado");
 		else if (rbTecnico.isSelected() && cbxAreaTecnica.getSelectedIndex() <= 0)
-			emptyFields.add("Area Tecnica");
+			emptyFields.add("\u00c1rea T\u00E9cnica");
 		else if (rbUniversitario.isSelected()) {
 			if (cbxUniversidad.getSelectedIndex() <= 0)
 				emptyFields.add("Universidad");
