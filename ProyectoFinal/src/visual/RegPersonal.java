@@ -638,6 +638,7 @@ public class RegPersonal extends JDialog {
 		ckAleman.setState(false);
 		ckMandarin.setState(false);
 		ckRuso.setState(false);
+		rbUniversitario.doClick();
 		ckPortugues.setState(false);
 	}
 
@@ -697,7 +698,7 @@ public class RegPersonal extends JDialog {
 			emptyFields.add("Cedula");
 		if (txtNombreCompleto.getText().isEmpty())
 			emptyFields.add("Nombre");
-		if (((String) cbxNacionalidad.getSelectedItem()).isEmpty())
+		if (Utils.isCbxDefaultValue(cbxNacionalidad))
 			emptyFields.add("Nacionalidad");
 		if (Utils.isMaskTelefonoDefaultValue(txtFTelefono.getText()))
 			emptyFields.add("Telefono Principal");
