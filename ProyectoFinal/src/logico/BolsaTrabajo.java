@@ -117,7 +117,7 @@ public class BolsaTrabajo implements Serializable {
 		ArrayList<String> cedulasForAnulacion = solicitud.getCedulasPersonasContratadas();
 		this.personal.forEach(persona -> {
 			if (cedulasForAnulacion.contains(persona.getCedula())) {
-				this.desemplearPersonal(persona, solicitud, null);
+				this.desemplearPersonal(persona, solicitud, persona.getIdSolicitudPersonalContratacion());
 			}
 		});
 	}
