@@ -323,14 +323,14 @@ public class ManejoDeCandidatos extends JDialog {
 			panelCandidatos.add(scrollPane);
 			{
 				tablaPersonal = new CheckBoxsEditableTable(this.model, kColumnaCheckboxes);
-				
+
 				// Add sorter
 				TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(tablaPersonal.getModel());
 				List<RowSorter.SortKey> sortKeys = new ArrayList<RowSorter.SortKey>(1);
 				sortKeys.add(new RowSorter.SortKey(3, SortOrder.DESCENDING));
 				sorter.setSortKeys(sortKeys);		
 				tablaPersonal.setRowSorter(sorter);
-				
+
 				tablaPersonal.addMouseListener(new MouseAdapter() {
 					@Override
 					public void mouseClicked(MouseEvent e) {
@@ -471,7 +471,7 @@ public class ManejoDeCandidatos extends JDialog {
 			});
 
 			sortearTabla();
-			
+
 			// Actualizar la tabla
 			model.fireTableDataChanged();
 
@@ -489,7 +489,7 @@ public class ManejoDeCandidatos extends JDialog {
 
 	// Sortear elementos de mayor a menor con el porcentaje
 	private void sortearTabla() {
-		
+
 	}
 
 	private void cargarDatosSolicitud(SolicitudEmpresa solicitudLoaded) {
@@ -640,22 +640,22 @@ public class ManejoDeCandidatos extends JDialog {
 			solicitudLoaded.setEstado(EstadoSolicitudEmpresa.ACTIVA);
 		}
 	}
-	
+
 	private void desemplearPersonas(Map<Personal, SolicitudPersonal> data) {
 		if(data.size() != 0) {
 			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
 			data.keySet().forEach(personal -> {
-				bolsaTrabajo.desemplearPersonal(personal, solicitudLoaded);				
+				bolsaTrabajo.desemplearPersonal(personal, solicitudLoaded, data.get(personal).getId());				
 			});
-			
+
 			JOptionPane.showMessageDialog(null,
 					"Se desemplearon las personas de forma correcta.",
 					"Informaci\u00f3n",
 					JOptionPane.INFORMATION_MESSAGE);
-			
+
 			cargarDatosTablaPersonal(false);
 			actualizarEstadoSolicitud();
-			
+
 			return;
 		}
 
