@@ -92,10 +92,14 @@ public class ListadoSolicitudesEmpresa extends JDialog {
 								if(result.size() != 0) {
 									selectedSolicitud = result.get(0);
 									setButtonsState(true);
-									if(selectedSolicitud.getEstado() == EstadoSolicitudEmpresa.ANULADA || selectedSolicitud.getEstado() == EstadoSolicitudEmpresa.SATISFECHA) {
+									if(selectedSolicitud.getEstado() == EstadoSolicitudEmpresa.ANULADA) {
 										btnAnular.setEnabled(false);
 										btnModificarCondiciones.setEnabled(false);
 										btnVerPosiblesCandidatos.setEnabled(false);
+									}
+									else if(selectedSolicitud.getEstado() == EstadoSolicitudEmpresa.SATISFECHA) {
+										btnAnular.setEnabled(false);
+										btnModificarCondiciones.setEnabled(false);
 									}
 									else {
 										if(selectedSolicitud.getCedulasPersonasContratadas().size() > 0)

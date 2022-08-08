@@ -111,6 +111,16 @@ public class Principal extends JFrame {
 		});
 		mnNewMenu_3.add(mntmNewMenuItem_7);
 
+		JMenuItem mntmContratacin = new JMenuItem("Contrataci\u00F3n");
+		mntmContratacin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ManejoDeCandidatos manejoDeCandidatos = new ManejoDeCandidatos(null);
+				manejoDeCandidatos.setModal(true);
+				manejoDeCandidatos.setVisible(true);
+			}
+		});
+		mnNewMenu_3.add(mntmContratacin);
+
 		JMenu mnNewMenu_2 = new JMenu("Solicitud de Personal");
 		menuBar.add(mnNewMenu_2);
 

@@ -262,11 +262,11 @@ public class RegEmpresa extends JDialog {
 								return;								
 							}
 							else {	
-								if (Utils.isAValidEmail(txtEmailContacto.getText())) {
+								if (Utils.isAValidEmail(txtEmailContacto.getText().trim())) {
 									ArrayList<Empresa> resultado = BolsaTrabajo.getInstance().getEmpresasByID(txtFRNC.getText());
 									if (resultado.size() == 0) {
 										ubicacion = new Ubicacion(txtPais.getText(), txtProvincia.getText(), txtCiudadResidencia.getText(), txtDireccion.getText());
-										Empresa empresa = new Empresa(txtFRNC.getText(), txtNombreComercial.getText(), txtRazonSocial.getText(), txtRubro.getText(), cbxCargoContacto.getSelectedItem().toString(), txtNombreContacto.getText(), txtFTelefono.getText(), txtEmailContacto.getText(), cbxSector.getSelectedItem().toString(), cbxTipo.getSelectedItem().toString(), ubicacion);
+										Empresa empresa = new Empresa(txtFRNC.getText(), txtNombreComercial.getText(), txtRazonSocial.getText(), txtRubro.getText(), cbxCargoContacto.getSelectedItem().toString(), txtNombreContacto.getText(), txtFTelefono.getText(), txtEmailContacto.getText().trim(), cbxSector.getSelectedItem().toString(), cbxTipo.getSelectedItem().toString(), ubicacion);
 										BolsaTrabajo.getInstance().agregarEmpresa(empresa);
 										JOptionPane.showMessageDialog(null, "Registro exitoso.", "Informaci\u00f3n", JOptionPane.INFORMATION_MESSAGE);
 
@@ -286,7 +286,7 @@ public class RegEmpresa extends JDialog {
 								JOptionPane.showMessageDialog(null, message);
 								return;								
 							}
-							else if (!(Utils.isAValidEmail(txtEmailContacto.getText()))){
+							else if (!(Utils.isAValidEmail(txtEmailContacto.getText().trim()))){
 								JOptionPane.showMessageDialog(null, "El email ingresado no es v\u00E1lido, por favor ingrese otro", "Advertencia", JOptionPane.WARNING_MESSAGE);
 							}
 							else {
@@ -298,7 +298,7 @@ public class RegEmpresa extends JDialog {
 								auxEmpresa.setUbicacion(ubicacion);
 								auxEmpresa.setTelefonoContacto(txtFTelefono.getText());
 								auxEmpresa.setNombreContacto(txtNombreContacto.getText());
-								auxEmpresa.setEmailContacto(txtEmailContacto.getText());
+								auxEmpresa.setEmailContacto(txtEmailContacto.getText().trim());
 								auxEmpresa.setCargoContacto(cbxCargoContacto.getSelectedItem().toString());
 								JOptionPane.showMessageDialog(null, "Actualizaci\u00f3n exitosa", "Informaci\u00f3n", JOptionPane.INFORMATION_MESSAGE);
 								dispose();
@@ -389,7 +389,7 @@ public class RegEmpresa extends JDialog {
 		if (txtDireccion.getText().isEmpty()) {
 			emptyFields.add("Direcc\u00F3n");
 		}
-		if (txtEmailContacto.getText().isEmpty()) {
+		if (txtEmailContacto.getText().trim().isEmpty()) {
 			emptyFields.add("Email");
 		}
 		if (txtNombreComercial.getText().isEmpty()) {
