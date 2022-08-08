@@ -694,34 +694,34 @@ public class RegPersonal extends JDialog {
 		ArrayList<String> emptyFields = new ArrayList<String>();
 
 		if (Utils.isMaskCedulaDefaultValue(txtFCedulaP.getText()))
-			emptyFields.add("Cedula");
+			emptyFields.add("C\u00E9dula");
 		if (txtNombreCompleto.getText().isEmpty())
 			emptyFields.add("Nombre");
 		if (((String) cbxNacionalidad.getSelectedItem()).isEmpty())
 			emptyFields.add("Nacionalidad");
 		if (Utils.isMaskTelefonoDefaultValue(txtFTelefono.getText()))
-			emptyFields.add("Telefono Principal");
+			emptyFields.add("Tel\u00E9fono Principal");
 		if (Utils.isMaskTelefonoDefaultValue(txtFTelSec.getText()))
-			emptyFields.add("Telefono Secundario");
+			emptyFields.add("Tel\u00E9fono Secundario");
 		if (Utils.getSelectedRadioButtonText(generoGroup) == null)
-			emptyFields.add("Genero");
+			emptyFields.add("Sexo");
 		if (txtPais.getText().isEmpty())
-			emptyFields.add("Pais");
+			emptyFields.add("Pa\u00eds");
 		if (txtProvincia.getText().isEmpty())
 			emptyFields.add("Provincia");
 		if (txtCiudadRes.getText().isEmpty())
 			emptyFields.add("Ciudad de Residencia");
 		if (txtDireccion.getText().isEmpty())
-			emptyFields.add("Direccion");
+			emptyFields.add("Direcci\u00F3n");
 
 		ArrayList<String> idiomas = getIdiomasSelected();
 		if (idiomas.size() == 0)
-			emptyFields.add("Ningun idioma seleccionado");
+			emptyFields.add("Ning\u00fan idioma seleccionado");
 
 		if (rbObrero.isSelected() && getOficiosSelected().isEmpty())
-			emptyFields.add("Ningun oficio seleccionado");
+			emptyFields.add("Ning\u00fan oficio seleccionado");
 		else if (rbTecnico.isSelected() && cbxAreaTecnica.getSelectedIndex() <= 0)
-			emptyFields.add("Area Tecnica");
+			emptyFields.add("\u00c1rea T\u00E9cnica");
 		else if (rbUniversitario.isSelected()) {
 			if (cbxUniversidad.getSelectedIndex() <= 0)
 				emptyFields.add("Universidad");
@@ -732,7 +732,7 @@ public class RegPersonal extends JDialog {
 		String message = "";
 
 		if (emptyFields.size() > 0) {
-			message = "Los siguientes campos estan vacios o tienen un formato incorrecto: ";
+			message = "Los siguientes campos estan vac\u00edos o tienen un formato incorrecto: ";
 
 			for (String emptyField : emptyFields)
 				message += "\n\t- " + emptyField;
