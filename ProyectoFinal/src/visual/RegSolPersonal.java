@@ -410,10 +410,10 @@ public class RegSolPersonal extends JDialog {
 								float salarioEsperado = Utils.getSpinnerFloatValue(spnSalarioEsp);
 								int agnosExperiencia = (int) spnAgnosExp.getValue();
 								String modalidadTrabajo = (String) cbxModalidad.getSelectedItem();
-								boolean dispSalirCiudad = Utils.getSelectedRadioButtonText(dispCambiarResGroup)
-										.equalsIgnoreCase("si");
-								boolean dispCambiarResidencia = Utils.getSelectedRadioButtonText(dispCambiarResGroup)
-										.equalsIgnoreCase("si");
+								boolean dispSalirCiudad = !Utils.getSelectedRadioButtonText(dispSalirCiudadGroup)
+										.equalsIgnoreCase("no");
+								boolean dispCambiarResidencia = !Utils.getSelectedRadioButtonText(dispCambiarResGroup)
+										.equalsIgnoreCase("no");
 
 								ArrayList<String> oficios = new ArrayList<String>();
 								String areaTecnica = new String();

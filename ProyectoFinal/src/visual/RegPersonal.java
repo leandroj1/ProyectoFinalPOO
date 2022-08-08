@@ -401,53 +401,53 @@ public class RegPersonal extends JDialog {
 				ckAgricultor = new Checkbox("Agricultor");
 				ckAgricultor.setBounds(536, 39, 95, 22);
 				pnObrero.add(ckAgricultor);
-				
-								pnIdiomas = new JPanel();
-								pnIdiomas.setLayout(null);
-								pnIdiomas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Idiomas",
-										TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-								pnIdiomas.setBounds(10, 375, 706, 102);
-								panel.add(pnIdiomas);
-								
-												ckEspagnol = new Checkbox("Espa\u00F1ol");
-												ckEspagnol.setBounds(33, 25, 95, 22);
-												pnIdiomas.add(ckEspagnol);
-												ckEspagnol.setCheckboxGroup(idiomasGroup);
-												
-																ckIngles = new Checkbox("Ingl\u00E9s");
-																ckIngles.setBounds(33, 59, 95, 22);
-																pnIdiomas.add(ckIngles);
-																ckIngles.setCheckboxGroup(idiomasGroup);
-																
-																				ckHindi = new Checkbox("Hindi");
-																				ckHindi.setBounds(267, 24, 95, 22);
-																				pnIdiomas.add(ckHindi);
-																				ckHindi.setCheckboxGroup(idiomasGroup);
-																				
-																								ckRuso = new Checkbox("Ruso");
-																								ckRuso.setBounds(267, 59, 95, 22);
-																								pnIdiomas.add(ckRuso);
-																								ckRuso.setCheckboxGroup(idiomasGroup);
-																								
-																												ckFrances = new Checkbox("Franc\u00E9s");
-																												ckFrances.setBounds(150, 25, 95, 22);
-																												pnIdiomas.add(ckFrances);
-																												ckFrances.setCheckboxGroup(idiomasGroup);
-																												
-																																ckMandarin = new Checkbox("Mandar\u00EDn");
-																																ckMandarin.setBounds(150, 59, 95, 22);
-																																pnIdiomas.add(ckMandarin);
-																																ckMandarin.setCheckboxGroup(idiomasGroup);
-																																
-																																				ckPortugues = new Checkbox("Portugu\u00E9s");
-																																				ckPortugues.setBounds(384, 24, 95, 22);
-																																				pnIdiomas.add(ckPortugues);
-																																				ckPortugues.setCheckboxGroup(idiomasGroup);
-																																				
-																																								ckAleman = new Checkbox("Alem\u00E1n");
-																																								ckAleman.setBounds(384, 59, 95, 22);
-																																								pnIdiomas.add(ckAleman);
-																																								ckAleman.setCheckboxGroup(idiomasGroup);
+
+				pnIdiomas = new JPanel();
+				pnIdiomas.setLayout(null);
+				pnIdiomas.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Idiomas",
+						TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+				pnIdiomas.setBounds(10, 375, 706, 102);
+				panel.add(pnIdiomas);
+
+				ckEspagnol = new Checkbox("Espa\u00F1ol");
+				ckEspagnol.setBounds(33, 25, 95, 22);
+				pnIdiomas.add(ckEspagnol);
+				ckEspagnol.setCheckboxGroup(idiomasGroup);
+
+				ckIngles = new Checkbox("Ingl\u00E9s");
+				ckIngles.setBounds(33, 59, 95, 22);
+				pnIdiomas.add(ckIngles);
+				ckIngles.setCheckboxGroup(idiomasGroup);
+
+				ckHindi = new Checkbox("Hindi");
+				ckHindi.setBounds(267, 24, 95, 22);
+				pnIdiomas.add(ckHindi);
+				ckHindi.setCheckboxGroup(idiomasGroup);
+
+				ckRuso = new Checkbox("Ruso");
+				ckRuso.setBounds(267, 59, 95, 22);
+				pnIdiomas.add(ckRuso);
+				ckRuso.setCheckboxGroup(idiomasGroup);
+
+				ckFrances = new Checkbox("Franc\u00E9s");
+				ckFrances.setBounds(150, 25, 95, 22);
+				pnIdiomas.add(ckFrances);
+				ckFrances.setCheckboxGroup(idiomasGroup);
+
+				ckMandarin = new Checkbox("Mandar\u00EDn");
+				ckMandarin.setBounds(150, 59, 95, 22);
+				pnIdiomas.add(ckMandarin);
+				ckMandarin.setCheckboxGroup(idiomasGroup);
+
+				ckPortugues = new Checkbox("Portugu\u00E9s");
+				ckPortugues.setBounds(384, 24, 95, 22);
+				pnIdiomas.add(ckPortugues);
+				ckPortugues.setCheckboxGroup(idiomasGroup);
+
+				ckAleman = new Checkbox("Alem\u00E1n");
+				ckAleman.setBounds(384, 59, 95, 22);
+				pnIdiomas.add(ckAleman);
+				ckAleman.setCheckboxGroup(idiomasGroup);
 
 				rbUniversitario.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -536,11 +536,6 @@ public class RegPersonal extends JDialog {
 						}
 
 						if (personal != null) {
-							if (!BolsaTrabajo.getInstance().getPersonalByID(cedula).isEmpty()) {
-								JOptionPane.showMessageDialog(null, "Ya existe una persona con esa cédula registrada.", null,
-										JOptionPane.ERROR_MESSAGE);
-								return;
-							}
 							Personal personalToEdit = BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0);
 
 							personalToEdit.setEsCasado(auxPersonal.isEsCasado());
@@ -556,8 +551,15 @@ public class RegPersonal extends JDialog {
 								((Obrero) personalToEdit).setOficios(getOficiosSelected());
 							else if (personalToEdit instanceof Tecnico)
 								((Tecnico) personalToEdit).setAreaTecnica((String) cbxAreaTecnica.getSelectedItem());
-						} else
+						} else {
+							if (!BolsaTrabajo.getInstance().getPersonalByID(cedula).isEmpty()) {
+								JOptionPane.showMessageDialog(null,
+										"Ya existe una persona con esa c\u00e9dula registrada.", null,
+										JOptionPane.ERROR_MESSAGE);
+								return;
+							}
 							BolsaTrabajo.getInstance().agregarPersonal(auxPersonal);
+						}
 
 						// Prevenir abrir la otra ventana si se esta editando
 						if (!editing) {
@@ -568,7 +570,7 @@ public class RegPersonal extends JDialog {
 									JOptionPane.INFORMATION_MESSAGE);
 							dispose();
 						}
-						
+
 						clear();
 					}
 				});
@@ -596,6 +598,7 @@ public class RegPersonal extends JDialog {
 			loadPersonal(personal);
 
 		if (editing) {
+			txtFCedulaP.setEditable(false);
 			dcFechaNacimiento.setEnabled(false);
 			Utils.desactivarPanel(pnTipoPersonal);
 			Utils.desactivarPanel(pnUniversitario);
