@@ -90,6 +90,7 @@ public class BolsaTrabajo implements Serializable {
 	public ArrayList<SolicitudEmpresa> getSolicitudesEmpresaByID(String filterID) {
 		return new ArrayList<SolicitudEmpresa>(solicitudesEmpresa.stream()
 				.filter(solicitud -> solicitud.getId().contains(filterID)).collect(Collectors.toList()));
+				
 	}
 
 	public ArrayList<SolicitudPersonal> getSolicitudesPersonalByID(String filterID) {
