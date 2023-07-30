@@ -19,7 +19,7 @@ public class BolsaTrabajo implements Serializable {
 		this.solicitudesEmpresa = new ArrayList<SolicitudEmpresa>();
 		this.solicitudesPersonal = new ArrayList<SolicitudPersonal>();
 		this.usuarios = new ArrayList<Usuario>();
-		agregarUsuario(new Usuario("admin", "admin", true));
+		agregarUsuario(new Usuario("bolsag3_admin", "Admin!", true));
 		agregarUsuario(new Usuario("normal", "normal", false));
 	}
 
