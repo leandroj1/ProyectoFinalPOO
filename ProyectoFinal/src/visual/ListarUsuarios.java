@@ -27,6 +27,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ListarUsuarios extends JDialog {
 
@@ -80,7 +82,12 @@ public class ListarUsuarios extends JDialog {
 		txtNombreUsuario.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent arg0) {
-				loadTableContent();
+				try {
+					loadTableContent();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		txtNombreUsuario.setBounds(6, 34, 222, 26);
@@ -90,7 +97,12 @@ public class ListarUsuarios extends JDialog {
 		ckSoloAdmin = new JCheckBox("Solo administradores");
 		ckSoloAdmin.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				loadTableContent();
+				try {
+					loadTableContent();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		ckSoloAdmin.setBounds(234, 36, 191, 23);
@@ -128,16 +140,24 @@ public class ListarUsuarios extends JDialog {
 			}
 		}
 
-		loadTableContent();
+		try {
+			loadTableContent();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 
-	private void loadTableContent() {
+	private void loadTableContent() throws SQLException {
 		Object[] row = new Object[model.getColumnCount()];
 		model.setRowCount(0);
-		for (Usuario usuario : BolsaTrabajo.getInstance().getUsuarios(txtNombreUsuario.getText())) {
-			if ((ckSoloAdmin.isSelected() && usuario.esAdmin()) || !ckSoloAdmin.isSelected()) {
-				row[0] = usuario.getNombreUsuario();
-				row[1] = usuario.esAdmin() ? "S\u00ed" : "No";
+		
+		ResultSet result = BolsaTrabajo.getInstance().getUsuarios(txtNombreUsuario.getText());
+		
+		while (result.next()) {
+			if ((ckSoloAdmin.isSelected() && result.getInt("admin") == 1) || !ckSoloAdmin.isSelected()) {
+				row[0] = result.getString("username");
+				row[1] = result.getInt("admin") == 1 ? "S\u00ed" : "No";
 				model.addRow(row);				
 			}
 		}

@@ -24,8 +24,12 @@ public class Usuario implements Serializable {
 		this.contrasegna = contrasegna;
 	}
 
-	public boolean esAdmin() {
-		return esAdmin;
+	public int esAdmin() {
+		if (esAdmin) {			
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	public void setAdminState(boolean esAdmin) {

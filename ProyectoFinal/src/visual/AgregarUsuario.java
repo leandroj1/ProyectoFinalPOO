@@ -18,6 +18,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.JCheckBox;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
 public class AgregarUsuario extends JDialog {
@@ -98,7 +99,12 @@ public class AgregarUsuario extends JDialog {
 						}
 
 						Usuario usuario = new Usuario(nombreUsuario, contrasegna, esAdmin);
-						BolsaTrabajo.getInstance().agregarUsuario(usuario);
+						try {
+							BolsaTrabajo.getInstance().agregarUsuario(usuario);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 
 						if (BolsaTrabajo.getInstance().getUsuario(nombreUsuario) == null) {
 							JOptionPane.showMessageDialog(null, "El usuario no pudo ser agregado conrrectamente, intente de nuevo mas tarde", null, JOptionPane.ERROR_MESSAGE);

@@ -93,24 +93,15 @@ public class Login extends JDialog {
 						String nombreUsuario = txtNombreUsuario.getText();
 						String contrasegna = String.valueOf(psContrasegna.getPassword());
 						
-						SQLConnection.connect(nombreUsuario, contrasegna);
-						
-//						try {
-//							SQLConnection.sqlConnection.prepareStatement("SELECT * FROM Personal");
-//						} catch (SQLException e) {
-//							// TODO Auto-generated catch block
-//							e.printStackTrace();
-//						}
-
-//						if (BolsaTrabajo.getInstance().authUsuario(nombreUsuario, contrasegna)) {
-//							Usuario user = BolsaTrabajo.getInstance().getUsuarios(nombreUsuario).get(0);
-//							Principal principal = new Principal();
-//							setVisible(false);
-//							BolsaTrabajo.getInstance().setLoggedUsuario(user);
-//							principal.setVisible(true);
-//						} else
-//							JOptionPane.showMessageDialog(null, "El usuario o la contrase\u00f1a son incorrectos", null,
-//									JOptionPane.ERROR_MESSAGE);
+						if (BolsaTrabajo.getInstance().authUsuario(nombreUsuario, contrasegna)) {
+							Usuario user = BolsaTrabajo.getInstance().getUsuario(nombreUsuario);
+							Principal principal = new Principal();
+							setVisible(false);
+							BolsaTrabajo.getInstance().setLoggedUsuario(user);
+							principal.setVisible(true);
+						} else
+							JOptionPane.showMessageDialog(null, "El usuario o la contrase\u00f1a son incorrectos", null,
+									JOptionPane.ERROR_MESSAGE);
 					}
 				});
 				okButton.setActionCommand("OK");
