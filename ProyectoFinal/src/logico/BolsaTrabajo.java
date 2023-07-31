@@ -49,11 +49,65 @@ public class BolsaTrabajo implements Serializable {
 			instance = new BolsaTrabajo();
 		return instance;
 	}
+	
+	public ResultSet getEmpresas(String nombreEmpresa) throws SQLException {
+		Statement st = SQLConnection.sqlConnection.createStatement();
+		ResultSet result = null;
+		if (nombreEmpresa.isEmpty()) {
+			result = st.executeQuery("SELECT *FROM Empresa");
+		} else {
+			result = st.executeQuery("SELECT *FROM Empresa WHERE nombreEmpresa LIKE '%" + nombreEmpresa +"%'");
+		}
 
-	public void agregarEmpresa(Empresa empresa) {
-		if (empresa != null && getPersonalByID(empresa.getRNC()).size() == 0)
-			empresas.add(empresa);
+		return result;
 	}
+	
+	public Empresa getEmpresa(String nombreEmpresa) {
+		try {
+			Statement st = SQLConnection.sqlConnection.createStatement();
+			ResultSet result = st.executeQuery("SELECT *FROM Users WHERE nombreEmpresa='" + nombreEmpresa +"'");
+			
+			if (result.next()) {
+				//!!!Hay que arreglar el constructor ubicacion para poner la FK de ubicacion como un un int
+				//return new Empresa(result.getString("RNC"), result.getString("NombreComercial"), result.getString("RazonSocial"), result.getString("Rubro"), result.getString("CargoContacto"), result.getString("NombreContacto"), result.getString("TelefonoContacto"), result.getString("EmailContacto"), result.getString("Sector"), result.getString("Tipo"), result.getInt("Ubicacion_Id"));
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
+	
+	public void agregarEmpresa(Empresa empresa) throws SQLException {
+		if (empresa != null && !getEmpresas(empresa.getNombreComercial()).next()) {
+			try {
+				String sql = " insert into Empresa (RNC, NombreComercial, RazonSocial, Sector, CargoContacto, Tipo, Rubro, NombreContacto, TelefonoContacto, EmailContacto, Ubicacion_id)"
+					    + " values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				PreparedStatement st = SQLConnection.sqlConnection.prepareStatement(sql);
+				st.setString(1, empresa.getRNC());
+				st.setString(2, empresa.getNombreComercial());
+				st.setString(3, empresa.getRazonSocial());
+				st.setString(4, empresa.getSector());
+				st.setString(5, empresa.getCargoContacto());
+				st.setString(6, empresa.getTipo());
+				st.setString(7, empresa.getRubro());
+				st.setString(8, empresa.getNombreContacto());
+				st.setString(9, empresa.getTelefonoContacto());
+				st.setString(10, empresa.getEmailContacto());
+				//st.setInt(11, empresa.getUbicacion());
+				
+				st.execute();
+				
+				System.out.println("DONE");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
 
 	public void agregarPersonal(Personal candidato) {
 		if (candidato != null && getPersonalByID(candidato.getCedula()).size() == 0)
