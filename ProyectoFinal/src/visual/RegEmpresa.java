@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
@@ -267,7 +268,12 @@ public class RegEmpresa extends JDialog {
 									if (resultado.size() == 0) {
 										ubicacion = new Ubicacion(txtPais.getText(), txtProvincia.getText(), txtCiudadResidencia.getText(), txtDireccion.getText());
 										Empresa empresa = new Empresa(txtFRNC.getText(), txtNombreComercial.getText(), txtRazonSocial.getText(), txtRubro.getText(), cbxCargoContacto.getSelectedItem().toString(), txtNombreContacto.getText(), txtFTelefono.getText(), txtEmailContacto.getText().trim(), cbxSector.getSelectedItem().toString(), cbxTipo.getSelectedItem().toString(), ubicacion);
-										BolsaTrabajo.getInstance().agregarEmpresa(empresa);
+										try {
+											BolsaTrabajo.getInstance().agregarEmpresa(empresa);
+										} catch (SQLException e1) {
+											// TODO Auto-generated catch block
+											e1.printStackTrace();
+										}
 										JOptionPane.showMessageDialog(null, "Registro exitoso.", "Informaci\u00f3n", JOptionPane.INFORMATION_MESSAGE);
 
 										clean();
