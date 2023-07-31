@@ -1,8 +1,15 @@
 package logico;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import logico.SQLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -19,8 +26,6 @@ public class BolsaTrabajo implements Serializable {
 		this.solicitudesEmpresa = new ArrayList<SolicitudEmpresa>();
 		this.solicitudesPersonal = new ArrayList<SolicitudPersonal>();
 		this.usuarios = new ArrayList<Usuario>();
-		agregarUsuario(new Usuario("admin", "admin", true));
-		agregarUsuario(new Usuario("normal", "normal", false));
 	}
 
 	private ArrayList<Personal> personal;
@@ -81,7 +86,8 @@ public class BolsaTrabajo implements Serializable {
 	public void agregarSolicitudEmpleado(String cedula, SolicitudPersonal solicitud) {
 		ArrayList<Personal> personalAux = getPersonalByID(cedula);
 
-		if (personalAux.size() == 1 && getSolicitudesPersonalByID(solicitud.getId()).isEmpty() && personalAux.get(0).getIdEmpresaContratacion() == null) {
+		if (personalAux.size() == 1 && getSolicitudesPersonalByID(solicitud.getId()).isEmpty()
+				&& personalAux.get(0).getIdEmpresaContratacion() == null) {
 			personalAux.get(0).agregarSolicitud(solicitud);
 			solicitudesPersonal.add(solicitud);
 		}
@@ -90,6 +96,7 @@ public class BolsaTrabajo implements Serializable {
 	public ArrayList<SolicitudEmpresa> getSolicitudesEmpresaByID(String filterID) {
 		return new ArrayList<SolicitudEmpresa>(solicitudesEmpresa.stream()
 				.filter(solicitud -> solicitud.getId().contains(filterID)).collect(Collectors.toList()));
+
 	}
 
 	public ArrayList<SolicitudPersonal> getSolicitudesPersonalByID(String filterID) {
@@ -132,14 +139,14 @@ public class BolsaTrabajo implements Serializable {
 			}
 
 			if (idSolicitudDesemplear != null) {
-				if(solicitudPersonal.getId().equalsIgnoreCase(idSolicitudDesemplear)) {
+				if (solicitudPersonal.getId().equalsIgnoreCase(idSolicitudDesemplear)) {
 					solicitudPersonal.setEstado(EstadoSolicitudPersonal.ACTIVA);
 				}
 			}
 		});
 
 		solicitudEmpresa.getCedulasPersonasContratadas()
-		.removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
+				.removeIf(cedula -> cedula.equalsIgnoreCase(personal.getCedula()));
 	}
 
 	public ArrayList<SolicitudPersonal> getActiveSolPersonalByCedula(String cedula) {
@@ -327,7 +334,7 @@ public class BolsaTrabajo implements Serializable {
 							&& person.getIdSolicitudPersonalContratacion() == null) || getContratadasToo) {
 						person.getSolicitudes().forEach(solicitud -> {
 							// Solo considerar la solicitud si esta activa
-							if(solicitud.getEstado() != EstadoSolicitudPersonal.ANULADA) {
+							if (solicitud.getEstado() != EstadoSolicitudPersonal.ANULADA) {
 								// Se pasa la cantidad de requisitos para no evaluar propiedades otra vez
 								float resultPorcentaje = getPorcentajeMatchFrom(person, solicitud, solicitudEmpresa,
 										cantidadRequisitos);
@@ -338,14 +345,15 @@ public class BolsaTrabajo implements Serializable {
 
 									// Validar si existe antes
 									try {
-										if(candidatos.containsKey(person)) {
-											if(solicitud.getPorcentajeMatchAsignado() > candidatos.get(person).getPorcentajeMatchAsignado())
+										if (candidatos.containsKey(person)) {
+											if (solicitud.getPorcentajeMatchAsignado() > candidatos.get(person)
+													.getPorcentajeMatchAsignado())
 												candidatos.put(person, solicitud);
+										} else {
+											candidatos.put(person, solicitud);
 										}
-										else {
-											candidatos.put(person, solicitud);											
-										}
-									} catch (Exception e) {}
+									} catch (Exception e) {
+									}
 								}
 							}
 						});
@@ -385,25 +393,68 @@ public class BolsaTrabajo implements Serializable {
 		return data;
 	}
 
-	public ArrayList<Usuario> getUsuarios(String nombreUsuario) {
-		return new ArrayList<Usuario>(usuarios.stream()
-				.filter(usuario -> usuario.getNombreUsuario().contains(nombreUsuario)).collect(Collectors.toList()));
+	public ResultSet getUsuarios(String nombreUsuario) throws SQLException {
+		Statement st = SQLConnection.sqlConnection.createStatement();
+		ResultSet result = null;
+		if (nombreUsuario.isEmpty()) {
+			result = st.executeQuery("SELECT username, password, admin FROM Users");
+		} else {
+			result = st.executeQuery("SELECT username, password, admin FROM Users WHERE username LIKE '%" + nombreUsuario +"%'");
+		}
+
+		return result;
 	}
 
 	public Usuario getUsuario(String nombreUsuario) {
-		return usuarios.stream().filter(usuario -> usuario.getNombreUsuario().equals(nombreUsuario)).findFirst()
-				.orElse(null);
+		try {
+			Statement st = SQLConnection.sqlConnection.createStatement();
+			ResultSet result = st.executeQuery("SELECT username, password, admin FROM Users WHERE username='" + nombreUsuario +"'");
+			
+			if (result.next()) {				
+				return new Usuario(result.getString("username"), result.getString("username"), false);
+			} else {
+				return null;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
-	public void agregarUsuario(Usuario usuario) {
-		if (usuario != null && getUsuarios(usuario.getNombreUsuario()).size() == 0)
-			usuarios.add(usuario);
+	public void agregarUsuario(Usuario usuario) throws SQLException {
+		if (usuario != null && !getUsuarios(usuario.getNombreUsuario()).next()) {
+			try {
+				String sql = " insert into Users (username, password, admin)"
+					    + " values (?, ?, ?)";
+				PreparedStatement st = SQLConnection.sqlConnection.prepareStatement(sql);
+				st.setString(1, usuario.getNombreUsuario());
+				st.setString(2, usuario.getContrasegna());
+				st.setInt(3, usuario.esAdmin());
+				
+				st.execute();
+				
+				System.out.println("DONE");
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public boolean authUsuario(String nombreUsuario, String contrasegna) {
-		ArrayList<Usuario> usuarios = getUsuarios(nombreUsuario);
-
-		return usuarios.size() == 1 && usuarios.get(0).authContrasegna(contrasegna);
+		Boolean authed = false;
+		try {
+			Statement st = SQLConnection.sqlConnection.createStatement();
+			ResultSet result = st.executeQuery("SELECT username, password, admin FROM Users WHERE username='" + nombreUsuario +"'");
+			result.next();
+			String authPass = result.getString("password"); 
+			authed = authPass.equals(contrasegna);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return authed;
 	}
 
 	private static void reloadIds(BolsaTrabajo bolsaTrabajo) {

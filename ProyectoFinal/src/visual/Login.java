@@ -11,12 +11,14 @@ import javax.swing.border.EmptyBorder;
 
 import ficheros.UtilsFicheros;
 import logico.BolsaTrabajo;
+import logico.SQLConnection;
 import logico.Usuario;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JPasswordField;
 
@@ -90,9 +92,9 @@ public class Login extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						String nombreUsuario = txtNombreUsuario.getText();
 						String contrasegna = String.valueOf(psContrasegna.getPassword());
-
+						
 						if (BolsaTrabajo.getInstance().authUsuario(nombreUsuario, contrasegna)) {
-							Usuario user = BolsaTrabajo.getInstance().getUsuarios(nombreUsuario).get(0);
+							Usuario user = BolsaTrabajo.getInstance().getUsuario(nombreUsuario);
 							Principal principal = new Principal();
 							setVisible(false);
 							BolsaTrabajo.getInstance().setLoggedUsuario(user);

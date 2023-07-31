@@ -183,7 +183,7 @@ public class Principal extends JFrame {
 		if(userLogged == null)
 			mnAdmin.setEnabled(true);
 		else {
-			mnAdmin.setEnabled(userLogged.esAdmin());
+			mnAdmin.setEnabled(userLogged.esAdmin() == 1);
 		}
 		menuBar.add(mnAdmin);
 
