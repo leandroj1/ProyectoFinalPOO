@@ -7,7 +7,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 
-public abstract class Personal implements Serializable{
+public abstract class Personal implements Serializable {
 	private static final long serialVersionUID = 6682358128703110186L;
 	private String cedula;
 	private String nombre;
@@ -24,7 +24,8 @@ public abstract class Personal implements Serializable{
 	private String sexo;
 
 	public Personal(String cedula, String nombre, Date fechaNacimiento, boolean esCasado, String telefonoPrincipal,
-			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion, String sexo) {
+			String telefonoSecundario, String nacionalidad, ArrayList<String> idiomas, Ubicacion ubicacion,
+			String sexo) {
 		super();
 		this.cedula = cedula;
 		this.nombre = nombre;
@@ -42,8 +43,12 @@ public abstract class Personal implements Serializable{
 		this.sexo = sexo;
 	}
 
-	public boolean isEsCasado() {
-		return esCasado;
+	public int esCasado() {
+		if (esCasado) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 	public void setEsCasado(boolean esCasado) {
@@ -74,7 +79,6 @@ public abstract class Personal implements Serializable{
 		this.idEmpresaContratacion = idEmpresaContratacion;
 	}
 
-
 	public String getCedula() {
 		return cedula;
 	}
@@ -96,15 +100,15 @@ public abstract class Personal implements Serializable{
 	}
 
 	public void removerIdioma(String idioma) {
-		if(idioma != null) {
-			idiomas.removeIf(idiomaActual -> idioma.equalsIgnoreCase(idiomaActual));	
+		if (idioma != null) {
+			idiomas.removeIf(idiomaActual -> idioma.equalsIgnoreCase(idiomaActual));
 		}
 	}
 
 	public void agregarIdioma(String idioma) {
-		if(idioma != null) {
-			if(idioma != "" && !(idiomas.contains(idioma))) {
-				idiomas.add(idioma);	
+		if (idioma != null) {
+			if (idioma != "" && !(idiomas.contains(idioma))) {
+				idiomas.add(idioma);
 			}
 		}
 	}
@@ -114,7 +118,7 @@ public abstract class Personal implements Serializable{
 	}
 
 	public void agregarSolicitud(SolicitudPersonal solicitud) {
-		if(solicitud != null){
+		if (solicitud != null) {
 			this.solicitudes.add(solicitud);
 		}
 	}

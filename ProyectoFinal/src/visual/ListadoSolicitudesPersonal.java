@@ -264,7 +264,9 @@ public class ListadoSolicitudesPersonal extends JDialog {
 		}
 
 		// En caso de ser un listado para una entidad especifica
-		return instanceBolsaTrabajo.getSolicitudesPersonalByID(selectedPersonalAux.getCedula(), id);
+//		return instanceBolsaTrabajo.getSolicitudesPersonalByPersonalID(selectedPersonalAux.getCedula());
+		
+		return null;
 	}
 
 	// Cargar datos a la tabla

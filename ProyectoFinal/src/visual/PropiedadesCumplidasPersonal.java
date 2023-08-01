@@ -10,13 +10,19 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import ficheros.UtilsFicheros;
+import logico.BolsaTrabajo;
 import logico.Personal;
+import logico.SQLConnection;
 import logico.SolicitudEmpresa;
 import logico.SolicitudPersonal;
 import logico.Ubicacion;
+import logico.Universitario;
 import logico.Utils;
 
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
@@ -70,9 +76,9 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public PropiedadesCumplidasPersonal(Personal personal, SolicitudPersonal solicitudPersonal, SolicitudEmpresa solicitudEmpresa) {
-		setTitle("Condiciones de los requisitos para " + personal.getNombre());
-		currentPersonal = personal;
+	public PropiedadesCumplidasPersonal(String personalSeleccionado, SolicitudPersonal solicitudPersonal, SolicitudEmpresa solicitudEmpresa) {
+		currentPersonal = BolsaTrabajo.getInstance().buildPersonal(personalSeleccionado);
+		setTitle("Condiciones de los requisitos para " + currentPersonal.getNombre());
 		currentSolicitudEmpresa = solicitudEmpresa;
 		currentSolicitudPersonal = solicitudPersonal;
 		ImageIcon iconDefault = new ImageIcon("img/error.png");
@@ -259,7 +265,7 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 					btnVerUbicacion = new JButton("Ver detalles de ubicaci\u00F3n");
 					btnVerUbicacion.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							Ubicacion ubicacion = personal.getUbicacion();
+							Ubicacion ubicacion = currentPersonal.getUbicacion();
 							StringBuffer buffer = new StringBuffer();
 							buffer.append("Pa\u00eds: " + ubicacion.getPais());
 							buffer.append("\nProvincia: " + ubicacion.getProvincia());
@@ -359,7 +365,7 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 			iconCasado.setIcon(icons[2]);
 		}
 		// Si es falso, significa que quiere que sea soltero
-		else if (currentSolicitudEmpresa.isEsCasado() == currentPersonal.isEsCasado()) {
+		else if (currentSolicitudEmpresa.isEsCasado() == (currentPersonal.esCasado() == 1)) {
 			iconCasado.setIcon(icons[0]);
 		}
 
@@ -430,7 +436,7 @@ public class PropiedadesCumplidasPersonal extends JDialog {
 		lblSexo.setText(currentPersonal.getGenero());
 		lblEdad.setText(String.valueOf(currentPersonal.getEdad()));
 		lblNacionalidad.setText(currentPersonal.getNacionalidad());
-		lblCasado.setText(!currentPersonal.isEsCasado() ? "S\u00ed" : "No");
+		lblCasado.setText(currentPersonal.esCasado() == 1 ? "S\u00ed" : "No");
 		lblExp.setText(String.valueOf(currentSolicitudPersonal.getAgnosExperiencia()));
 		lblSalirCiudad.setText(currentSolicitudPersonal.isDisponibilidadSalirCiudad() ? "S\u00ed" : "No");
 		lblCambioResidencia.setText(currentSolicitudPersonal.isDisponibilidadCambioResidencia() ? "S\u00ed" : "No");

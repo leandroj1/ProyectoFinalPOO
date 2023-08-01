@@ -1,6 +1,7 @@
 package logico;
 
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,14 +26,12 @@ public class BolsaTrabajo implements Serializable {
 		this.empresas = new ArrayList<Empresa>();
 		this.solicitudesEmpresa = new ArrayList<SolicitudEmpresa>();
 		this.solicitudesPersonal = new ArrayList<SolicitudPersonal>();
-		this.usuarios = new ArrayList<Usuario>();
 	}
 
 	private ArrayList<Personal> personal;
 	private ArrayList<Empresa> empresas;
 	private ArrayList<SolicitudEmpresa> solicitudesEmpresa;
 	private ArrayList<SolicitudPersonal> solicitudesPersonal;
-	private ArrayList<Usuario> usuarios;
 	private Usuario loggedUsuario;
 
 	// Propiedades del reporte
@@ -51,22 +50,130 @@ public class BolsaTrabajo implements Serializable {
 	}
 
 	public void agregarEmpresa(Empresa empresa) {
-		if (empresa != null && getPersonalByID(empresa.getRNC()).size() == 0)
+		if (empresa != null && getEmpresasByID(empresa.getRNC()).size() == 0)
 			empresas.add(empresa);
 	}
 
-	public void agregarPersonal(Personal candidato) {
-		if (candidato != null && getPersonalByID(candidato.getCedula()).size() == 0)
-			personal.add(candidato);
-	}
+	public int agregarOpcion(String op, String tabla) throws SQLException {
+		ResultSet opRes = SQLConnection.sqlConnection.createStatement()
+				.executeQuery("SELECT ID FROM " + tabla + " WHERE Nombre = '" + op + "'");
 
-	public ArrayList<Personal> getPersonalByID(String cedula) {
-		if (cedula == null) {
-			return this.personal;
+		if (!opRes.next()) {
+			String sqlOp = "INSERT INTO " + tabla + " (Nombre) VALUES (?)";
+			PreparedStatement stOp = SQLConnection.sqlConnection.prepareStatement(sqlOp);
+			stOp.setString(1, op);
+
+			if (stOp.executeUpdate() == 0)
+				return -1;
+
+			opRes = SQLConnection.sqlConnection.createStatement()
+					.executeQuery("SELECT ID FROM " + tabla + " WHERE Nombre = '" + op + "'");
+			opRes.next();
 		}
 
-		return new ArrayList<Personal>(personal.stream().filter(candidato -> candidato.getCedula().contains(cedula))
-				.collect(Collectors.toList()));
+		return opRes.getInt("ID");
+	}
+
+	public void agregarPersonal(Personal candidato) {
+		try {
+			if (candidato != null && !getPersonalByID(candidato.getCedula()).next()) {
+				String sqlUbicacion = "INSERT INTO Ubicacion (Pais, Estado_Provincia, Ciudad, Direccion) VALUES (?,?,?,?)";
+				PreparedStatement stUb = SQLConnection.sqlConnection.prepareStatement(sqlUbicacion);
+				stUb.setString(1, candidato.getUbicacion().getPais());
+				stUb.setString(2, candidato.getUbicacion().getProvincia());
+				stUb.setString(3, candidato.getUbicacion().getCiudad());
+				stUb.setString(4, candidato.getUbicacion().getDireccion());
+				if (stUb.executeUpdate() == 0) {
+					return;
+				}
+
+				ResultSet ubRes = SQLConnection.sqlConnection.createStatement()
+						.executeQuery("SELECT ID FROM Ubicacion WHERE Pais = '" + candidato.getUbicacion().getPais()
+								+ "' AND Estado_Provincia = '" + candidato.getUbicacion().getProvincia() + "' AND Ciudad = '"
+								+ candidato.getUbicacion().getCiudad() + "' AND Direccion = '"
+								+ candidato.getUbicacion().getDireccion() + "'");
+
+				ubRes.next();
+				int ubId = ubRes.getInt("ID");
+				int uniId = -1;
+				int carrId = -1;
+				int aTecId = -1;
+
+				if (candidato instanceof Universitario) {
+					uniId = agregarOpcion(((Universitario) candidato).getUniversidad(), "Universidad");
+					carrId = agregarOpcion(((Universitario) candidato).getCarrera(), "Carrera");
+				} else if (candidato instanceof Tecnico)
+					aTecId = agregarOpcion(((Tecnico) candidato).getAreaTecnica(), "AreaTecnica");
+
+				String sqlPer = "INSERT INTO Personal (Cedula, Nombre, f_nacimiento, Casado, TelefonoPrincipal, TelefonoSecundario, Nacionalidad, Genero, Direccion, Universidad_id, Carrera_id, AreaTecnica_id) VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+				PreparedStatement stPer = SQLConnection.sqlConnection.prepareStatement(sqlPer);
+				stPer.setString(1, candidato.getCedula());
+				stPer.setString(2, candidato.getNombre());
+				stPer.setDate(3, new Date(candidato.getFechaNacimiento().getTime()));
+				stPer.setInt(4, candidato.esCasado());
+				stPer.setString(5, candidato.getTelefonoPrincipal());
+				stPer.setString(6, candidato.getTelefonoSecundario());
+				stPer.setString(7, candidato.getNacionalidad());
+				stPer.setString(8, candidato.getGenero());
+				stPer.setInt(9, ubId);
+				if (candidato instanceof Universitario && uniId >= 0 && carrId >= 0) {
+					stPer.setInt(10, uniId);
+					stPer.setInt(11, carrId);
+					stPer.setNull(12, 0);
+				} else if (candidato instanceof Tecnico && aTecId >= 0) {
+					stPer.setNull(10, 0);
+					stPer.setNull(11, 0);
+					stPer.setInt(12, aTecId);
+				}
+				stPer.executeUpdate();
+
+				linkMultiToPersonal(candidato.getIdiomas(), candidato.getCedula(), "Idioma", "PersonalIdioma",
+						"Personal");
+
+				if (candidato instanceof Obrero) {
+					linkMultiToPersonal(((Obrero) candidato).getOficios(), candidato.getCedula(), "Oficio",
+							"OficioPersonal", "Personal");
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public void linkMultiToPersonal(ArrayList<String> multiList, String mainObId, String mainTable,
+			String recieverTable, String linkedName) {
+		String multiListString = "'" + String.join("', '", multiList) + "'";
+
+		try {
+			ResultSet multiListKeys = SQLConnection.sqlConnection.createStatement()
+					.executeQuery("SELECT ID FROM " + mainTable + " WHERE Nombre IN (" + multiListString + ")");
+			while (multiListKeys.next()) {
+				String ofPerSql = "INSERT INTO " + recieverTable + "(" + mainTable + "_id, " + linkedName
+						+ "_id) VALUES (?, ?)";
+				PreparedStatement stOfPer = SQLConnection.sqlConnection.prepareStatement(ofPerSql);
+
+				stOfPer.setString(1, multiListKeys.getString("ID"));
+				stOfPer.setString(2, mainObId);
+
+				stOfPer.executeUpdate();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public ResultSet getPersonalByID(String cedula) {
+		ResultSet res = null;
+		try {
+			Statement st = SQLConnection.sqlConnection.createStatement();
+			res = st.executeQuery("SELECT * FROM Personal WHERE Cedula LIKE '" + cedula + "%'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return res;
 	}
 
 	public ArrayList<Empresa> getEmpresasByID(String RNC) {
@@ -84,12 +191,16 @@ public class BolsaTrabajo implements Serializable {
 	}
 
 	public void agregarSolicitudEmpleado(String cedula, SolicitudPersonal solicitud) {
-		ArrayList<Personal> personalAux = getPersonalByID(cedula);
-
-		if (personalAux.size() == 1 && getSolicitudesPersonalByID(solicitud.getId()).isEmpty()
-				&& personalAux.get(0).getIdEmpresaContratacion() == null) {
-			personalAux.get(0).agregarSolicitud(solicitud);
-			solicitudesPersonal.add(solicitud);
+		ResultSet personalAux = getPersonalByID(cedula);
+		try {
+			personalAux.next();
+			if (personalAux.isLast() && getSolicitudesPersonalByID(solicitud.getId()).isEmpty()
+					&& personalAux.getString("EmpresaContratacion") == null) {
+				solicitudesPersonal.add(solicitud);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 
@@ -108,9 +219,16 @@ public class BolsaTrabajo implements Serializable {
 		return getEmpresasByID(RNC).get(0).getSolicitudesByID(solicitudFilter);
 	}
 
-	public ArrayList<SolicitudPersonal> getSolicitudesPersonalByID(String cedula, String solicitudFilter) {
-		return getPersonalByID(cedula).get(0).getSolicitudes();
-	}
+	// TODO: Needs to modify this to get it from the DB
+	public ResultSet getSolicitudesPersonalByPersonalID(String cedula) {
+		try {
+			return SQLConnection.sqlConnection.createStatement().executeQuery("SELECT * FROM SolicitudPersonal WHERE CedulaPersonal = '" + cedula + "'");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	 }
 
 	public ArrayList<Personal> getPersonasContratadasBySolicitud(SolicitudEmpresa solicitud) {
 		return new ArrayList<Personal>(this.personal.stream()
@@ -150,7 +268,9 @@ public class BolsaTrabajo implements Serializable {
 	}
 
 	public ArrayList<SolicitudPersonal> getActiveSolPersonalByCedula(String cedula) {
-		ArrayList<SolicitudPersonal> solPersonalList = getSolicitudesPersonalByID(cedula, "");
+		// ArrayList<SolicitudPersonal> solPersonalList =
+		// getSolicitudesPersonalByID(cedula, "");
+		ArrayList<SolicitudPersonal> solPersonalList = new ArrayList<SolicitudPersonal>();
 		ArrayList<SolicitudPersonal> solPersonalActive = new ArrayList<SolicitudPersonal>();
 		for (SolicitudPersonal solPersonal : solPersonalList)
 			if (solPersonal.getEstado() == EstadoSolicitudPersonal.ACTIVA)
@@ -251,7 +371,7 @@ public class BolsaTrabajo implements Serializable {
 			match += cantToSum;
 		}
 		// Si es falso, significa que quiere que sea soltero
-		else if (solicitudEmpresa.isEsCasado() == personalObj.isEsCasado()) {
+		else if (solicitudEmpresa.isEsCasado() == (personalObj.esCasado() == 1)) {
 			match += cantToSum;
 		}
 
@@ -399,7 +519,8 @@ public class BolsaTrabajo implements Serializable {
 		if (nombreUsuario.isEmpty()) {
 			result = st.executeQuery("SELECT username, password, admin FROM Users");
 		} else {
-			result = st.executeQuery("SELECT username, password, admin FROM Users WHERE username LIKE '%" + nombreUsuario +"%'");
+			result = st.executeQuery(
+					"SELECT username, password, admin FROM Users WHERE username LIKE '%" + nombreUsuario + "%'");
 		}
 
 		return result;
@@ -408,9 +529,10 @@ public class BolsaTrabajo implements Serializable {
 	public Usuario getUsuario(String nombreUsuario) {
 		try {
 			Statement st = SQLConnection.sqlConnection.createStatement();
-			ResultSet result = st.executeQuery("SELECT username, password, admin FROM Users WHERE username='" + nombreUsuario +"'");
-			
-			if (result.next()) {				
+			ResultSet result = st
+					.executeQuery("SELECT username, password, admin FROM Users WHERE username='" + nombreUsuario + "'");
+
+			if (result.next()) {
 				return new Usuario(result.getString("username"), result.getString("username"), false);
 			} else {
 				return null;
@@ -419,23 +541,20 @@ public class BolsaTrabajo implements Serializable {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return null;
 	}
 
 	public void agregarUsuario(Usuario usuario) throws SQLException {
 		if (usuario != null && !getUsuarios(usuario.getNombreUsuario()).next()) {
 			try {
-				String sql = " insert into Users (username, password, admin)"
-					    + " values (?, ?, ?)";
+				String sql = " insert into Users (username, password, admin)" + " values (?, ?, ?)";
 				PreparedStatement st = SQLConnection.sqlConnection.prepareStatement(sql);
 				st.setString(1, usuario.getNombreUsuario());
 				st.setString(2, usuario.getContrasegna());
 				st.setInt(3, usuario.esAdmin());
-				
-				st.execute();
-				
-				System.out.println("DONE");
+
+				st.executeUpdate();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
@@ -446,9 +565,10 @@ public class BolsaTrabajo implements Serializable {
 		Boolean authed = false;
 		try {
 			Statement st = SQLConnection.sqlConnection.createStatement();
-			ResultSet result = st.executeQuery("SELECT username, password, admin FROM Users WHERE username='" + nombreUsuario +"'");
+			ResultSet result = st
+					.executeQuery("SELECT username, password, admin FROM Users WHERE username='" + nombreUsuario + "'");
 			result.next();
-			String authPass = result.getString("password"); 
+			String authPass = result.getString("password");
 			authed = authPass.equals(contrasegna);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -518,5 +638,108 @@ public class BolsaTrabajo implements Serializable {
 
 	public void setLoggedUsuario(Usuario loggedUsuario) {
 		this.loggedUsuario = loggedUsuario;
+	}
+
+	public Personal buildPersonal(String cedula) {
+		ResultSet per = BolsaTrabajo.getInstance().getPersonalByID(cedula);
+		Personal personal = null;
+		try {
+			if (per.next()) {
+				if (!per.getString("Universidad_id").isEmpty()) {
+					personal = new Universitario(per.getString("Cedula"), per.getString("Nombre"),
+							new java.util.Date(per.getDate("f_nacimiento").getTime()), per.getInt("Casado") == 1, per.getString("TelefonoPrincipal"),
+							per.getString("TelefonoSecundario"), per.getString("Nacionalidad"),
+							getIdiomas(per, "PersonalIdioma", "Personal"),
+							getProp(per, "Carrera"), getProp(per, "Universidad"),
+							buildUbicacion(per.getInt("Direccion")), per.getString("Genero"));
+				} else if (!per.getString("AreaTecnica_id").isEmpty()) {
+					personal = new Tecnico(per.getString("Cedula"), per.getString("Nombre"),
+							per.getDate("f_nacimiento"), per.getInt("Casado") == 1, per.getString("TelefonoPrincipal"),
+							per.getString("TelefonoSecundario"), per.getString("Nacionalidad"),
+							getIdiomas(per, "PersonalIdioma", "Personal"),
+							getProp(per, "AreaTecnica"), buildUbicacion(per.getInt("Direccion")),
+							per.getString("Genero"));
+				} else {
+					personal = new Obrero(per.getString("Cedula"), per.getString("Nombre"),
+							per.getDate("f_nacimiento"), per.getInt("Casado") == 1, per.getString("TelefonoPrincipal"),
+							per.getString("TelefonoSecundario"), per.getString("Nacionalidad"),
+							getIdiomas(per, "PersonalIdioma", "Personal"), buildUbicacion(per.getInt("Direccion")),
+							per.getString("Genero"), getOficios(per, "OficioPersonal", "Personal"));
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return personal;
+	}
+
+	public String getProp(ResultSet per, String prop) {
+		try {
+			ResultSet res = SQLConnection.sqlConnection.createStatement()
+					.executeQuery("SELECT Nombre FROM " + prop + " WHERE ID=" + per.getInt(prop + "_id"));
+
+			res.next();
+			return res.getString("Nombre");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public ArrayList<String> getOficios(ResultSet per, String table, String to) {
+		ArrayList<String> oficios = new ArrayList<String>();
+		try {
+			ResultSet res = SQLConnection.sqlConnection.createStatement()
+					.executeQuery("SELECT Oficio.Nombre FROM " + table + " JOIN Oficio ON Oficio.ID = " + table
+							+ ".Oficio_id WHERE " + to + "_id = " + per.getInt("Cedula"));
+
+			while (res.next()) {
+				oficios.add(res.getString("Oficio.Nombre"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return oficios;
+	}
+
+	public ArrayList<String> getIdiomas(ResultSet per, String table, String to) {
+		ArrayList<String> idiomas = new ArrayList<String>();
+
+		try {
+			ResultSet res = SQLConnection.sqlConnection.createStatement()
+					.executeQuery("SELECT Idioma.Nombre FROM " + table + " JOIN Idioma ON Idioma.ID = " + table
+							+ ".Idioma_id WHERE " + to + "_id = " + (to.equals("Personal") ? "'" + per.getString("Cedula") + "'" : ((Integer) per.getInt("ID")).toString()));
+
+			while (res.next()) {
+				idiomas.add(res.getString("Idioma.Nombre"));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return idiomas;
+	}
+
+	public Ubicacion buildUbicacion(int ubicacionId) {
+		try {
+			ResultSet res = SQLConnection.sqlConnection.createStatement().executeQuery(
+					"SELECT Pais, Estado_Provincia, Ciudad, Direccion FROM Ubicacion WHERE ID = " + ubicacionId);
+
+			res.next();
+			return new Ubicacion(res.getString("Pais"), res.getString("Estado_Provincia"), res.getString("Ciudad"),
+					res.getString("Direccion"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
 	}
 }
