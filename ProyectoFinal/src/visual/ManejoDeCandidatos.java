@@ -46,6 +46,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.JRadioButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 public class ManejoDeCandidatos extends JDialog {
@@ -80,7 +82,7 @@ public class ManejoDeCandidatos extends JDialog {
 	private JScrollPane scrollPane;
 	private TitledBorder titledBorder;
 	private JButton btnVerDetallesPersonaSeleccionada;
-	private Personal personalSeleccionado = null;
+	private String personalSeleccionado = null;
 	private boolean tieneDatosIniciales = false;
 	private JLabel label;
 
@@ -91,7 +93,7 @@ public class ManejoDeCandidatos extends JDialog {
 	 */
 	public ManejoDeCandidatos(SolicitudEmpresa solicitud) {
 		this.solicitudLoaded = solicitud;
-		final Object[] headers = {"Selección", "Cédula del candidato", "Nombre del candidato", "Porcentaje de Match"};
+		final Object[] headers = {"Selecciï¿½n", "Cï¿½dula del candidato", "Nombre del candidato", "Porcentaje de Match"};
 		this.model = new DefaultTableModel();
 		model.setColumnIdentifiers(headers);
 		accionGroup = new ButtonGroup();
@@ -337,11 +339,8 @@ public class ManejoDeCandidatos extends JDialog {
 						int index = tablaPersonal.getSelectedRow();
 						if(index >= 0) {
 							String codigoString = tablaPersonal.getValueAt(index, 1).toString();
-							ArrayList<Personal> result = BolsaTrabajo.getInstance().getPersonalByID(codigoString);
-							if(result.size() != 0) {
-								personalSeleccionado = result.get(0);
-								btnVerDetallesPersonaSeleccionada.setEnabled(true);
-							}
+							personalSeleccionado = codigoString;
+							btnVerDetallesPersonaSeleccionada.setEnabled(true);
 						}
 					}
 				});
@@ -366,7 +365,7 @@ public class ManejoDeCandidatos extends JDialog {
 										JOptionPane.ERROR_MESSAGE);
 							}
 							else if(rdbtnContratacion.isSelected() && cantidadPlazasSeleccionadas > solicitudLoaded.getCantidadPlazasNecesarias()) {
-								int option = JOptionPane.showConfirmDialog(null, "La cantidad de plazas seleccionadas sobrepasa la acordada en la solicitud. ¿Desea actualizar la cantidad de plazas a " + cantidadPlazasSeleccionadas + "?\nSi no actualiza, tendr\u00e1 que seleccionar una cantidad de plazas igual a " + solicitud.getCantidadPlazasNecesarias()+".", "Confirmaci\u00f3n | Cantidad de plazas", JOptionPane.YES_NO_OPTION);
+								int option = JOptionPane.showConfirmDialog(null, "La cantidad de plazas seleccionadas sobrepasa la acordada en la solicitud. ï¿½Desea actualizar la cantidad de plazas a " + cantidadPlazasSeleccionadas + "?\nSi no actualiza, tendr\u00e1 que seleccionar una cantidad de plazas igual a " + solicitud.getCantidadPlazasNecesarias()+".", "Confirmaci\u00f3n | Cantidad de plazas", JOptionPane.YES_NO_OPTION);
 								if(JOptionPane.YES_OPTION == option) {
 									solicitudLoaded.setCantidadPlazasNecesarias(cantidadPlazasSeleccionadas);
 									txtPlazasNecesarias.setText(String.valueOf(cantidadPlazasSeleccionadas));
@@ -379,7 +378,7 @@ public class ManejoDeCandidatos extends JDialog {
 									contratarPersonas(getDataSeleccionada(cedulaSeleccionadas));
 								}
 								else {
-									int option = JOptionPane.showConfirmDialog(null, "¿Est\u00e1 seguro de que desea desemplear a estas " + cantidadPlazasSeleccionadas +" personas?", "Confirmaci\u00f3n", JOptionPane.YES_NO_OPTION);
+									int option = JOptionPane.showConfirmDialog(null, "ï¿½Est\u00e1 seguro de que desea desemplear a estas " + cantidadPlazasSeleccionadas +" personas?", "Confirmaci\u00f3n", JOptionPane.YES_NO_OPTION);
 									if(JOptionPane.YES_OPTION == option) {
 										desemplearPersonas(getDataSeleccionada(cedulaSeleccionadas));
 									}
@@ -459,11 +458,13 @@ public class ManejoDeCandidatos extends JDialog {
 
 		if(solicitudLoaded != null) {
 			BolsaTrabajo bolsaTrabajo = BolsaTrabajo.getInstance();
-			this.dataCandidatos = bolsaTrabajo.getCandidatosByPorcentajeMatch(
-					solicitudLoaded, 
-					rdbtnContratacion.isSelected() ? bolsaTrabajo.getPersonalByID(null) : bolsaTrabajo.getPersonasContratadasBySolicitud(solicitudLoaded),
-							rdbtnDesemplear.isSelected()
-					);
+			// TODO Arreglar el match
+//			this.dataCandidatos = bolsaTrabajo.getCandidatosByPorcentajeMatch(
+//					solicitudLoaded, 
+//					rdbtnContratacion.isSelected() ? bolsaTrabajo.getPersonalByID(null) : bolsaTrabajo.getPersonasContratadasBySolicitud(solicitudLoaded),
+//							rdbtnDesemplear.isSelected()
+//					);
+			this.dataCandidatos = null;
 
 			// Agregar datos a la tabla
 			this.dataCandidatos.forEach((persona, currentSolicitud) -> {
@@ -596,7 +597,7 @@ public class ManejoDeCandidatos extends JDialog {
 	private void checkSiYaFueSatisfecha() {
 		if(solicitudLoaded != null) {
 			if(solicitudLoaded.getCantidadPlazasNecesarias() == solicitudLoaded.getCedulasPersonasContratadas().size()) {
-				int option = JOptionPane.showConfirmDialog(null, "La cantidad de plazas necesarias ya fue satisfecha.\n¿Desea incrementar la cantidad de plazas para poder seguir contratando?", "Confirmaci\u00f3n | Cantidad de plazas", JOptionPane.YES_NO_OPTION);
+				int option = JOptionPane.showConfirmDialog(null, "La cantidad de plazas necesarias ya fue satisfecha.\nï¿½Desea incrementar la cantidad de plazas para poder seguir contratando?", "Confirmaci\u00f3n | Cantidad de plazas", JOptionPane.YES_NO_OPTION);
 				if(JOptionPane.YES_OPTION == option) {
 					actualizarCantidadPlazas();
 				}

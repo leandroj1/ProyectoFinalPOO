@@ -1,5 +1,9 @@
 package logico;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import visual.Login;
 
 public class Main {
@@ -10,7 +14,7 @@ public class Main {
 		while (SQLConnection.sqlConnection == null) {
 			continue;
 		}
-		BolsaTrabajo.getInstance();
+		
 		Login login = new Login();
 		login.setVisible(true);
 	}

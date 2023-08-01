@@ -18,6 +18,8 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.awt.event.ActionListener;
@@ -72,12 +74,10 @@ public class ListarPersonal extends JDialog {
 							int index = tablaPersonal.getSelectedRow();
 							if (index >= 0) {
 								String codigoString = tablaPersonal.getValueAt(index, 0).toString();
-								ArrayList<Personal> result = BolsaTrabajo.getInstance().getPersonalByID(codigoString);
-								if (result.size() != 0) {
-									selectedPersonal = result.get(0);
-									if (selectedPersonal != null) {
-										setButtonsState(true);
-									}
+								selectedPersonal = BolsaTrabajo.getInstance().buildPersonal(codigoString);
+
+								if (selectedPersonal != null) {
+									setButtonsState(true);
 								}
 							}
 						}
@@ -127,10 +127,9 @@ public class ListarPersonal extends JDialog {
 						JOptionPane.showMessageDialog(null, "Tiene que completar la c\u00e9dula.", "Advertencia",
 								JOptionPane.WARNING_MESSAGE);
 					} else {
-						ArrayList<Personal> resultado = BolsaTrabajo.getInstance().getPersonalByID(txtCedula.getText());
-						if (resultado.size() > 0) {
-							Personal e1 = resultado.get(0);
-							loadRowsInTable(null, e1);
+						Personal resultado = BolsaTrabajo.getInstance().buildPersonal(txtCedula.getText());
+						if (resultado != null) {
+							loadRowsInTable(null, resultado);
 							btnReset.setEnabled(true);
 						} else {
 							JOptionPane.showMessageDialog(null, "Esta personal no existe", "Error",
@@ -214,15 +213,20 @@ public class ListarPersonal extends JDialog {
 	}
 
 	// Cargar datos a la tabla
-	private void loadRowsInTable(ArrayList<Personal> listaPersonal, Personal e1) {
+	private void loadRowsInTable(ResultSet resultSet, Personal e1) {
 		row = new Object[model.getColumnCount()];
 		model.setRowCount(0);
-		if (e1 == null) {
-			for (Personal personal : listaPersonal) {
-				addRowDataPersonal(personal);
+		try {
+			if (e1 == null) {
+				while (resultSet.next()) {
+						addRowDataPersonal(BolsaTrabajo.getInstance().buildPersonal(resultSet.getString("Cedula")));
+				}
+			} else {
+				addRowDataPersonal(e1);
 			}
-		} else {
-			addRowDataPersonal(e1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 

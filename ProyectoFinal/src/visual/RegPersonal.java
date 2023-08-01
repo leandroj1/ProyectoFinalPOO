@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -536,28 +539,35 @@ public class RegPersonal extends JDialog {
 						}
 
 						if (personal != null) {
-							Personal personalToEdit = BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0);
+//							ResultSet personalToEdit = BolsaTrabajo.getInstance().getPersonalByID(cedula);
+//							Personal pr = new Personal(personalToEdit., genero, fechaNacimiento, casado, genero, genero, genero, idiomas, ubicacion, genero);
+							personal.setEsCasado(auxPersonal.esCasado() == 1);
+							personal.setTelefonoPrincipal(auxPersonal.getTelefonoPrincipal());
+							personal.setTelefonoSecundario(auxPersonal.getTelefonoSecundario());
+							personal.setUbicacion(auxPersonal.getUbicacion());
+							personal.setIdiomas(auxPersonal.getIdiomas());
 
-							personalToEdit.setEsCasado(auxPersonal.isEsCasado());
-							personalToEdit.setTelefonoPrincipal(auxPersonal.getTelefonoPrincipal());
-							personalToEdit.setTelefonoSecundario(auxPersonal.getTelefonoSecundario());
-							personalToEdit.setUbicacion(auxPersonal.getUbicacion());
-							personalToEdit.setIdiomas(auxPersonal.getIdiomas());
-
-							if (personalToEdit instanceof Universitario) {
-								((Universitario) personalToEdit)
+							if (personal instanceof Universitario) {
+								((Universitario) personal)
 										.setUniversidad((String) cbxUniversidad.getSelectedItem());
-								((Universitario) personalToEdit).setCarrera((String) cbxCarrera.getSelectedItem());
-							} else if (personalToEdit instanceof Obrero)
-								((Obrero) personalToEdit).setOficios(getOficiosSelected());
-							else if (personalToEdit instanceof Tecnico)
-								((Tecnico) personalToEdit).setAreaTecnica((String) cbxAreaTecnica.getSelectedItem());
+								((Universitario) personal).setCarrera((String) cbxCarrera.getSelectedItem());
+							} else if (personal instanceof Obrero)
+								((Obrero) personal).setOficios(getOficiosSelected());
+							else if (personal instanceof Tecnico)
+								((Tecnico) personal).setAreaTecnica((String) cbxAreaTecnica.getSelectedItem());
+							
+							BolsaTrabajo.getInstance().agregarPersonal(personal);
 						} else {
-							if (!BolsaTrabajo.getInstance().getPersonalByID(cedula).isEmpty()) {
-								JOptionPane.showMessageDialog(null,
-										"Ya existe una persona con esa c\u00e9dula registrada.", null,
-										JOptionPane.ERROR_MESSAGE);
-								return;
+							try {
+								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).next()) {
+									JOptionPane.showMessageDialog(null,
+											"Ya existe una persona con esa c\u00e9dula registrada.", null,
+											JOptionPane.ERROR_MESSAGE);
+									return;
+								}
+							} catch (HeadlessException | SQLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
 							}
 							BolsaTrabajo.getInstance().agregarPersonal(auxPersonal);
 						}
@@ -769,7 +779,7 @@ public class RegPersonal extends JDialog {
 		rdbtnMasculino.setEnabled(false);
 		rdbtnFemenino.setEnabled(false);
 
-		chckbxCasado.setSelected(personalAux.isEsCasado());
+		chckbxCasado.setSelected(personalAux.esCasado() == 1);
 		txtPais.setText(personalAux.getUbicacion().getPais());
 		txtProvincia.setText(personalAux.getUbicacion().getProvincia());
 		txtCiudadRes.setText(personalAux.getUbicacion().getCiudad());

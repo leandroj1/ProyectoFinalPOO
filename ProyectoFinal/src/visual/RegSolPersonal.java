@@ -4,8 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -398,13 +400,6 @@ public class RegSolPersonal extends JDialog {
 								}
 
 								String cedula = txtFCedulaP.getText();
-
-								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).size() == 0) {
-									JOptionPane.showMessageDialog(null, "No existe una persona con esa c\u00e9dula.",
-											"Error", JOptionPane.ERROR_MESSAGE);
-									return;
-								}
-
 								String codigo = txtCode.getText();
 								String descripcion = txtPDescripcion.getText();
 								float salarioEsperado = Utils.getSpinnerFloatValue(spnSalarioEsp);
@@ -412,34 +407,50 @@ public class RegSolPersonal extends JDialog {
 								String modalidadTrabajo = (String) cbxModalidad.getSelectedItem();
 								boolean dispSalirCiudad = !Utils.getSelectedRadioButtonText(dispSalirCiudadGroup)
 										.equalsIgnoreCase("no");
-								boolean dispCambiarResidencia = !Utils.getSelectedRadioButtonText(dispCambiarResGroup)
-										.equalsIgnoreCase("no");
-
+								boolean dispCambiarResidencia = !Utils
+										.getSelectedRadioButtonText(dispCambiarResGroup).equalsIgnoreCase("no");
+								
 								ArrayList<String> oficios = new ArrayList<String>();
 								String areaTecnica = new String();
 								String universidad = new String();
 								String carrera = new String();
 								String tipoPersonal = new String();
-								if (rbObrero.isSelected()) {
-									oficios = getOficiosSelected();
-									tipoPersonal = "Obrero";
-								} else if (rbTecnico.isSelected()) {
-									areaTecnica = (String) cbxAreaTecnica.getSelectedItem();
-									tipoPersonal = "Tecnico";
-								} else if (rbUniversitario.isSelected()) {
-									universidad = (String) cbxUniversidad.getSelectedItem();
-									carrera = (String) cbxCarrera.getSelectedItem();
-									tipoPersonal = "Universitario";
+
+								try {
+									if (!BolsaTrabajo.getInstance().getPersonalByID(cedula).next()) {
+										JOptionPane.showMessageDialog(null,
+												"No existe una persona con esa c\u00e9dula.", "Error",
+												JOptionPane.ERROR_MESSAGE);
+										return;
+									}
+
+									if (rbObrero.isSelected()) {
+										oficios = getOficiosSelected();
+										tipoPersonal = "Obrero";
+									} else if (rbTecnico.isSelected()) {
+										areaTecnica = (String) cbxAreaTecnica.getSelectedItem();
+										tipoPersonal = "Tecnico";
+									} else if (rbUniversitario.isSelected()) {
+										universidad = (String) cbxUniversidad.getSelectedItem();
+										carrera = (String) cbxCarrera.getSelectedItem();
+										tipoPersonal = "Universitario";
+									}
+
+									if (BolsaTrabajo.getInstance().getPersonalByID(cedula)
+											.getString("EmpresaContratacion") != null) {
+										JOptionPane.showMessageDialog(null,
+												"El candidato ya est\u00e1 contratado.\nIntente otra vez con otro usuario.",
+												null, JOptionPane.WARNING_MESSAGE);
+										return;
+									}
+								} catch (HeadlessException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								} catch (SQLException e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
 								}
 
-								if (BolsaTrabajo.getInstance().getPersonalByID(cedula).get(0)
-										.getIdEmpresaContratacion() != null) {
-									JOptionPane.showMessageDialog(null,
-											"El candidato ya est\u00e1 contratado.\nIntente otra vez con otro usuario.",
-											null, JOptionPane.WARNING_MESSAGE);
-									return;
-								}
-								
 								if (editing) {
 									SolicitudPersonal solPersonalAux = BolsaTrabajo.getInstance()
 											.getSolicitudesPersonalByID(codigo).get(0);
@@ -483,7 +494,7 @@ public class RegSolPersonal extends JDialog {
 											JOptionPane.ERROR_MESSAGE);
 									return;
 								}
-								
+
 								if (personal != null) {
 									JOptionPane.showMessageDialog(null, "Solicitud agregada correctamente");
 									dispose();
